@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>{% if title %}{{ title }}{% else %}3D舍内设计{% endif %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/three.js') }}"></script>
+{#    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/threejs/TrackballControls.js') }}"></script>#}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/signals.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/underscore.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/backbone.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery-1.8.2.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/jquery.mousewheel.js') }}"></script>
+    {# bootstrap #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/bootstrap.js') }}"></script>
+
+    {# website css #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/website.css') }}">
+</head>
+<body>
+{%  block body %}
+empty layout
+{% endblock %}
+</body>
+</html>

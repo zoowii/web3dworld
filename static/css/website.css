@@ -1,0 +1,33 @@
+.division-line {
+    border-bottom: solid 1px #CCCCCC;
+    height: 2px;
+    text-align: center;
+    vertical-align: middle;
+    background: #ffffff;
+}
+
+.division-tip {
+    overflow: hidden;
+    margin: auto auto;
+    position: relative;
+    top: -10px;
+    background: #ffffff;
+    width: 100px;
+}
+
+.align-center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.empty2 {
+    height: 20px;
+}
+
+.empty4 {
+    height: 40px;
+}
+
+.empty8 {
+    height: 80px;
+}
