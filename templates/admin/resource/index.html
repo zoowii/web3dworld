@@ -1,0 +1,39 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+    <h3>Resources</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Key</th>
+            <th>Type</th>
+            <th>Create Time</th>
+            <th>Tags</th>
+            <th>Creator</th>
+            <th>URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for resource in resources %}
+            <tr>
+                <td><a href="{{ url_for('resource.get_by_name', resource_name=resource.name) }}">{{ resource.name|e }}</a></td>
+                <td>{{ resource.blob_key }}</td>
+                <td>{{ resource.type }}</td>
+                <td>{{ resource.create_time }}</td>
+                <td>{{ resource.tags|e }}</td>
+                <td>{{ resource.creator_id }}</td>
+                <td>{{ url_for('resource.get_by_name', resource_name=resource.name) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="division-line">
+        <p class="division-tip">分割线</p>
+    </div>
+    <div class="empty4"></div>
+    <div class="align-center">
+        <a href="{{ url_for('resource.upload') }}">上传资源</a>
+    </div>
+
+{% endblock %}

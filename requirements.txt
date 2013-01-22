@@ -1,2 +1,4 @@
 Flask==0.8
 Flask-SQLAlchemy
+MongoKit
+flask_admin

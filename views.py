@@ -1,11 +1,12 @@
 from application import app
-from flask import render_template
+from flask import render_template, redirect
 import os
 
 @app.route('/')
 @app.route('/index')
 def index():
-	return 'hi, welcome to web3dhouse!'
+	return redirect('/admin')
+#	return 'hi, welcome to web3dhouse!'
 
 @app.route('/editor')
 def editor():
@@ -13,5 +14,5 @@ def editor():
 
 @app.route('/info')
 def info():
-	print os.getenv('VCAP_SERVICES', '{}')
-	return 'info'
+	info = os.getenv('VCAP_SERVICES', '{}')
+	return info

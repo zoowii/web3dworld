@@ -16,3 +16,11 @@ DATABASE_URI = 'mysql://%s:%s@%s:%s/%s' % (
 )
 SQLALCHEMY_DATABASE_URI = DATABASE_URI
 
+mongodb_service = services['mongodb-1.8'][0]
+mongodb_cred = mongodb_service['credentials']
+MONGODB_HOST = mongodb_cred['host']
+MONGODB_PORT = mongodb_cred['port']
+MONGODB_NAME = mongodb_cred['db']
+MONGODB_USERNAME = mongodb_cred['username']
+MONGODB_PASSWORD = mongodb_cred['password']
+

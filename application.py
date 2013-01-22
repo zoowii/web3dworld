@@ -1,5 +1,6 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from mongokit import Connection, Document
 import os, sys
 
 application = app = Flask(__name__)
@@ -10,16 +11,15 @@ else:
 	app.config.from_pyfile('config/development.py')
 
 db = SQLAlchemy(app)
+mongo_conn = Connection(app.config['MONGODB_HOST'],
+                   app.config['MONGODB_PORT'])
+mongo = mongo_conn[app.config['MONGODB_NAME']]
 
 import models
-
-try:
-	db.create_all()
-except:
-	print 'create db tables error'
-	sys.exit(1)
+import docs
 
 from views import *
+from admin_view import *
 
 if __name__ == '__main__':
 	app.run(debug=True)
