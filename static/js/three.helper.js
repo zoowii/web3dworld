@@ -48,7 +48,7 @@
     return setTimeout(newTask, interval);
   };
 
-  Set = (function() {
+  helper.Set = Set = (function() {
 
     function Set() {
       this.data = [];
@@ -71,7 +71,5 @@
     return Set;
 
   })();
-
-  helper.Set = Set;
 
 }).call(this);

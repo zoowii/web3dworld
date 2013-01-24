@@ -1,6 +1,8 @@
+# coding: UTF-8
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from mongokit import Connection, Document
+from pymongo import Connection, MongoClient
+from gridfs import GridFS
 import os, sys
 
 application = app = Flask(__name__)
@@ -11,9 +13,12 @@ else:
 	app.config.from_pyfile('config/development.py')
 
 db = SQLAlchemy(app)
-mongo_conn = Connection(app.config['MONGODB_HOST'],
-                   app.config['MONGODB_PORT'])
-mongo = mongo_conn[app.config['MONGODB_NAME']]
+mongoClient = MongoClient(host=app.config['MONGODB_HOST'], port=app.config['MONGODB_PORT'])
+mongo = mongoClient[app.config['MONGODB_NAME']]
+if app.config['MONGODB_USERNAME'] != '':
+	# 不考虑登录失败的情况
+	mongo.authenticate(app.config['MONGODB_USERNAME'], app.config['MONGODB_PASSWORD'])
+fs = GridFS(mongo)
 
 import models
 import docs

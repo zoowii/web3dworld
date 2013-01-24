@@ -2,67 +2,76 @@
 (function() {
 
   $(function() {
-    var addCubeBtn, addCylinderBtn, addMeshByUploadBtn, addMeshFromUploadedBtn, addObject3DBtn, addPlaneBtn, addSphereBtn, applyCameraPositionBtn, applyCommonAttributeBtn, cameraDownBtn, cameraUpBtn, events, toAddResourceNameInput, web3deditor;
-    web3deditor = window['web3deditor'];
-    events = web3deditor['events'];
-    applyCameraPositionBtn = $("#applyCameraPositionBtn");
-    applyCameraPositionBtn.click(function() {
-      var x, y, z;
-      x = $("#cameraPositionXInput").val();
-      y = $("#cameraPositionYInput").val();
-      z = $("#cameraPositionZInput").val();
-      return window.camera.position.set(x, y, z);
+    var aboutMenu, addMenu, canvas_height, container, control_area, editMenu, edit_area, edit_view_area, fileMenu, menuBar, panel_height, view_area;
+    menuBar = $(".menu-bar");
+    container = $(".container");
+    control_area = $(".control-area");
+    edit_view_area = $(".edit-view-area");
+    edit_area = $('.edit-area');
+    view_area = $(".view-area");
+    fileMenu = new ZUI.Menu({
+      label: 'File'
     });
-    applyCommonAttributeBtn = $("#applyCommonAttributeBtn");
-    applyCommonAttributeBtn.click(function() {
-      var name, posX, posY, posZ, rotX, rotY, rotZ;
-      name = $("#commonNameInput").val();
-      posX = $("#commonPositionXInput").val();
-      posY = $("#commonPositionYInput").val();
-      posZ = $("#commonPositionZInput").val();
-      rotX = $("#commonRotationXInput").val();
-      rotY = $("#commonRotationYInput").val();
-      rotZ = $("#commonRotationZInput").val();
-      window[name].position.set(posX, posY, posZ);
-      return window[name].rotation.set(rotX, rotY, rotZ);
-    });
-    cameraUpBtn = $("#cameraUpBtn");
-    cameraDownBtn = $("#cameraDownBtn");
-    cameraUpBtn.click(function() {
-      return events['cameraUpHandler']();
-    });
-    cameraDownBtn.click(function() {
-      return events['cameraDownHandler']();
-    });
-    addMeshByUploadBtn = $("#addMeshByUploadBtn");
-    addMeshFromUploadedBtn = $("#addMeshFromUploadedBtn");
-    toAddResourceNameInput = $("#toAddResourceNameInput");
-    addObject3DBtn = $("#addObject3DBtn");
-    addObject3DBtn.click(function() {
-      var name;
-      name = toAddResourceNameInput.val();
-      if (name.length <= 0) {
-        return;
+    fileMenu.addItem({
+      label: 'Open'
+    }).addItem({
+      label: 'Exit',
+      click: function() {
+        return alert('exit');
       }
-      return web3deditor.loadObjectByName(name, function(geom) {
-        return web3deditor.addObjectToScene(geom);
-      });
     });
-    addPlaneBtn = $("#addPlaneBtn");
-    addCubeBtn = $("#addCubeBtn");
-    addCylinderBtn = $("#addCylinderBtn");
-    addSphereBtn = $("#addSphereBtn");
-    addPlaneBtn.click(function() {
-      return web3deditor.addObjectToScene(new THREE.PlaneGeometry(100, 100, 100, 100));
+    editMenu = new ZUI.Menu({
+      label: 'Edit'
     });
-    addCubeBtn.click(function() {
-      return web3deditor.addObjectToScene(new THREE.CubeGeometry(100, 100, 100, 10, 10, 10));
+    editMenu.addItem({
+      label: '复制'
+    }).addItem({
+      label: '删除'
     });
-    addCylinderBtn.click(function() {
-      return web3deditor.addObjectToScene(new THREE.CylinderGeometry(50, 50, 200, 50, 50));
+    addMenu = new ZUI.Menu({
+      label: 'Add'
     });
-    return addSphereBtn.click(function() {
-      return web3deditor.addObjectToScene(new THREE.SphereGeometry(100));
+    addMenu.addItem({
+      label: '平面'
+    }).addItem({
+      label: '正方体'
+    }).addItem({
+      label: '圆柱体'
+    }).addItem({
+      label: '球体'
+    }).addItem({
+      label: '-----'
+    }).addItem({
+      label: '点光源'
+    }).addItem({
+      label: '环境光'
+    }).addItem({
+      label: '平行光'
+    });
+    aboutMenu = new ZUI.Menu({
+      label: 'About'
+    });
+    aboutMenu.addItem({
+      label: '源码'
+    }).addItem({
+      label: '关于'
+    });
+    fileMenu.addedTo(menuBar[0]);
+    editMenu.addedTo(menuBar[0]);
+    addMenu.addedTo(menuBar[0]);
+    container.css({
+      top: (menuBar.height() + 1) + 'px'
+    });
+    panel_height = window.innerHeight - menuBar.height() - 1;
+    control_area.css({
+      height: panel_height + 'px'
+    });
+    edit_view_area.css({
+      height: panel_height + 'px'
+    });
+    canvas_height = panel_height - 80;
+    return $(".canvas-area").css({
+      height: canvas_height + 'px'
     });
   });
 

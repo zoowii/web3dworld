@@ -24,7 +24,7 @@ helper.runTimes = (task, times = 1, interval = 0) -> # task: 要执行的函数,
   newTask = -> helper.runTimes task, times - 1, interval
   setTimeout newTask, interval
 
-class Set
+helper.Set = class Set
   constructor: () ->
     this.data = []
   add: (ele) ->
@@ -33,5 +33,3 @@ class Set
   remove: (ele) ->
     if _.contains this.data, ele
       this.data = this.data.filter (e) -> e != ele
-
-helper.Set = Set

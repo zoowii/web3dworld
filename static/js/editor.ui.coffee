@@ -1,48 +1,74 @@
 $ ->
-  web3deditor = window['web3deditor']
-  events = web3deditor['events']
-  applyCameraPositionBtn = $("#applyCameraPositionBtn")
-  applyCameraPositionBtn.click ->
-    x = $("#cameraPositionXInput").val()
-    y = $("#cameraPositionYInput").val()
-    z = $("#cameraPositionZInput").val()
-    window.camera.position.set(x, y, z)
-  applyCommonAttributeBtn = $("#applyCommonAttributeBtn")
-  applyCommonAttributeBtn.click ->
-    name = $("#commonNameInput").val()
-    posX = $("#commonPositionXInput").val()
-    posY = $("#commonPositionYInput").val()
-    posZ = $("#commonPositionZInput").val()
-    rotX = $("#commonRotationXInput").val()
-    rotY = $("#commonRotationYInput").val()
-    rotZ = $("#commonRotationZInput").val()
-    window[name].position.set(posX, posY, posZ)
-    window[name].rotation.set(rotX, rotY, rotZ)
-  cameraUpBtn = $("#cameraUpBtn")
-  cameraDownBtn = $("#cameraDownBtn")
-  cameraUpBtn.click ->
-    events['cameraUpHandler']()
-  cameraDownBtn.click ->
-    events['cameraDownHandler']()
-  addMeshByUploadBtn = $("#addMeshByUploadBtn")
-  addMeshFromUploadedBtn = $("#addMeshFromUploadedBtn")
-  toAddResourceNameInput = $("#toAddResourceNameInput")
-  addObject3DBtn = $("#addObject3DBtn")
-  addObject3DBtn.click ->
-    name = toAddResourceNameInput.val()
-    if name.length <= 0
-      return
-    web3deditor.loadObjectByName name, (geom) ->
-      web3deditor.addObjectToScene geom
-  addPlaneBtn = $("#addPlaneBtn")
-  addCubeBtn = $("#addCubeBtn")
-  addCylinderBtn = $("#addCylinderBtn")
-  addSphereBtn = $("#addSphereBtn")
-  addPlaneBtn.click ->
-    web3deditor.addObjectToScene new THREE.PlaneGeometry(100, 100, 100, 100)
-  addCubeBtn.click ->
-    web3deditor.addObjectToScene new THREE.CubeGeometry(100, 100, 100, 10, 10, 10)
-  addCylinderBtn.click ->
-    web3deditor.addObjectToScene new THREE.CylinderGeometry(50, 50, 200, 50, 50)
-  addSphereBtn.click ->
-    web3deditor.addObjectToScene new THREE.SphereGeometry(100)
+  menuBar = $(".menu-bar")
+  container = $(".container")
+  control_area = $(".control-area")
+  edit_view_area = $(".edit-view-area")
+  edit_area = $('.edit-area')
+  view_area = $(".view-area")
+
+  fileMenu = new ZUI.Menu {
+    label: 'File'
+  }
+  fileMenu.addItem({
+  label: 'Open'
+  }).addItem({
+  label: 'Exit',
+  click: ->
+    alert 'exit'
+  })
+  editMenu = new ZUI.Menu {
+    label: 'Edit'
+  }
+  editMenu.addItem({
+    label: '复制'
+  }).addItem({
+    label: '删除'
+  })
+  addMenu = new ZUI.Menu {
+    label: 'Add'
+  }
+  addMenu.addItem({
+    label: '平面'
+  }).addItem({
+    label: '正方体'
+  }).addItem({
+    label: '圆柱体'
+  }).addItem({
+    label: '球体'
+  }).addItem({
+    label: '-----'
+  }).addItem({
+    label: '点光源'
+  }).addItem({
+    label: '环境光'
+  }).addItem({
+    label: '平行光'
+  })
+  aboutMenu = new ZUI.Menu {
+    label: 'About'
+  }
+  aboutMenu.addItem({
+    label: '源码'
+  }).addItem({
+    label: '关于'
+  })
+
+  fileMenu.addedTo menuBar[0]
+  editMenu.addedTo menuBar[0]
+  addMenu.addedTo menuBar[0]
+
+  container.css {
+    top: (menuBar.height() + 1) + 'px'
+  }
+  panel_height = window.innerHeight - menuBar.height() - 1
+  control_area.css {
+    height: panel_height + 'px'
+  }
+  edit_view_area.css {
+    height: panel_height + 'px'
+  }
+  canvas_height = panel_height - 80
+  $(".canvas-area").css {
+    height: canvas_height + 'px'
+  }
+

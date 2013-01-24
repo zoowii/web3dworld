@@ -24,3 +24,4 @@ MONGODB_NAME = mongodb_cred['db']
 MONGODB_USERNAME = mongodb_cred['username']
 MONGODB_PASSWORD = mongodb_cred['password']
 
+ALLOWED_EXTENSIONS = ['txt', 'css', 'json', 'jpg', 'bmp', 'jpeg', 'png']

@@ -22,6 +22,7 @@ class ResourceView(BaseView):
 			file = request.files['file']
 			if file and True: # allowed_file(file.filename):
 				data = file.read()
+				file.close()
 				name = request.form['name']
 				tags = request.form['tags']
 				blob_key = Blob(data).save()
