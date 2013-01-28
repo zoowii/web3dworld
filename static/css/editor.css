@@ -17,3 +17,15 @@
 .control-area {
     height: 100%;
 }
+
+.edit_area {
+
+}
+
+.canvas-area {
+    position: absolute;
+    /*min-width: 600px;*/
+    /*min-height: 400px;*/
+    left: 0;
+    top: 0;
+}

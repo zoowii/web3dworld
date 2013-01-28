@@ -5,6 +5,8 @@ from pymongo import Connection, MongoClient
 from gridfs import GridFS
 import os, sys
 
+sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
+
 application = app = Flask(__name__)
 app.config.from_pyfile('config/default_settings.py')
 if os.getenv('VCAP_SERVICES'):

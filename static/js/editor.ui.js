@@ -2,7 +2,7 @@
 (function() {
 
   $(function() {
-    var aboutMenu, addMenu, canvas_height, container, control_area, editMenu, edit_area, edit_view_area, fileMenu, menuBar, panel_height, view_area;
+    var $editViewArea, aboutMenu, addMenu, canvas_height, container, control_area, editMenu, edit_area, edit_view_area, fileMenu, menuBar, panel_height, view_area;
     menuBar = $(".menu-bar");
     container = $(".container");
     control_area = $(".control-area");
@@ -63,15 +63,17 @@
       top: (menuBar.height() + 1) + 'px'
     });
     panel_height = window.innerHeight - menuBar.height() - 1;
-    control_area.css({
-      height: panel_height + 'px'
-    });
-    edit_view_area.css({
-      height: panel_height + 'px'
-    });
     canvas_height = panel_height - 80;
-    return $(".canvas-area").css({
+    $editViewArea = $(".edit-view-area");
+    $(".canvas-area").css({
+      left: $editViewArea.offset().left + 100,
+      width: "600px",
       height: canvas_height + 'px'
+    });
+    return $(".edit_area").css({
+      left: "0",
+      width: '450px',
+      "z-index": 100
     });
   });
 

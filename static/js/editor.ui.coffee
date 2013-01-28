@@ -7,7 +7,7 @@ $ ->
   view_area = $(".view-area")
 
   fileMenu = new ZUI.Menu {
-    label: 'File'
+  label: 'File'
   }
   fileMenu.addItem({
   label: 'Open'
@@ -17,40 +17,40 @@ $ ->
     alert 'exit'
   })
   editMenu = new ZUI.Menu {
-    label: 'Edit'
+  label: 'Edit'
   }
   editMenu.addItem({
-    label: '复制'
+  label: '复制'
   }).addItem({
-    label: '删除'
+  label: '删除'
   })
   addMenu = new ZUI.Menu {
-    label: 'Add'
+  label: 'Add'
   }
   addMenu.addItem({
-    label: '平面'
+  label: '平面'
   }).addItem({
-    label: '正方体'
+  label: '正方体'
   }).addItem({
-    label: '圆柱体'
+  label: '圆柱体'
   }).addItem({
-    label: '球体'
+  label: '球体'
   }).addItem({
-    label: '-----'
+  label: '-----'
   }).addItem({
-    label: '点光源'
+  label: '点光源'
   }).addItem({
-    label: '环境光'
+  label: '环境光'
   }).addItem({
-    label: '平行光'
+  label: '平行光'
   })
   aboutMenu = new ZUI.Menu {
-    label: 'About'
+  label: 'About'
   }
   aboutMenu.addItem({
-    label: '源码'
+  label: '源码'
   }).addItem({
-    label: '关于'
+  label: '关于'
   })
 
   fileMenu.addedTo menuBar[0]
@@ -58,17 +58,19 @@ $ ->
   addMenu.addedTo menuBar[0]
 
   container.css {
-    top: (menuBar.height() + 1) + 'px'
+  top: (menuBar.height() + 1) + 'px'
   }
   panel_height = window.innerHeight - menuBar.height() - 1
-  control_area.css {
-    height: panel_height + 'px'
-  }
-  edit_view_area.css {
-    height: panel_height + 'px'
-  }
   canvas_height = panel_height - 80
+  $editViewArea = $(".edit-view-area")
   $(".canvas-area").css {
-    height: canvas_height + 'px'
+  left: $editViewArea.offset().left + 100,
+  width: "600px",
+  height: canvas_height + 'px'
   }
-
+  $(".edit_area").css {
+    left: "0",
+    width: '450px',
+#    height: '600px',
+    "z-index": 100
+  }

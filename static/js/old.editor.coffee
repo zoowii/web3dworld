@@ -75,7 +75,7 @@ initCamera = ->
   aspect = width / height
   near = 0.1
   far = 20000
-  window['camera'] = camera = new THREE.PerspectiveCamera(view_angle, width / height, 0.1, 20000)
+  window['camera'] = camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far)
   object3dArray.add camera
   camera.position.set(200, 250, 0)
   #  camera.rotation.x = -2.5

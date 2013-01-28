@@ -1,0 +1,115 @@
+{
+    "metadata": {
+        "formatVersion" : 3.2,
+        "type"		: "scene",
+        "generatedBy"	: "SceneExporter",
+        "objects"       : 5,
+        "geometries"    : 1,
+        "materials"     : 1,
+        "textures"      : 0
+    },
+
+    "urlBaseType": "relativeToScene",
+
+    "objects" :
+    {
+        "Camera" : {
+            "type"     : "PerspectiveCamera",
+            "fov"      : 50,
+            "aspect"   : 1.5241057542768273,
+            "near"     : 1,
+            "far"      : 5000,
+            "position" : [500,250,500]
+        },
+
+        "Cube 10" : {
+            "geometry" : "Cube 4",
+            "material" : "Material_8",
+            "position" : [3.4481263203572325,4.786425768374386,-6.535664759087467],
+            "rotation" : [0,0,0],
+            "scale"	   : [1,1,1],
+            "visible"  : true
+        },
+
+        "Light 11" : {
+            "type"  : "AmbientLight",
+            "color" : 2236962
+        },
+
+        "Light 12" : {
+            "type"      : "DirectionalLight",
+            "color"     : 16777215,
+            "intensity" : 1,
+            "direction" : [160.17298606586877,208.36767146563994,238.43240531486322],
+            "target"    : "Light 12 target"
+        },
+
+        "Light 12 target" : {
+            "position" : [0,0,0],
+            "rotation" : [0,0,0],
+            "scale"	   : [1,1,1],
+            "visible"  : true
+        }
+    },
+
+    "geometries" :
+    {
+        "Cube 4": {
+            "type"    : "cube",
+            "width"  : 100,
+            "height"  : 100,
+            "depth"  : 100,
+            "widthSegments"  : 1,
+            "heightSegments" : 1,
+            "depthSegments" : 1
+        }
+    },
+
+    "materials" :
+    {
+        "Material_8": {
+            "type"    : "MeshPhongMaterial",
+            "parameters"  : {
+                "color"  : 16777215,
+                "ambient"  : 16777215,
+                "emissive"  : 0,
+                "specular"  : 1118481,
+                "shininess" : 30,
+                "bumpScale"  : 1,
+                "reflectivity"  : 1,
+                "transparent" : false,
+                "opacity" : 1,
+                "wireframe" : false,
+                "wireframeLinewidth" : 1
+            }
+        }
+    },
+
+    "textures" :
+    {
+
+    },
+
+    "fogs" :
+    {
+        "Default fog": {
+            "type"  : "linear",
+            "color" : [0.976,0.541,0.357],
+            "near"  : 1,
+            "far"   : 5000
+        }
+    },
+
+    "transform" :
+    {
+        "position"  : [0,0,0],
+        "rotation"  : [0,0,0],
+        "scale"     : [1,1,1]
+    },
+
+    "defaults" :
+    {
+        "camera"  : "Camera",
+        "fog"  	  : "Default fog"
+    }
+}
