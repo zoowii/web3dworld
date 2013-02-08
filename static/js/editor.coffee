@@ -1,4 +1,5 @@
 $(->
+  static_url = '/static/'
   window.scenes = []
   window.floors = []
   EditorViewport = Backbone.Model.extend {
@@ -7,71 +8,110 @@ $(->
     this.initScene()
     this.initLight()
     this.initDerectionHelp()
-    geom = new THREE.CubeGeometry
-    mesh = new THREE.Mesh geom
+    this.initControls()
+    this.initEvents()
+    this.loadWall(static_url + 'json/qiangbi2.json', static_url + 'img/sicai001.jpg', 3.0, {x: 1.57, y: 0, z: 0})
+    this.initSkybox()
+    this.initFog()
+    this.initFloor()
+    this.loadFloor(static_url + 'img/diban1.jpg')
+  initFloor: ->
     scene = this.get('scene')
-    window.scenes.push(scene)
-    window.cube = mesh
-    scene.add mesh
     jsonLoader = this.get('jsonLoader')
-    static_url = '/static/'
-    floorTexture = THREE.ImageUtils.loadTexture(static_url + 'img/grasslight-big.jpg')
-    #  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping
-    #  floorTexture.repeat.set 10, 10
+    floorTexture = THREE.ImageUtils.loadTexture(static_url + 'img/checkerboard.jpg')
+    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping
+    floorTexture.repeat.set 10, 10
     floorMaterial = new THREE.MeshBasicMaterial {
     map: floorTexture
     }
-    floorGeometry = new THREE.PlaneGeometry 1000, 1000, 10, 10
+    floorGeometry = new THREE.PlaneGeometry 2000, 2000, 10, 10
     floor = new THREE.Mesh floorGeometry, floorMaterial
     floor.position.set 0, 0, 0
-    # 绿色, y轴为上方向，所以把地面放低一点，房子架在上面
-    # 红色为 x 轴正方向
-    # 蓝色为 z 轴正方向
-    proportion = 2.0
-    floor.rotation.x = -1.57
-    floor.rotation.y = 0
-    floor.rotation.z = 0
+    proportion = 1.0
     helper.scaleObject3D floor, proportion
     floor.doubleSided = true
-    window.floors.push(floor)
     scene.add floor
-    materialArray = []
-    materialArray.push(new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(static_url + 'img/dawnmountain-xpos.png') }))
-    materialArray.push(new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(static_url + 'img/dawnmountain-xneg.png') }))
-    materialArray.push(new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(static_url + 'img/dawnmountain-ypos.png') }))
-    materialArray.push(new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(static_url + 'img/dawnmountain-yneg.png') }))
-    materialArray.push(new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(static_url + 'img/dawnmountain-zpos.png') }))
-    materialArray.push(new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture(static_url + 'img/dawnmountain-zneg.png') }))
-    skyboxGeom = new THREE.CubeGeometry 5000, 5000, 5000, 1, 1, 1
-    skybox = new THREE.Mesh skyboxGeom, new THREE.MeshFaceMaterial(materialArray)
+    this.set('floorboard', floor)
+  loadFloor: (textureUrl, width = 2000, height = 2000) ->
+    scene = this.get('scene')
+    floorboard = this.get('floorboard')
+    floorboard.visible = false
+    oldFloor = this.get('floor')
+    if oldFloor != undefined
+      scene.remove(oldFloor)
+      this.set('floor', undefined)
+    geom = new THREE.PlaneGeometry width, height, 10, 10
+    texture = THREE.ImageUtils.loadTexture textureUrl
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+    texture.repeat.set width / 50, height / 50
+    material = new THREE.MeshBasicMaterial {
+    map: texture
+    }
+    floor = new THREE.Mesh geom, material
+    floor.doubleSided = true
+    scene.add floor
+    this.set('floor', floor)
+  loadWall: (geomUrl, textureUrl, proportion = 1.0, rotation = {x: 0, y: 0, z: 0}) ->
+    jsonLoader = this.get('jsonLoader')
+    scene = this.get('scene')
+    jsonLoader.load(geomUrl, (geom) ->
+      texture = THREE.ImageUtils.loadTexture(textureUrl)
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+      texture.repeat.set 10, 10
+      material = new THREE.MeshBasicMaterial {
+      #        map: texture
+      color: 0xff0000,
+      transparent: true,
+      opacity: 0.5
+      }
+      mesh = new THREE.Mesh geom, material
+      mesh.receiveShadow = true
+      mesh.doubleSided = true
+      mesh.rotation.x = rotation.x
+      mesh.rotation.y = rotation.y
+      mesh.rotation.z = rotation.z
+      mesh.scale.x *= proportion
+      mesh.scale.y *= proportion
+      mesh.scale.z /= proportion
+      mesh.castShadow = true
+      scene.add mesh
+    )
+  initSkybox: ->
+    scene = this.get('scene')
+    geom = new THREE.CubeGeometry 10000, 10000, 10000
+    material = new THREE.MeshBasicMaterial {
+    color: 0x9999ff
+    }
+    skybox = new THREE.Mesh geom, material
     skybox.flipSided = true
     scene.add skybox
-    scene.fog = new THREE.FogExp2(0x9999ff, 0.00025)
-    jsonLoader.load static_url + 'json/ta1.json',
-    (geom) ->
-      mate = new THREE.MeshBasicMaterial {
-      color: "#ff0000"
-      }
-      taMesh = new THREE.Mesh geom, mate
-      # 缩放程度
-      proportion = 4.0
-      taMesh.receiveShadow = true
-      helper.scaleObject3D taMesh, proportion
-      scene.add taMesh
-      window['ta'] = taMesh
-      object3dArray.add taMesh
-      taMesh.position.set(-1000, floorDepth, -400)
-      taMesh.rotation.set(0, 1.0, 0)
-
-  initDerectionHelp: ->
+  initFog: ->
     scene = this.get('scene')
-    xUpD = new THREE.Mesh new THREE.CubeGeometry, new THREE.MeshBasicMaterial { color: '#ff0000'}
-    scene.add(xUpD)
+    scene.fog = new THREE.FogExp2(0x9999ff, 0.00025)
+  initDerectionHelp: ->
+    # 绿色为 y 轴正方向
+    # 红色为 x 轴正方向
+    # 蓝色为 z 轴正方向
+    scene = this.get('scene')
+    helper.addAxis scene, 2.0
+    selectionAxis = new THREE.AxisHelper(100)
+    selectionAxis.material.depthTest = false
+    selectionAxis.material.transparent = true
+    selectionAxis.matrixAutoUpdate = false
+    selectionAxis.visible = false
+    scene.add(selectionAxis)
   initUtils: ->
     this.set('jsonLoader', new THREE.JSONLoader)
   initScene: ->
     scene = new THREE.Scene
     this.set('scene', scene)
+  initControls: ->
+    scene = this.get('scene')
+    # 用来选择Mesh的辅助平面
+    intersectionPlane = new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000, 8, 8))
+    intersectionPlane.visible = false
+    scene.add intersectionPlane
+    this.set('intersectionPlane', intersectionPlane)
   initLight: ->
     scene = this.get('scene')
     light = new THREE.DirectionalLight(0xff0000, 1.0, 0)
@@ -79,6 +119,8 @@ $(->
     light.position.set(500, 250, 500)
     scene.add(light)
     scene.add new THREE.AmbientLight(0xff0000)
+  initEvents: ->
+
   }
   EditorView = Backbone.View.extend {
   initRenderer: ->
@@ -94,12 +136,112 @@ $(->
     # 设置canvas背景色，透明度
     this.el.appendChild renderer.domElement
   initCamera: ->
+  initProjector: ->
+    scene = this.model.get('scene')
+    # TODO: move these code to Model
+    intersectionPlane = this.model.get('intersectionPlane')
+    ray = new THREE.Raycaster()
+    projector = new THREE.Projector()
+    offset = new THREE.Vector3()
+    cameraChanged = false
+    helpersVisible = true
+    picked = null
+    selected = this.camera
+    _this = this
+    this.$el.mousedown((event) ->
+      _this.el.focus()
+      if !_this.selectionAvailable
+        return
+      if event.button == 0
+        vector = new THREE.Vector3(
+          ( event.offsetX / _this.width ) * 2 - 1,
+        -( event.offsetY / _this.height ) * 2 + 1,
+        0.5
+        )
+        projector.unprojectVector(vector, _this.camera)
+        ray.set(_this.camera.position, vector.sub(_this.camera.position).normalize())
+        intersects = ray.intersectObjects(scene.children, true)
+        # objects
+        if intersects.length > 0
+          if _this.controls
+            _this.controls.enabled = false
+          picked = intersects[ 0 ].object
+          if picked.properties.isGizmo
+            root = picked.properties.gizmoRoot
+            selected = picked.properties.gizmoSubject
+          else
+            root = picked
+            selected = picked
+          intersectionPlane.position.copy(root.position)
+          intersectionPlane.lookAt(_this.camera.position)
+          console.log 'mouse down: ', selected
+          # selected is the mesh your mouse selected
+          # TODO dispatch the mousedown event to the selected mesh
+          #          intersects = ray.intersectObject(intersectionPlane)
+          #          offset.copy(intersects[ 0 ].point).sub(intersectionPlane.position)
+          _this.mousemoveAvailable = _this.mouseupavailable = true
+    )
+    this.$el.mousemove((event) ->
+      if _this.mousemoveAvailable
+        # do the tasks after mouse down
+        vector = new THREE.Vector3(
+          ( event.offsetX / _this.width ) * 2 - 1,
+        -( event.offsetY / _this.height ) * 2 + 1,
+        0.5
+        )
+        projector.unprojectVector(vector, _this.camera)
+        ray.set(_this.camera.position, vector.sub(_this.camera.position).normalize())
+        intersects = ray.intersectObject(intersectionPlane)
+        if intersects.length > 0
+          intersects[0].point.sub offset
+          if picked.properties.isGizmo
+            picked.properties.gizmoRoot.position.copy intersects[0].point
+            picked.properties.gizmoSubject.position.copy intersects[0].point
+            # TODO: use mouse move subject
+            console.log 'mouse move subject: ', picked.properties.gizmoSubject
+          else
+            # 移动选中的
+            picked.position.copy intersects[0].point
+            # TODO: use mouse move subject
+            console.log 'mouse move subject: ', picked.properties.gizmoSubject
+          _this.update()
+    )
+    this.$el.mouseup((event) ->
+      if _this.mouseupavailable
+        _this.mousemoveAvailable = false
+        _this.mouseupavailable = false
+        if _this.controls != undefined
+          _this.controls.enabled = true
+    )
+  update: ->
+    this.renderOnce()
   initialize: ->
-    this.width = this.$el.width()
-    this.height = this.$el.height()
+    this.width = this.options.width
+    this.height = this.options.height
+    this.selectionAvailable = false
     this.initCamera()
+    this.initProjector()
     this.initRenderer()
-    webglrender(this)
+    this.initEvents()
+    this.animate()
+  animate: ->
+    animate(this)
+  renderOnce: ->
+    this.renderer.render this.model.get('scene'), this.camera
+  initEvents: ->
+    _model = this.model
+    _camera = this.camera
+  # comment below codes because use TracckballControls.js's control system
+  #    this.$el.bind('mousewheel', (event, delta) ->
+  #      if delta < 0
+  #        _camera.position.x *= 1.1
+  #        _camera.position.y *= 1.1
+  #        _camera.position.z *= 1.1
+  #      else
+  #        _camera.position.x *= 0.9
+  #        _camera.position.y *= 0.9
+  #        _camera.position.z *= 0.9
+  #    )
   }
   Editor2DView = EditorView.extend {
   initCamera: ->
@@ -108,9 +250,23 @@ $(->
     near = 1.0
     far = 5000
     this.camera = camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far)
-    camera.position.set(0, 850, 0)
+    camera.position.set(0, 0, 500)
     camera.rotation.set(-1.57, 0, 0)
+    camera.up.set(0, 0, 1)
     camera.lookAt @model.get('scene').position
+  initEvents: ->
+    _model = this.model
+    _camera = this.camera
+    this.$el.bind('mousewheel', (event, delta) ->
+      if delta < 0
+        _camera.position.x *= 1.1
+        _camera.position.y *= 1.1
+        _camera.position.z *= 1.1
+      else
+        _camera.position.x *= 0.9
+        _camera.position.y *= 0.9
+        _camera.position.z *= 0.9
+    )
   }
 
   Editor3DView = EditorView.extend {
@@ -122,20 +278,45 @@ $(->
     near = 1.0
     far = 5000
     this.camera = camera = new THREE.PerspectiveCamera(view_angle, aspect, near, far)
-    camera.position.set(500, 1000, 500)
+    camera.position.set(500, 1500, 500)
     camera.rotation.set(-0.46, 0.73, 0.32)
+    camera.up.set(0, 0, 1)
     camera.lookAt @model.get('scene').position
+    this.controls = controls = new THREE.TrackballControls camera, this.el
+    controls.enabled = true
+  initEvents: ->
+    # comment below codes because use TracckballControls.js's control system
+    #    EditorView.prototype.initEvents.apply(this, arguments)
+    #    centerPos = {x: this.width / 2, y: this.height / 2}
+    #    helper.bindMouseDrag(this.el, (initPos, nowPos, delta) ->
+    #      relativeToCenterInitPos = {x: initPos.x - centerPos.x, y: centerPos.y - initPos.y}
+    #      relativeToCenterDelta = {x: delta.x, y: - delta.y}
+    #      # TODO: 处理3D视图的鼠标拖拽时的相机的移动
+    #    )
+  animate: ->
+    editor3dviewanimate(this)
   }
 
-  webglrender = (view) ->
-    requestAnimationFrame -> webglrender(view)
-    view.renderer.render view.model.get('scene'), view.camera
+  animate = (view) ->
+    requestAnimationFrame -> animate(view)
+    view.update()
+  editor3dviewanimate = (view) ->
+    requestAnimationFrame -> editor3dviewanimate(view)
+    view.update()
+    view.controls.update()
 
+  if window.editor == undefined
+    window.editor = {}
+  editor = window.editor
   viewport = new EditorViewport
+  width = $(".editor_panel").width()
+  height = $(".editor_panel").height()
   editor2dview = new Editor2DView {
-  el: $(".edit_area"), model: viewport
+  el: $(".edit_area"), model: viewport, width: width, height: height
   }
   editor3dview = new Editor3DView {
-  el: $(".view_area"), model: new EditorViewport
+  el: $(".view_area"), model: new EditorViewport, width: width, height: height
   }
+  editor['view2d'] = editor2dview
+  editor['view3d'] = editor3dview
 )

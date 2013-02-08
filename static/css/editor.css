@@ -6,6 +6,14 @@
     background: #eeeeee;
 }
 
+.menu-btn-group {
+    position: fixed;
+    top: 0;
+    width: auto;
+    right: 100px;
+    background: #eeeeee;
+}
+
 .container {
     position: relative;
 }
@@ -15,17 +23,26 @@
 }
 
 .control-area {
-    height: 100%;
+    height: 600px;
 }
 
 .edit_area {
 
 }
 
+.view_area {
+    display: none;
+}
+
+.editor_panel {
+    height: 600px;
+}
+
 .canvas-area {
-    position: absolute;
+    height: 100%;
+    /*position: absolute;*/
     /*min-width: 600px;*/
     /*min-height: 400px;*/
-    left: 0;
-    top: 0;
+    /*left: 0;*/
+    /*top: 0;*/
 }
