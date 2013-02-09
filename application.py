@@ -1,11 +1,12 @@
 # coding: UTF-8
+import os, sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
+
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from pymongo import Connection, MongoClient
 from gridfs import GridFS
-import os, sys
-
-sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
 
 application = app = Flask(__name__)
 app.config.from_pyfile('config/default_settings.py')

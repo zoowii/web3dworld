@@ -74,19 +74,26 @@ $(function () {
                                     menu:addMenu
                                 },
                                 {
+                                    itemId:'selectMenuItem',
                                     text:'选择',
-                                    handler: function() {
+                                    handler:function () {
                                         var editor = window.editor;
                                         editor['view2d'].selectionAvailable = true;
                                         editor['view3d'].selectionAvailable = true;
+                                        toolbar.getComponent('selectMenuItem').hide();
+                                        toolbar.getComponent('disselectMenuItem').show();
                                     }
                                 },
                                 {
+                                    itemId:'disselectMenuItem',
                                     text:'取消选择',
-                                    handler: function() {
+                                    hidden:true,
+                                    handler:function () {
                                         var editor = window.editor;
                                         editor['view2d'].selectionAvailable = false;
                                         editor['view3d'].selectionAvailable = false;
+                                        toolbar.getComponent('selectMenuItem').show();
+                                        toolbar.getComponent('disselectMenuItem').hide();
                                     }
                                 },
                                 '->',
@@ -109,7 +116,6 @@ $(function () {
                                 renderTo:'control_panel',
                                 title:'控制面板',
                                 tbar:toolbar,
-                                collapsible:true,
                                 height:'100%',
                                 width:'100%',
                                 layout:'fit',
