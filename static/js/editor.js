@@ -2,27 +2,33 @@
 (function() {
 
   $(function() {
-    var Editor2DView, Editor3DView, EditorView, EditorViewport, animate, editor, editor2dview, editor3dview, editor3dviewanimate, height, static_url, viewport, width;
+    var Editor2DView, Editor3DView, EditorView, EditorViewport, EditorViewportDelegate, animate, editor, editor2dview, editor3dview, editor3dviewanimate, height, helper, static_url, viewport2d, viewport3d, viewportDelegate, width;
     static_url = '/static/';
     window.scenes = [];
     window.floors = [];
+    helper = window.helper;
     EditorViewport = Backbone.Model.extend({
+      loadSceneFromJson: function(json) {
+        this.loadFloorFromJson(json.floor);
+        this.loadWallsFromJson(json.walls);
+        this.loadSkyboxFromJson(json.skybox);
+        this.loadFogFromJson(json.fog);
+        return this.loadLightsFromJson(json.lights);
+      },
+      loadScene: function(sceneUrl) {
+        if (this.get('scene') === void 0) {
+          this.initScene();
+        }
+        return helper.loadSceneJson(sceneUrl, _.bind(this.loadSceneFromJson, this));
+      },
       initialize: function() {
         this.initUtils();
         this.initScene();
-        this.initLight();
         this.initDerectionHelp();
         this.initControls();
         this.initEvents();
-        this.loadWall(static_url + 'json/qiangbi2.json', static_url + 'img/sicai001.jpg', 3.0, {
-          x: 1.57,
-          y: 0,
-          z: 0
-        });
-        this.initSkybox();
-        this.initFog();
         this.initFloor();
-        return this.loadFloor(static_url + 'img/diban1.jpg');
+        return this.loadScene(static_url + 'resources/scenes/test.json');
       },
       initFloor: function() {
         var floor, floorGeometry, floorMaterial, floorTexture, jsonLoader, proportion, scene;
@@ -42,6 +48,26 @@
         floor.doubleSided = true;
         scene.add(floor);
         return this.set('floorboard', floor);
+      },
+      loadFloorFromJson: function(json) {
+        var floor, floorboard, geom, material, oldFloor, scene;
+        if (this.get('floorboard') === void 0) {
+          this.initFloor();
+        }
+        scene = this.get('scene');
+        floorboard = this.get('floorboard');
+        floorboard.visible = false;
+        oldFloor = this.get('floor');
+        if (oldFloor !== void 0) {
+          scene.remove(oldFloor);
+          this.set('floor', void 0);
+        }
+        geom = new THREE.PlaneGeometry(json.width, json.height, json.widthSegments, json.heightSegments);
+        material = helper.loadMaterialFromJson(json.material);
+        floor = new THREE.Mesh(geom, material);
+        scene.add(floor);
+        helper.updateMeshFromJson(floor, json);
+        return this.set('floor', floor);
       },
       loadFloor: function(textureUrl, width, height) {
         var floor, floorboard, geom, material, oldFloor, scene, texture;
@@ -70,6 +96,18 @@
         floor.doubleSided = true;
         scene.add(floor);
         return this.set('floor', floor);
+      },
+      loadWallsFromJson: function(json) {
+        var jsonLoader, scene, wall, wallJson, _i, _len, _results;
+        jsonLoader = this.get('jsonLoader');
+        scene = this.get('scene');
+        _results = [];
+        for (_i = 0, _len = json.length; _i < _len; _i++) {
+          wallJson = json[_i];
+          wall = helper.loadWallFromJson(wallJson);
+          _results.push(scene.add(wall));
+        }
+        return _results;
       },
       loadWall: function(geomUrl, textureUrl, proportion, rotation) {
         var jsonLoader, scene;
@@ -108,21 +146,37 @@
           return scene.add(mesh);
         });
       },
+      loadSkyboxFromJson: function(json) {
+        var geom, material, scene, skybox;
+        scene = this.get('scene');
+        geom = new THREE.CubeGeometry(json.width, json.height, json.depth);
+        material = helper.loadMaterialFromJson(json.material);
+        skybox = new THREE.Mesh(geom, material);
+        helper.updateMeshFromJson(skybox, json);
+        scene.add(skybox);
+        return this.set('skybox', skybox);
+      },
       initSkybox: function() {
         var geom, material, scene, skybox;
         scene = this.get('scene');
         geom = new THREE.CubeGeometry(10000, 10000, 10000);
         material = new THREE.MeshBasicMaterial({
-          color: 0x9999ff
+          color: "#9999ff"
         });
         skybox = new THREE.Mesh(geom, material);
         skybox.flipSided = true;
-        return scene.add(skybox);
+        scene.add(skybox);
+        return this.set('skybox', skybox);
+      },
+      loadFogFromJson: function(json) {
+        var scene;
+        scene = this.get('scene');
+        return scene.fog = new THREE.FogExp2(json.color, json.density);
       },
       initFog: function() {
         var scene;
         scene = this.get('scene');
-        return scene.fog = new THREE.FogExp2(0x9999ff, 0.00025);
+        return scene.fog = new THREE.FogExp2("#9999ff", 0.00025);
       },
       initDerectionHelp: function() {
         var scene, selectionAxis;
@@ -151,16 +205,64 @@
         scene.add(intersectionPlane);
         return this.set('intersectionPlane', intersectionPlane);
       },
+      loadLightsFromJson: function(json) {
+        var light, lightJson, lights, scene, _i, _len, _results;
+        scene = this.get('scene');
+        if (this.get('lights') === void 0) {
+          this.set('lights', []);
+        }
+        lights = this.get('lights');
+        _results = [];
+        for (_i = 0, _len = json.length; _i < _len; _i++) {
+          lightJson = json[_i];
+          light = helper.loadLightFromJson(lightJson);
+          lights.push(light);
+          scene.add(light);
+          _results.push(helper.updateMeshFromJson(light, lightJson));
+        }
+        return _results;
+      },
       initLight: function() {
         var light, scene;
         scene = this.get('scene');
-        light = new THREE.DirectionalLight(0xff0000, 1.0, 0);
+        light = new THREE.DirectionalLight("#ff0000", 1.0, 0);
         this.set('light', light);
         light.position.set(500, 250, 500);
         scene.add(light);
-        return scene.add(new THREE.AmbientLight(0xff0000));
+        return scene.add(new THREE.AmbientLight("#ff0000"));
       },
-      initEvents: function() {}
+      onAddMeshByJson: function(meshJson) {
+        var mesh, scene;
+        scene = this.get('scene');
+        switch (meshJson.meshType) {
+          case 'wall':
+            mesh = helper.loadWallFromJson(meshJson);
+            return scene.add(mesh);
+          case 'walls':
+            return this.loadWallsFromJson(meshJson);
+        }
+      },
+      initEvents: function() {
+        return this.on('addMeshByJson', this.onAddMeshByJson, this);
+      }
+    });
+    EditorViewportDelegate = Backbone.Model.extend({
+      initialize: function() {
+        this.set('viewports', []);
+        return this.on('all', function() {
+          var viewports, _arguments;
+          _arguments = _.toArray(arguments);
+          viewports = this.get('viewports');
+          return _.each(viewports, function(viewport) {
+            return viewport.trigger.apply(viewport, _arguments);
+          });
+        });
+      },
+      addViewport: function(viewport) {
+        var viewports;
+        viewports = this.get('viewports');
+        return viewports.push(viewport);
+      }
     });
     EditorView = Backbone.View.extend({
       initRenderer: function() {
@@ -345,23 +447,39 @@
       window.editor = {};
     }
     editor = window.editor;
-    viewport = new EditorViewport;
+    viewport2d = new EditorViewport;
+    viewport3d = new EditorViewport;
+    viewportDelegate = new EditorViewportDelegate;
+    viewportDelegate.addViewport(viewport2d);
+    viewportDelegate.addViewport(viewport3d);
     width = $(".editor_panel").width();
     height = $(".editor_panel").height();
     editor2dview = new Editor2DView({
       el: $(".edit_area"),
-      model: viewport,
+      model: viewport2d,
       width: width,
       height: height
     });
     editor3dview = new Editor3DView({
       el: $(".view_area"),
-      model: new EditorViewport,
+      model: viewport3d,
       width: width,
       height: height
     });
     editor['view2d'] = editor2dview;
-    return editor['view3d'] = editor3dview;
+    editor['view3d'] = editor3dview;
+    return $(document).on('click', '.addToScene', function() {
+      var $_this, type, url, _this;
+      _this = this;
+      $_this = $(this);
+      type = $_this.attr('data-type');
+      url = $_this.attr('data-url');
+      if (_.indexOf(['wall'], type) >= 0) {
+        return helper.getJSON(url, function(json) {
+          return viewportDelegate.trigger('addMeshByJson', json);
+        });
+      }
+    });
   });
 
 }).call(this);

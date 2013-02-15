@@ -30,7 +30,5 @@ class Resource(db.Model):
 	def __repr__(self):
 		return '<Resource %r>' % self.name
 
-try:
-	db.create_all()
-except:
-	pass
+import startup
+startup.init_db()

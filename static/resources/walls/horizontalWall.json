@@ -1,0 +1,34 @@
+{
+    "typeName": "横墙",
+    "meshType": "wall",
+    "meshName": "horizontalWall",
+    "thumbnailUrl": "",
+    "type": "basic",
+    "width": 30,
+    "height": 300,
+    "depth": 500,
+    "material": {
+        "type": "basic",
+        "color": "#ff0000",
+        "transparent": true,
+        "opacity": 0.5
+    },
+    "receiveShadow": true,
+    "doubleSided": true,
+    "castShadow": true,
+    "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+    }
+}

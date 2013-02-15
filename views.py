@@ -1,12 +1,12 @@
 # coding: UTF-8
 from application import app
-from flask import render_template, redirect
+from flask import render_template, redirect, url_for
 import os
 
 @app.route('/')
 @app.route('/index')
 def index():
-	return redirect('/admin')
+	return redirect(url_for('editor'))
 
 #	return 'hi, welcome to web3dhouse!'
 
