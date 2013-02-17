@@ -15,16 +15,16 @@ $(->
     this.proxy = proxy
     proxy.addViewport(this)
     return this
-  loadSceneFromJson: (json) ->
-    this.loadFloorFromJson json.floor
-    this.loadWallsFromJson json.walls
-    this.loadSkyboxFromJson json.skybox
-    this.loadFogFromJson json.fog
-    this.loadLightsFromJson json.lights
-  loadScene: (sceneUrl) ->
-    if this.get('scene') == undefined
-      this.initScene()
-    helper.loadSceneJson(sceneUrl, _.bind(this.loadSceneFromJson, this))
+#  loadSceneFromJson: (json) ->
+#    this.loadFloorFromJson json.floor
+#    this.loadWallsFromJson json.walls
+#    this.loadSkyboxFromJson json.skybox
+#    this.loadFogFromJson json.fog
+#    this.loadLightsFromJson json.lights
+#  loadScene: (sceneUrl) ->
+#    if this.get('scene') == undefined
+#      this.initScene()
+#    helper.loadSceneJson(sceneUrl, _.bind(this.loadSceneFromJson, this))
   initialize: ->
     this.set 'objects', []
     this.initUtils()

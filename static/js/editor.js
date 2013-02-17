@@ -26,19 +26,6 @@
         proxy.addViewport(this);
         return this;
       },
-      loadSceneFromJson: function(json) {
-        this.loadFloorFromJson(json.floor);
-        this.loadWallsFromJson(json.walls);
-        this.loadSkyboxFromJson(json.skybox);
-        this.loadFogFromJson(json.fog);
-        return this.loadLightsFromJson(json.lights);
-      },
-      loadScene: function(sceneUrl) {
-        if (this.get('scene') === void 0) {
-          this.initScene();
-        }
-        return helper.loadSceneJson(sceneUrl, _.bind(this.loadSceneFromJson, this));
-      },
       initialize: function() {
         this.set('objects', []);
         this.initUtils();
