@@ -4,6 +4,17 @@ $(->
   window.floors = []
   helper = window.helper
   EditorViewport = Backbone.Model.extend {
+  afterAddObject: (obj, options = {}) ->
+    objects = this.get 'objects'
+    if helper.inArray(obj, objects)
+      return false
+    objects.push obj
+    helper.extendFrom(obj, options)
+    this.trigger 'meshAdded'
+  addToProxy: (proxy) ->
+    this.proxy = proxy
+    proxy.addViewport(this)
+    return this
   loadSceneFromJson: (json) ->
     this.loadFloorFromJson json.floor
     this.loadWallsFromJson json.walls
@@ -15,6 +26,7 @@ $(->
       this.initScene()
     helper.loadSceneJson(sceneUrl, _.bind(this.loadSceneFromJson, this))
   initialize: ->
+    this.set 'objects', []
     this.initUtils()
     this.initScene()
 #    this.initLight()
@@ -26,7 +38,7 @@ $(->
 #    this.initFog()
     this.initFloor()
 #    this.loadFloor(static_url + 'img/diban1.jpg')
-    this.loadScene(static_url + 'resources/scenes/test.json')
+#    this.loadScene(static_url + 'resources/scenes/test.json')
   initFloor: ->
     scene = this.get('scene')
     jsonLoader = this.get('jsonLoader')
@@ -44,7 +56,12 @@ $(->
     floor.doubleSided = true
     scene.add floor
     this.set('floorboard', floor)
+    this.afterAddObject floor, {
+      name: 'floorboard',
+      meshType: 'floor'
+    }
   loadFloorFromJson: (json) ->
+    json = helper.preprocessJsonResource(json, 'floor')
     if this.get('floorboard') == undefined
       this.initFloor()
     scene = this.get('scene')
@@ -60,6 +77,10 @@ $(->
     scene.add floor
     helper.updateMeshFromJson(floor, json)
     this.set 'floor', floor
+    this.afterAddObject floor, {
+      name: 'floor',
+      meshType: 'floor'
+    }
   loadFloor: (textureUrl, width = 2000, height = 2000) ->
     scene = this.get('scene')
     floorboard = this.get('floorboard')
@@ -79,12 +100,20 @@ $(->
     floor.doubleSided = true
     scene.add floor
     this.set('floor', floor)
+    this.afterAddObject floor, {
+      name: 'floor',
+      meshType: 'floor'
+    }
+  loadWallFromjson: (json) ->
+    scene = this.get 'scene'
+    wall = helper.loadWallFromJson(json)
+    scene.add wall
+    this.afterAddObject(wall)
   loadWallsFromJson: (json) ->
     jsonLoader = this.get 'jsonLoader'
     scene = this.get 'scene'
     for wallJson in json
-      wall = helper.loadWallFromJson(wallJson)
-      scene.add wall
+      this.loadWallFromjson(wallJson)
   loadWall: (geomUrl, textureUrl, proportion = 1.0, rotation = {x: 0, y: 0, z: 0}) ->
     jsonLoader = this.get('jsonLoader')
     scene = this.get('scene')
@@ -111,6 +140,7 @@ $(->
       scene.add mesh
     )
   loadSkyboxFromJson: (json) ->
+    json = helper.preprocessJsonResource(json, 'skybox')
     scene = this.get('scene')
     geom = new THREE.CubeGeometry json.width, json.height, json.depth
     material = helper.loadMaterialFromJson(json.material)
@@ -118,6 +148,10 @@ $(->
     helper.updateMeshFromJson(skybox, json)
     scene.add skybox
     this.set 'skybox', skybox
+    this.afterAddObject skybox, {
+      name: 'skybox',
+      meshType: 'skybox'
+    }
   initSkybox: ->
     scene = this.get('scene')
     geom = new THREE.CubeGeometry 10000, 10000, 10000
@@ -129,8 +163,10 @@ $(->
     scene.add skybox
     this.set 'skybox', skybox
   loadFogFromJson: (json) ->
+    json = helper.preprocessJsonResource(json, 'fog')
     scene = this.get('scene')
-    scene.fog = new THREE.FogExp2 json.color, json.density
+    scene.fog = fog = new THREE.FogExp2 json.color, json.density
+    this.afterAddObject fog
   initFog: ->
     scene = this.get('scene')
     scene.fog = new THREE.FogExp2("#9999ff", 0.00025)
@@ -168,6 +204,7 @@ $(->
       lights.push light
       scene.add light
       helper.updateMeshFromJson(light, lightJson)
+      this.afterAddObject light
   initLight: ->
     scene = this.get('scene')
     light = new THREE.DirectionalLight("#ff0000", 1.0, 0)
@@ -178,27 +215,88 @@ $(->
   onAddMeshByJson: (meshJson) ->
     scene = this.get 'scene'
     switch meshJson.meshType
-      when 'wall' then mesh = helper.loadWallFromJson(meshJson); scene.add mesh
+      when 'wall' then this.loadWallFromjson(meshJson)
       when 'walls' then this.loadWallsFromJson(meshJson)
+      when 'floor' then this.loadFloorFromJson(meshJson)
+      when 'fog' then this.loadFogFromJson(meshJson)
+      when 'skybox' then this.loadSkyboxFromJson(meshJson)
       # else # TODO
-
+  onMeshSelect: (selected) ->
+    this.selected = selected
+    this.trigger('meshSelected')
   initEvents: ->
     this.on('addMeshByJson', this.onAddMeshByJson, this)
+    this.on('meshSelect', this.onMeshSelect, this)
+  getSelected: ->
+    return this.selected
   }
 
-  EditorViewportDelegate = Backbone.Model.extend {
+  EditorViewportProxy = Backbone.Model.extend {
+    loadSceneFromJson: (json) ->
+      this.despatchSceneJson(json)
+    loadScene: (url) ->
+      helper.loadSceneJson(url, _.bind(this.loadSceneFromJson, this))
+    despatchSceneJson: (json, from = null) ->
+      floorJson = helper.preprocessJsonResource(json.floor, 'floor')
+      wallsJson = json.walls
+      lightsJson = json.lights
+      fogJson = helper.preprocessJsonResource(json.fog, 'fog')
+      skyboxJson = helper.preprocessJsonResource(json.skybox, 'skybox')
+      this.despatchMeshJson(floorJson, from)
+      this.despatchMeshJson(fogJson, from)
+      this.despatchMeshJson(skyboxJson, from)
+      this.despatchMeshArrayJson(wallsJson, 'wall', from)
+      this.despatchMeshArrayJson(lightsJson, 'light', from)
+    despatchMeshJson: (json, from = null) ->
+      for viewport in this.get 'viewports'
+        if viewport != from
+          viewport.trigger('addMeshByJson', json)
+    despatchMeshArrayJson: (array, type = 'mesh', from = null) ->
+      for json in array
+        helper.preprocessJsonResource(json, type)
+        this.despatchMeshJson(json, from)
     initialize: ->
       this.set('viewports', [])
       this.on('all', ->
         _arguments = _.toArray(arguments)
+        if _arguments[0].endsWith('ed')
+          return
         viewports = this.get('viewports')
         _.each(viewports, (viewport) ->
           viewport.trigger.apply(viewport, _arguments)
         )
       )
+    startListen: ->
+      viewports = this.get 'viewports'
+      if viewports.length <= 0
+        return false
+      viewport = viewports[0]
+      this.listenTo(viewport, 'meshAdded', ->
+        this.trigger('meshAdded')
+      )
+      this.listenTo(viewport, 'meshChanged', ->
+        this.trigger('meshChanged')
+      )
+      this.listenTo(viewport, 'meshRemoved', ->
+        this.trigger('meshRemoved')
+      )
+      this.listenTo(viewports[0], 'meshSelected', ->
+        this.selected = viewports[0].getSelected()
+        this.trigger('meshSelected')
+      )
+      this.listenTo(viewports[1], 'meshSelected', ->
+        this.selected = viewports[1].getSelected()
+        this.trigger('meshSelected')
+      )
     addViewport: (viewport) ->
       viewports = this.get('viewports')
       viewports.push viewport
+    getObjects: ->
+      viewports = this.get 'viewports'
+      if viewports
+        return viewports[0].get 'objects'
+      else
+        return []
   }
 
   EditorView = Backbone.View.extend {
@@ -254,6 +352,7 @@ $(->
           intersectionPlane.position.copy(root.position)
           intersectionPlane.lookAt(_this.camera.position)
           console.log 'mouse down: ', selected
+          _this.handleSelected(selected)
           # selected is the mesh your mouse selected
           # TODO dispatch the mousedown event to the selected mesh
           #          intersects = ray.intersectObject(intersectionPlane)
@@ -292,6 +391,8 @@ $(->
         if _this.controls != undefined
           _this.controls.enabled = true
     )
+  handleSelected: (selected) ->
+    this.model.trigger('meshSelect', selected)
   update: ->
     this.renderOnce()
   initialize: ->
@@ -376,6 +477,47 @@ $(->
     editor3dviewanimate(this)
   }
 
+  SceneMeshsView = Backbone.View.extend {
+    initialize: ->
+      this.items = []
+      this.listenTo(this.model, 'meshAdded meshChanged meshRemoved', this.render)
+      this.listenTo(this.model, 'meshSelected', this.handleSelected)
+      this.render()
+    handleSelected: ->
+      selected = this.model.selected
+      founded = false
+      for item in this.items
+        if item.obj == selected || (selected.name != '' && item.obj.name == selected.name)
+          item.$el.addClass('active')
+          founded = true
+        else
+          item.$el.removeClass('active')
+      if !founded && this.items.length > 0
+        this.items[0].$el.addClass('active')
+
+
+    render: ->
+      objects = this.model.getObjects()
+      this.items = []
+      panel = this.$(".meshs-list-panel")
+      listView = $("<ul></ul>")
+      listView.addClass('meshs-list')
+      for i in [0...(objects.length)]
+        obj = objects[i]
+        str = '<li>' + (if obj.meshType then obj.meshType else 'Object3D') + ': ' + (if obj.name then obj.name else _.uniqueId('object3d')) + '</li>'
+        item = $(str)
+        this.items.push {
+          obj: obj,
+          el: item[0],
+          $el: item
+        }
+        if i==0
+          item.addClass('active')
+        listView.append item
+      panel.html('')
+      panel.append listView
+  }
+
   animate = (view) ->
     requestAnimationFrame -> animate(view)
     view.update()
@@ -387,11 +529,17 @@ $(->
   if window.editor == undefined
     window.editor = {}
   editor = window.editor
-  viewport2d = new EditorViewport
-  viewport3d = new EditorViewport
-  viewportDelegate = new EditorViewportDelegate
-  viewportDelegate.addViewport viewport2d
-  viewportDelegate.addViewport viewport3d
+  window.viewport2d = viewport2d = new EditorViewport {
+    name: 'viewport2d'
+  }
+  window.viewport3d = viewport3d = new EditorViewport {
+    name: 'viewport3d'
+  }
+  viewportProxy = new EditorViewportProxy
+  viewport2d.addToProxy(viewportProxy)
+  viewport3d.addToProxy(viewportProxy)
+  viewportProxy.startListen()
+  viewportProxy.loadScene(static_url + 'resources/scenes/test.json')
   width = $(".editor_panel").width()
   height = $(".editor_panel").height()
   editor2dview = new Editor2DView {
@@ -402,15 +550,17 @@ $(->
   }
   editor['view2d'] = editor2dview
   editor['view3d'] = editor3dview
+  window.sceneMeshsView = new SceneMeshsView {
+    el: $(".scene.panel .scene-panel"), model: viewportProxy
+  }
 
   # init dom events
   $(document).on('click', '.addToScene', ->
-    _this = this
     $_this = $(this)
     type = $_this.attr('data-type')
     url = $_this.attr('data-url')
     if _.indexOf(['wall'], type) >= 0
       helper.getJSON url, (json) ->
-        viewportDelegate.trigger('addMeshByJson', json)
+        viewportProxy.despatchMeshJson(helper.preprocessJsonResource(json, 'wall'))
   )
 )

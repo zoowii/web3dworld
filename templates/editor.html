@@ -14,18 +14,24 @@
             <div class="row-fluid">
                 <div id="control_panel" class="span4 control-area">
                     <div class="panelHtmlTmpl" style="display: none;">
+                        <div id="scenePanelHtmlTmpl">
+                            <div class="scene-panel">
+                                <div class="meshs-list-panel">
+                                </div>
+                            </div>
+                        </div>
                         <div id="propertyPanelHtmlTmpl">
                             Property
                         </div>
                         <div id="wallsPanelHtmlTmpl">
                             <table class="walls-table table table-striped table-bordered">
                                 <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Style</th>
-                                        <th></th>
-                                    </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Style</th>
+                                    <th></th>
+                                </tr>
                                 </thead>
                                 <tbody>
 
@@ -53,6 +59,6 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/three.helper.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/ui.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/editor.ui.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/editor.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/editor.extapp.js') }}"></script>
+{#    <script type="text/javascript" src="{{ url_for('static', filename='js/editor.js') }}"></script>#}
 {% endblock %}

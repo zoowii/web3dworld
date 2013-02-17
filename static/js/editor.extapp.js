@@ -117,8 +117,9 @@ $(function () {
                             var scenePanel = Ext.create('Ext.panel.Panel', {
                                 itemId: 'scenePanel',
                                 title: '场景',
-                                html: 'scene',
-                                collapsible: true
+                                html: $("#scenePanelHtmlTmpl").html(),
+                                collapsible: true,
+                                bodyCls: ['scene', 'panel']
                             });
                             var controlPanel = Ext.create('Ext.panel.Panel', {
                                 renderTo: 'control_panel',
@@ -207,6 +208,9 @@ $(function () {
                                     }
                                 });
                             }
+
+                            $.getScript('/static/js/editor.js'); // TODO: 使用模块化工具如require.js, sea.js等模块化从而避免这样做
+
                         }
                     });
 });

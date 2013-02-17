@@ -5,10 +5,10 @@ if window.helper == undefined
 helper = window.helper
 
 store =
-{}
+  {}
 # store cache here. TODO: now needn't here
 jsonStore =
-{}
+  {}
 # store ajax got json object here. TODO: delete some too old cache when memory limit, and retrive and store them when needed again
 helper.getJSON = (url, handler) ->
   if jsonStore[url] != undefined
@@ -136,7 +136,14 @@ directExtendObjProperties = (desObj, srcObj, properties) ->
       desObj[property] = srcObj[property]
 
 # 可以使用extend: <name> 等方式减少资源重复量，但使用加载的json数据前先要调用此方法预处理一下还原成完整的对象
-helper.preprocessJsonResource = (json)->
+helper.preprocessJsonResource = (json, options)->
+  if _.isString(options)
+    options = {meshType: options}
+  if !options.meshType
+    options.meshType = 'mesh'
+  if !options.name
+    options.name = _.uniqueId(options.meshType)
+  return _.extend({}, options, json)
 
 helper.loadMaterialFromJson = (json) ->
   if json.type == 'basic'
@@ -148,11 +155,16 @@ helper.loadMaterialFromJson = (json) ->
   if json.map
     texture = helper.loadTextureFromJson json.map
     params.map = texture
-  directExtendObjProperties(params, json, ['color', 'transparent', 'opacity'])
+  directExtendObjProperties(params, json, ['version', 'color', 'transparent', 'opacity'])
   material = new materialClass(params)
   return material
 
-helper.loadWallFromJson = (json) ->
+helper.extendFrom = (des, src) ->
+  _.extend(des, src, des)
+  return des
+
+helper.loadWallFromJson = (_json) ->
+  json = helper.preprocessJsonResource(_json, 'wall')
   if json.type == 'basic'
     geom = new THREE.CubeGeometry json.width, json.height, json.depth
     material = helper.loadMaterialFromJson(json.material)
@@ -162,7 +174,8 @@ helper.loadWallFromJson = (json) ->
   else
     console.log 'unsupported yet'
 
-helper.loadLightFromJson = (json) ->
+helper.loadLightFromJson = (_json) ->
+  json = helper.preprocessJsonResource(_json, 'light')
   if json.type == 'directional'
     light = new THREE.DirectionalLight json.color, json.intensity, json.distance
   else if json.type == 'point'
@@ -172,8 +185,9 @@ helper.loadLightFromJson = (json) ->
   else
     false
   # TODO
+  helper.updateMeshFromJson(light, json)
+  helper.extendFrom(light, {meshType: 'light', name: _.uniqueId('light')})
   return light
-meshCount = 0
 helper.updateMeshFromJson = (mesh, json) ->
   if json.position
     mesh.position.set json.position.x, json.position.y, json.position.z
@@ -181,6 +195,14 @@ helper.updateMeshFromJson = (mesh, json) ->
     mesh.rotation.set json.rotation.x, json.rotation.y, json.rotation.z
   if json.scale
     mesh.scale.set json.scale.x, json.scale.y, json.scale.z
-  directExtendObjProperties(mesh, json, ['doubleSided', 'flipSided', 'castShadow', 'name', 'typeName'])
+  directExtendObjProperties(mesh, json,
+                            ['version', 'doubleSided', 'flipSided', 'castShadow', 'name', 'typeName', 'meshType',
+                             'meshName', 'typeName'])
   if mesh.name == undefined
-    mesh.name = "Mesh" + (++meshCount)
+    mesh.name = _.uniqueId('Mesh')
+
+helper.inArray = (item, array) ->
+  if _.indexOf(array, item) >= 0
+    return true
+  else
+    return false

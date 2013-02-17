@@ -2,12 +2,30 @@
 (function() {
 
   $(function() {
-    var Editor2DView, Editor3DView, EditorView, EditorViewport, EditorViewportDelegate, animate, editor, editor2dview, editor3dview, editor3dviewanimate, height, helper, static_url, viewport2d, viewport3d, viewportDelegate, width;
+    var Editor2DView, Editor3DView, EditorView, EditorViewport, EditorViewportProxy, SceneMeshsView, animate, editor, editor2dview, editor3dview, editor3dviewanimate, height, helper, static_url, viewport2d, viewport3d, viewportProxy, width;
     static_url = '/static/';
     window.scenes = [];
     window.floors = [];
     helper = window.helper;
     EditorViewport = Backbone.Model.extend({
+      afterAddObject: function(obj, options) {
+        var objects;
+        if (options == null) {
+          options = {};
+        }
+        objects = this.get('objects');
+        if (helper.inArray(obj, objects)) {
+          return false;
+        }
+        objects.push(obj);
+        helper.extendFrom(obj, options);
+        return this.trigger('meshAdded');
+      },
+      addToProxy: function(proxy) {
+        this.proxy = proxy;
+        proxy.addViewport(this);
+        return this;
+      },
       loadSceneFromJson: function(json) {
         this.loadFloorFromJson(json.floor);
         this.loadWallsFromJson(json.walls);
@@ -22,13 +40,13 @@
         return helper.loadSceneJson(sceneUrl, _.bind(this.loadSceneFromJson, this));
       },
       initialize: function() {
+        this.set('objects', []);
         this.initUtils();
         this.initScene();
         this.initDerectionHelp();
         this.initControls();
         this.initEvents();
-        this.initFloor();
-        return this.loadScene(static_url + 'resources/scenes/test.json');
+        return this.initFloor();
       },
       initFloor: function() {
         var floor, floorGeometry, floorMaterial, floorTexture, jsonLoader, proportion, scene;
@@ -47,10 +65,15 @@
         helper.scaleObject3D(floor, proportion);
         floor.doubleSided = true;
         scene.add(floor);
-        return this.set('floorboard', floor);
+        this.set('floorboard', floor);
+        return this.afterAddObject(floor, {
+          name: 'floorboard',
+          meshType: 'floor'
+        });
       },
       loadFloorFromJson: function(json) {
         var floor, floorboard, geom, material, oldFloor, scene;
+        json = helper.preprocessJsonResource(json, 'floor');
         if (this.get('floorboard') === void 0) {
           this.initFloor();
         }
@@ -67,7 +90,11 @@
         floor = new THREE.Mesh(geom, material);
         scene.add(floor);
         helper.updateMeshFromJson(floor, json);
-        return this.set('floor', floor);
+        this.set('floor', floor);
+        return this.afterAddObject(floor, {
+          name: 'floor',
+          meshType: 'floor'
+        });
       },
       loadFloor: function(textureUrl, width, height) {
         var floor, floorboard, geom, material, oldFloor, scene, texture;
@@ -95,17 +122,27 @@
         floor = new THREE.Mesh(geom, material);
         floor.doubleSided = true;
         scene.add(floor);
-        return this.set('floor', floor);
+        this.set('floor', floor);
+        return this.afterAddObject(floor, {
+          name: 'floor',
+          meshType: 'floor'
+        });
+      },
+      loadWallFromjson: function(json) {
+        var scene, wall;
+        scene = this.get('scene');
+        wall = helper.loadWallFromJson(json);
+        scene.add(wall);
+        return this.afterAddObject(wall);
       },
       loadWallsFromJson: function(json) {
-        var jsonLoader, scene, wall, wallJson, _i, _len, _results;
+        var jsonLoader, scene, wallJson, _i, _len, _results;
         jsonLoader = this.get('jsonLoader');
         scene = this.get('scene');
         _results = [];
         for (_i = 0, _len = json.length; _i < _len; _i++) {
           wallJson = json[_i];
-          wall = helper.loadWallFromJson(wallJson);
-          _results.push(scene.add(wall));
+          _results.push(this.loadWallFromjson(wallJson));
         }
         return _results;
       },
@@ -148,13 +185,18 @@
       },
       loadSkyboxFromJson: function(json) {
         var geom, material, scene, skybox;
+        json = helper.preprocessJsonResource(json, 'skybox');
         scene = this.get('scene');
         geom = new THREE.CubeGeometry(json.width, json.height, json.depth);
         material = helper.loadMaterialFromJson(json.material);
         skybox = new THREE.Mesh(geom, material);
         helper.updateMeshFromJson(skybox, json);
         scene.add(skybox);
-        return this.set('skybox', skybox);
+        this.set('skybox', skybox);
+        return this.afterAddObject(skybox, {
+          name: 'skybox',
+          meshType: 'skybox'
+        });
       },
       initSkybox: function() {
         var geom, material, scene, skybox;
@@ -169,9 +211,11 @@
         return this.set('skybox', skybox);
       },
       loadFogFromJson: function(json) {
-        var scene;
+        var fog, scene;
+        json = helper.preprocessJsonResource(json, 'fog');
         scene = this.get('scene');
-        return scene.fog = new THREE.FogExp2(json.color, json.density);
+        scene.fog = fog = new THREE.FogExp2(json.color, json.density);
+        return this.afterAddObject(fog);
       },
       initFog: function() {
         var scene;
@@ -218,7 +262,8 @@
           light = helper.loadLightFromJson(lightJson);
           lights.push(light);
           scene.add(light);
-          _results.push(helper.updateMeshFromJson(light, lightJson));
+          helper.updateMeshFromJson(light, lightJson);
+          _results.push(this.afterAddObject(light));
         }
         return _results;
       },
@@ -232,36 +277,141 @@
         return scene.add(new THREE.AmbientLight("#ff0000"));
       },
       onAddMeshByJson: function(meshJson) {
-        var mesh, scene;
+        var scene;
         scene = this.get('scene');
         switch (meshJson.meshType) {
           case 'wall':
-            mesh = helper.loadWallFromJson(meshJson);
-            return scene.add(mesh);
+            return this.loadWallFromjson(meshJson);
           case 'walls':
             return this.loadWallsFromJson(meshJson);
+          case 'floor':
+            return this.loadFloorFromJson(meshJson);
+          case 'fog':
+            return this.loadFogFromJson(meshJson);
+          case 'skybox':
+            return this.loadSkyboxFromJson(meshJson);
         }
       },
+      onMeshSelect: function(selected) {
+        this.selected = selected;
+        return this.trigger('meshSelected');
+      },
       initEvents: function() {
-        return this.on('addMeshByJson', this.onAddMeshByJson, this);
+        this.on('addMeshByJson', this.onAddMeshByJson, this);
+        return this.on('meshSelect', this.onMeshSelect, this);
+      },
+      getSelected: function() {
+        return this.selected;
       }
     });
-    EditorViewportDelegate = Backbone.Model.extend({
+    EditorViewportProxy = Backbone.Model.extend({
+      loadSceneFromJson: function(json) {
+        return this.despatchSceneJson(json);
+      },
+      loadScene: function(url) {
+        return helper.loadSceneJson(url, _.bind(this.loadSceneFromJson, this));
+      },
+      despatchSceneJson: function(json, from) {
+        var floorJson, fogJson, lightsJson, skyboxJson, wallsJson;
+        if (from == null) {
+          from = null;
+        }
+        floorJson = helper.preprocessJsonResource(json.floor, 'floor');
+        wallsJson = json.walls;
+        lightsJson = json.lights;
+        fogJson = helper.preprocessJsonResource(json.fog, 'fog');
+        skyboxJson = helper.preprocessJsonResource(json.skybox, 'skybox');
+        this.despatchMeshJson(floorJson, from);
+        this.despatchMeshJson(fogJson, from);
+        this.despatchMeshJson(skyboxJson, from);
+        this.despatchMeshArrayJson(wallsJson, 'wall', from);
+        return this.despatchMeshArrayJson(lightsJson, 'light', from);
+      },
+      despatchMeshJson: function(json, from) {
+        var viewport, _i, _len, _ref, _results;
+        if (from == null) {
+          from = null;
+        }
+        _ref = this.get('viewports');
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          viewport = _ref[_i];
+          if (viewport !== from) {
+            _results.push(viewport.trigger('addMeshByJson', json));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      },
+      despatchMeshArrayJson: function(array, type, from) {
+        var json, _i, _len, _results;
+        if (type == null) {
+          type = 'mesh';
+        }
+        if (from == null) {
+          from = null;
+        }
+        _results = [];
+        for (_i = 0, _len = array.length; _i < _len; _i++) {
+          json = array[_i];
+          helper.preprocessJsonResource(json, type);
+          _results.push(this.despatchMeshJson(json, from));
+        }
+        return _results;
+      },
       initialize: function() {
         this.set('viewports', []);
         return this.on('all', function() {
           var viewports, _arguments;
           _arguments = _.toArray(arguments);
+          if (_arguments[0].endsWith('ed')) {
+            return;
+          }
           viewports = this.get('viewports');
           return _.each(viewports, function(viewport) {
             return viewport.trigger.apply(viewport, _arguments);
           });
         });
       },
+      startListen: function() {
+        var viewport, viewports;
+        viewports = this.get('viewports');
+        if (viewports.length <= 0) {
+          return false;
+        }
+        viewport = viewports[0];
+        this.listenTo(viewport, 'meshAdded', function() {
+          return this.trigger('meshAdded');
+        });
+        this.listenTo(viewport, 'meshChanged', function() {
+          return this.trigger('meshChanged');
+        });
+        this.listenTo(viewport, 'meshRemoved', function() {
+          return this.trigger('meshRemoved');
+        });
+        this.listenTo(viewports[0], 'meshSelected', function() {
+          this.selected = viewports[0].getSelected();
+          return this.trigger('meshSelected');
+        });
+        return this.listenTo(viewports[1], 'meshSelected', function() {
+          this.selected = viewports[1].getSelected();
+          return this.trigger('meshSelected');
+        });
+      },
       addViewport: function(viewport) {
         var viewports;
         viewports = this.get('viewports');
         return viewports.push(viewport);
+      },
+      getObjects: function() {
+        var viewports;
+        viewports = this.get('viewports');
+        if (viewports) {
+          return viewports[0].get('objects');
+        } else {
+          return [];
+        }
       }
     });
     EditorView = Backbone.View.extend({
@@ -317,6 +467,7 @@
               intersectionPlane.position.copy(root.position);
               intersectionPlane.lookAt(_this.camera.position);
               console.log('mouse down: ', selected);
+              _this.handleSelected(selected);
               return _this.mousemoveAvailable = _this.mouseupavailable = true;
             }
           }
@@ -351,6 +502,9 @@
             }
           }
         });
+      },
+      handleSelected: function(selected) {
+        return this.model.trigger('meshSelect', selected);
       },
       update: function() {
         return this.renderOnce();
@@ -430,6 +584,56 @@
         return editor3dviewanimate(this);
       }
     });
+    SceneMeshsView = Backbone.View.extend({
+      initialize: function() {
+        this.items = [];
+        this.listenTo(this.model, 'meshAdded meshChanged meshRemoved', this.render);
+        this.listenTo(this.model, 'meshSelected', this.handleSelected);
+        return this.render();
+      },
+      handleSelected: function() {
+        var founded, item, selected, _i, _len, _ref;
+        selected = this.model.selected;
+        founded = false;
+        _ref = this.items;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          if (item.obj === selected || (selected.name !== '' && item.obj.name === selected.name)) {
+            item.$el.addClass('active');
+            founded = true;
+          } else {
+            item.$el.removeClass('active');
+          }
+        }
+        if (!founded && this.items.length > 0) {
+          return this.items[0].$el.addClass('active');
+        }
+      },
+      render: function() {
+        var i, item, listView, obj, objects, panel, str, _i, _ref;
+        objects = this.model.getObjects();
+        this.items = [];
+        panel = this.$(".meshs-list-panel");
+        listView = $("<ul></ul>");
+        listView.addClass('meshs-list');
+        for (i = _i = 0, _ref = objects.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          obj = objects[i];
+          str = '<li>' + (obj.meshType ? obj.meshType : 'Object3D') + ': ' + (obj.name ? obj.name : _.uniqueId('object3d')) + '</li>';
+          item = $(str);
+          this.items.push({
+            obj: obj,
+            el: item[0],
+            $el: item
+          });
+          if (i === 0) {
+            item.addClass('active');
+          }
+          listView.append(item);
+        }
+        panel.html('');
+        return panel.append(listView);
+      }
+    });
     animate = function(view) {
       requestAnimationFrame(function() {
         return animate(view);
@@ -447,11 +651,17 @@
       window.editor = {};
     }
     editor = window.editor;
-    viewport2d = new EditorViewport;
-    viewport3d = new EditorViewport;
-    viewportDelegate = new EditorViewportDelegate;
-    viewportDelegate.addViewport(viewport2d);
-    viewportDelegate.addViewport(viewport3d);
+    window.viewport2d = viewport2d = new EditorViewport({
+      name: 'viewport2d'
+    });
+    window.viewport3d = viewport3d = new EditorViewport({
+      name: 'viewport3d'
+    });
+    viewportProxy = new EditorViewportProxy;
+    viewport2d.addToProxy(viewportProxy);
+    viewport3d.addToProxy(viewportProxy);
+    viewportProxy.startListen();
+    viewportProxy.loadScene(static_url + 'resources/scenes/test.json');
     width = $(".editor_panel").width();
     height = $(".editor_panel").height();
     editor2dview = new Editor2DView({
@@ -468,15 +678,18 @@
     });
     editor['view2d'] = editor2dview;
     editor['view3d'] = editor3dview;
+    window.sceneMeshsView = new SceneMeshsView({
+      el: $(".scene.panel .scene-panel"),
+      model: viewportProxy
+    });
     return $(document).on('click', '.addToScene', function() {
-      var $_this, type, url, _this;
-      _this = this;
+      var $_this, type, url;
       $_this = $(this);
       type = $_this.attr('data-type');
       url = $_this.attr('data-url');
       if (_.indexOf(['wall'], type) >= 0) {
         return helper.getJSON(url, function(json) {
-          return viewportDelegate.trigger('addMeshByJson', json);
+          return viewportProxy.despatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
         });
       }
     });
