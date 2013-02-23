@@ -280,14 +280,12 @@ $(->
       this.listenTo(viewport, 'meshRemoved', ->
         this.trigger('meshRemoved')
       )
-      this.listenTo(viewports[0], 'meshSelected', ->
-        this.selected = viewports[0].getSelected()
-        this.trigger('meshSelected')
-      )
-      this.listenTo(viewports[1], 'meshSelected', ->
-        this.selected = viewports[1].getSelected()
-        this.trigger('meshSelected')
-      )
+      _.each(viewports, (m) ->
+        this.listenTo(m, 'meshSelected', ->
+          this.selected = m.getSelected()
+          this.trigger('meshSelected')
+        )
+      , this)
     addViewport: (viewport) ->
       viewports = this.get('viewports')
       viewports.push viewport
