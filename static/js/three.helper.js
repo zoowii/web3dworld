@@ -1,4 +1,6 @@
-$(function () {
+define(function (require, exports, module) {
+    var _ = require('underscore');
+
     var Set, defaultSceneJson, defaultSceneJsonUrl, directExtendObjProperties, helper, jsonStore, processLoadedSceneJson, static_url, store;
 
     if (window.helper === void 0) {
@@ -61,14 +63,14 @@ $(function () {
         axisWidth = 5;
         axisLenght = 5000;
         xUpD = new THREE.Mesh(new THREE.CubeGeometry(axisLenght, axisWidth, axisWidth), new THREE.MeshBasicMaterial({
-                                                                                                                        color: '#ff0000'
-                                                                                                                    }));
+            color: '#ff0000'
+        }));
         yUpD = new THREE.Mesh(new THREE.CubeGeometry(axisWidth, axisLenght, axisWidth), new THREE.MeshBasicMaterial({
-                                                                                                                        color: '#00ff00'
-                                                                                                                    }));
+            color: '#00ff00'
+        }));
         zUpD = new THREE.Mesh(new THREE.CubeGeometry(axisWidth, axisWidth, axisLenght), new THREE.MeshBasicMaterial({
-                                                                                                                        color: '#0000ff'
-                                                                                                                    }));
+            color: '#0000ff'
+        }));
         scene.add(xUpD);
         scene.add(yUpD);
         scene.add(zUpD);
@@ -150,23 +152,23 @@ $(function () {
             lastPosition.y = e.offsetY;
             return isMouseDown = true;
         }).mousemove(function (e) {
-                         var oldLastPosition;
-                         if (isMouseDown) {
-                             nowPosition.x = e.offsetX;
-                             nowPosition.y = e.offsetY;
-                             delta = {
-                                 x: nowPosition.x - lastPosition.x,
-                                 y: nowPosition.y - lastPosition.y
-                             };
-                             oldLastPosition = _.clone(lastPosition);
-                             lastPosition = _.clone(nowPosition);
-                             return handler(oldLastPosition, nowPosition, delta);
-                         }
-                     }).mouseup(function () {
-                                    return isMouseDown = false;
-                                }).mouseleave(function () {
-                                                  return isMouseDown = false;
-                                              });
+                var oldLastPosition;
+                if (isMouseDown) {
+                    nowPosition.x = e.offsetX;
+                    nowPosition.y = e.offsetY;
+                    delta = {
+                        x: nowPosition.x - lastPosition.x,
+                        y: nowPosition.y - lastPosition.y
+                    };
+                    oldLastPosition = _.clone(lastPosition);
+                    lastPosition = _.clone(nowPosition);
+                    return handler(oldLastPosition, nowPosition, delta);
+                }
+            }).mouseup(function () {
+                return isMouseDown = false;
+            }).mouseleave(function () {
+                return isMouseDown = false;
+            });
     };
 
     defaultSceneJson = null;
@@ -315,5 +317,7 @@ $(function () {
             return false;
         }
     };
+
+    _.extend(exports, helper);
 
 });
