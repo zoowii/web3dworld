@@ -124,7 +124,8 @@ define(function (require, exports, module) {
                     title: '场景 <button class="btn btn-small btn-inverse exportSceneObjects">导出对象</button>',
                     html: $("#scenePanelHtmlTmpl").html(),
                     collapsible: true,
-                    bodyCls: ['scene', 'panel']
+                    bodyCls: ['scene', 'panel'],
+                    overflowY: 'auto'
                 });
                 var controlPanel = Ext.create('Ext.panel.Panel', {
                     renderTo: 'control_panel',
