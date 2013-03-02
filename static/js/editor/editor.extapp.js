@@ -167,30 +167,34 @@ define(function (require, exports, module) {
                     var $wallsTable = $(wallDom).find('.walls-table');
                     var $wallsTableBody = $wallsTable.find("tbody");
                     var wallUrlsToAdd = [
-                        static_url + 'resources/walls/horizontalWall.json',
-                        static_url + 'resources/walls/verticalWall.json',
-                        static_url + 'resources/walls/squareWalls.json'
+                        {url: static_url + 'resources/walls/horizontalWall.json', type: 'wall'},
+                        {url: static_url + 'resources/walls/verticalWall.json', type: 'wall'},
+                        {url: static_url + 'resources/walls/squareWalls.json', type: 'walls'}
                     ];
                     var walls = [];
                     var runAfterWallsLoaded = _.after(wallUrlsToAdd.length, function () {
                         for (var i = 0; i < walls.length; ++i) {
-                            var wall = walls[i];
+                            var wallObj = walls[i];
+                            var wall = wallObj.json,
+                                type = wallObj.type;
                             var tr = $("<tr></tr>");
                             tr.append($("<td>" + (i + 1) + "</td>"));
                             tr.append($("<td><a href='" + wall.originUrl + "'>" + wall.typeName + "</a></td>"));
                             tr.append($("<td><img src='" + wall.thumbnailUrl + "'></td>"));
-                            var addBtn = $("<button class='addToScene btn btn-small btn-inverse' data-type='wall' data-url='" + wall.originUrl + "'>添加</button>");
+                            var addBtn = $("<button class='addToScene btn btn-small btn-inverse' data-type='" + type + "' data-url='" + wall.originUrl + "'>添加</button>");
                             var addBtnTd = $("<td></td>");
                             addBtnTd.append(addBtn);
                             tr.append(addBtnTd);
                             $wallsTableBody.append(tr);
                         }
                     });
-                    _.each(wallUrlsToAdd, function (url) {
+                    _.each(wallUrlsToAdd, function (obj) {
+                        var url = obj.url,
+                            type = obj.type;
                         helper.getJSON(url, function (json) {
                             var _json = _.clone(json);
                             _json.originUrl = url;
-                            walls.push(_json);
+                            walls.push({json: _json, type: type});
                             runAfterWallsLoaded();
                         })
                     });
@@ -229,7 +233,7 @@ define(function (require, exports, module) {
                         layout: 'fit',
                         items: infoInnerPanel
                     });
-                    if(title == undefined) {
+                    if (title == undefined) {
                         title = 'Info';
                     }
                     infoDialog.setTitle(title);

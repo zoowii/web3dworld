@@ -229,6 +229,9 @@ define(function (require, exports, module) {
             },
             onMeshMove: function(name, point) {
                 var mesh = this.getObject(name);
+                if(mesh == undefined) {
+                    return;
+                }
                 mesh.position.copy(point);
                 this.trigger('meshMoved', name, point);
             },

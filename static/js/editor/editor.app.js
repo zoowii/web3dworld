@@ -57,10 +57,21 @@ define(function (require, exports, module) {
             $_this = $(this);
             type = $_this.attr('data-type');
             url = $_this.attr('data-url');
-            if (_.indexOf(['wall'], type) >= 0) {
-                return helper.getJSON(url, function (json) {
-                    return viewportProxy.despatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
-                });
+            switch (type) {
+                case 'wall':
+                {
+                    helper.getJSON(url, function (json) {
+                        return viewportProxy.dispatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
+                    });
+                }
+                    break;
+                case 'walls':
+                {
+                    helper.getJSON(url, function (json) {
+                        return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
+                    });
+                }
+                    break;
             }
         });
         exports.viewportProxy = viewportProxy;

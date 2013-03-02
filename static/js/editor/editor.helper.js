@@ -243,7 +243,7 @@ define(function (require, exports, module) {
         if (json.type === 'basic') {
             materialClass = THREE.MeshBasicMaterial;
         } else {
-            materialClass = THREE.MeshBasicMaterial;
+            materialClass = THREE.MeshFaceMaterial;
         }
         params = {};
         if (json.map) {
@@ -351,10 +351,7 @@ define(function (require, exports, module) {
         switch (obj.meshType) {
             case 'wall':
             {
-                json.typeName = '墙';
-                json.thumbnailUrl = '';
-                json.type = obj.originJson.type;
-                json.thumbnailUrl = obj.originJson.thumbnailUrl;
+                directExtendObjProperties(json, obj.originJson, ['typeName', 'type', 'thumbnailUrl']);
                 directExtendObjProperties(json, obj, ['receiveShadow', 'doubleSided', 'castShadow', 'meshName']);
                 directExtendObjProperties(json, obj.geometry, ['width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments']);
                 json.material = helper.parseMaterialToJson(obj.material);

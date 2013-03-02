@@ -7,12 +7,12 @@ define(function(require, exports, module) {
     $(function() {
         var EditorViewportProxy = Backbone.Model.extend({
             loadSceneFromJson: function (json) {
-                return this.despatchSceneJson(json);
+                return this.dispatchSceneJson(json);
             },
             loadScene: function (url) {
                 return helper.loadSceneJson(url, _.bind(this.loadSceneFromJson, this));
             },
-            despatchSceneJson: function (json, from) {
+            dispatchSceneJson: function (json, from) {
                 var floorJson, fogJson, lightsJson, skyboxJson, wallsJson;
                 if (from == null) {
                     from = null;
@@ -22,14 +22,14 @@ define(function(require, exports, module) {
                 lightsJson = json.lights;
                 fogJson = helper.preprocessJsonResource(json.fog, 'fog');
                 skyboxJson = helper.preprocessJsonResource(json.skybox, 'skybox');
-                this.despatchMeshJson(floorJson, from);
-                this.despatchMeshJson(fogJson, from);
-                this.despatchMeshJson(skyboxJson, from);
-                this.despatchMeshArrayJson(wallsJson, 'wall', from);
-                this.despatchMeshArrayJson(lightsJson, 'light', from);
+                this.dispatchMeshJson(floorJson, from);
+                this.dispatchMeshJson(fogJson, from);
+                this.dispatchMeshJson(skyboxJson, from);
+                this.dispatchMeshArrayJson(wallsJson, 'wall', from);
+                this.dispatchMeshArrayJson(lightsJson, 'light', from);
                 return this;
             },
-            despatchMeshJson: function (json, from) {
+            dispatchMeshJson: function (json, from) {
                 var viewport, _i, _len, _ref, _results;
                 if (from == null) {
                     from = null;
@@ -46,7 +46,7 @@ define(function(require, exports, module) {
                 }
                 return this;
             },
-            despatchMeshArrayJson: function (array, type, from) {
+            dispatchMeshArrayJson: function (array, type, from) {
                 var json, _i, _len, _results;
                 if (type == null) {
                     type = 'mesh';
@@ -58,7 +58,7 @@ define(function(require, exports, module) {
                 for (_i = 0, _len = array.length; _i < _len; _i++) {
                     json = array[_i];
                     json = helper.preprocessJsonResource(json, type);
-                    _results.push(this.despatchMeshJson(json, from));
+                    _results.push(this.dispatchMeshJson(json, from));
                 }
                 return this;
             },

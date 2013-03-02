@@ -83,14 +83,14 @@ define(function (require, exports, module) {
                         if (intersects.length > 0) {
                             intersects[0].point.sub(offset);
                             if (picked.properties.isGizmo) {
-                                intersects[0].point.z = 0; // Only x, y direction can be moved
+                                intersects[0].point.z = picked.position.z; // Only x, y direction can be moved
 //                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
 //                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
                                 _this.dispatchMeshMove(picked.name, intersects[0].point);
                                 // TODO: use mouse move subject
 //                                console.log('mouse move subject1: ', picked.properties.gizmoSubject);
                             } else {
-                                intersects[0].point.z = 0; // Only x, y direction can be moved
+                                intersects[0].point.z = picked.position.z; // Only x, y direction can be moved
                                 // 移动选中的
 //                                picked.position.copy(intersects[0].point);
                                 _this.dispatchMeshMove(picked.name, intersects[0].point);

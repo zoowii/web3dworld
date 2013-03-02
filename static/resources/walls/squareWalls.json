@@ -5,6 +5,560 @@
     "typeName": "方形墙",
     "thumbnailUrl": "",
     "items": [
-
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -626.7136070625921,
+                "y": 154.67047635853606,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -148.816433122172,
+                "y": 626.1806478404712,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -458.43346280030727,
+                "y": 616.3801597281292,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -629.7325601905303,
+                "y": 464.35466970995117,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 154.72271424037197,
+                "y": 630.8920476453521,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 617.7315048806387,
+                "y": 457.9158276283701,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 452.73764805696914,
+                "y": 623.1319810772691,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 623.0237110563347,
+                "y": 154.81269323196815,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 623.0237110563347,
+                "y": -154.81269323196838,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 623.0237110563311,
+                "y": -460.5677623651032,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 452.7376480569691,
+                "y": -623.1319810772691,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": 158.5931549009783,
+                "y": -627.0212952101024,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -127.82775968412125,
+                "y": -627.0397273298519,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "verticalWall",
+            "width": 300,
+            "height": 30,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -425.8782108164735,
+                "y": -619.3174398500694,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        },
+        {
+            "meshType": "wall",
+            "typeName": "墙",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "receiveShadow": false,
+            "doubleSided": true,
+            "castShadow": true,
+            "meshName": "horizontalWall",
+            "width": 30,
+            "height": 300,
+            "depth": 500,
+            "widthSegments": 1,
+            "heightSegments": 1,
+            "depthSegments": 1,
+            "material": {
+                "type": "basic",
+                "color": "#ff0000",
+                "transparent": true,
+                "opacity": 0.5
+            },
+            "position": {
+                "x": -584.298808616021,
+                "y": -466.5758908159283,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }
     ]
 }
