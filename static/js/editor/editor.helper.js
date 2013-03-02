@@ -252,6 +252,7 @@ define(function (require, exports, module) {
         }
         directExtendObjProperties(params, json, ['version', 'color', 'transparent', 'opacity']);
         material = new materialClass(params);
+        material.originJson = json;
         return material;
     };
 
@@ -295,6 +296,7 @@ define(function (require, exports, module) {
     };
 
     helper.updateMeshFromJson = function (mesh, json) {
+        mesh.originJson = json;
         if (json.position) {
             mesh.position.set(json.position.x, json.position.y, json.position.z);
         }
@@ -315,6 +317,53 @@ define(function (require, exports, module) {
             return true;
         } else {
             return false;
+        }
+    };
+
+    helper.parseRGBToNumber = function (rgb) {
+        var r = rgb.r,
+            g = rgb.g,
+            b = rgb.b;
+        var color = r * 255 * 256 * 256 + g * 255 * 256 + b * 255;
+        var color16 = color.toString(16);
+        return '#' + color16;
+    };
+
+    helper.parseMaterialToJson = function (material) {
+        var json = {};
+        json.type = material.originJson.type;
+        json.color = helper.parseRGBToNumber(material.color);
+        directExtendObjProperties(json, material, ['transparent', 'opacity']);
+        return json;
+    };
+
+    helper.parseVector3ToObj = function (vector) {
+        var json = {};
+        json.x = vector.x;
+        json.y = vector.y;
+        json.z = vector.z;
+        return json;
+    }
+
+    helper.parseObject3DToJson = function (obj) {
+        var json = {};
+        json.meshType = obj.meshType;
+        switch (obj.meshType) {
+            case 'wall':
+            {
+                json.typeName = '墙';
+                json.thumbnailUrl = '';
+                json.type = obj.originJson.type;
+                json.thumbnailUrl = obj.originJson.thumbnailUrl;
+                directExtendObjProperties(json, obj, ['receiveShadow', 'doubleSided', 'castShadow', 'meshName']);
+                directExtendObjProperties(json, obj.geometry, ['width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments']);
+                json.material = helper.parseMaterialToJson(obj.material);
+                json.position = helper.parseVector3ToObj(obj.position);
+                json.rotation = helper.parseVector3ToObj(obj.rotation);
+                json.scale = helper.parseVector3ToObj(obj.scale);
+                console.log(obj);
+                return json;
+            }
         }
     };
 

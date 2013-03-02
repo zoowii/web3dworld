@@ -50,3 +50,7 @@
 .active {
     background: lightpink;
 }
+
+.meshs-list {
+    cursor: pointer;
+}

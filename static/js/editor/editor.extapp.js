@@ -2,7 +2,7 @@ define(function (require, exports, module) {
     require('editor.ui');
     var $ = require('jquery');
     var _ = require('underscore');
-    var helper = require('three.helper');
+    var helper = require('editor.helper');
     $(function () {
         Ext.application({
             name: 'Web3DHouseEditor',
@@ -121,7 +121,7 @@ define(function (require, exports, module) {
                 });
                 var scenePanel = Ext.create('Ext.panel.Panel', {
                     itemId: 'scenePanel',
-                    title: '场景',
+                    title: '场景 <button class="btn btn-small btn-inverse exportSceneObjects">导出对象</button>',
                     html: $("#scenePanelHtmlTmpl").html(),
                     collapsible: true,
                     bodyCls: ['scene', 'panel']
@@ -198,6 +198,7 @@ define(function (require, exports, module) {
                 }
 
                 loadResourcesToPanels();
+
                 function onAddPlane() {
 
                 }
@@ -214,7 +215,52 @@ define(function (require, exports, module) {
                     });
                 }
 
-//                            $.getScript('/static/js/editor.js'); // TODO: 使用模块化工具如require.js, sea.js等模块化从而避免这样做
+                function showInfo(text, title) {
+                    var infoInnerPanel = Ext.create('Ext.panel.Panel', {
+                        html: 'info',
+                        overflowX: 'auto',
+                        overflowY: 'auto'
+                    });
+
+                    var infoDialog = Ext.create('Ext.window.Window', {
+                        title: 'Info',
+                        height: 400,
+                        width: 600,
+                        layout: 'fit',
+                        items: infoInnerPanel
+                    });
+                    if(title == undefined) {
+                        title = 'Info';
+                    }
+                    infoDialog.setTitle(title);
+                    infoInnerPanel.html = text;
+                    infoDialog.show();
+                }
+
+                $(document).on('click', '.meshs-list li', function () {
+                    if ($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                    } else {
+                        $(this).addClass('active');
+                    }
+                });
+                $(".exportSceneObjects").click(function () {
+                    var temp1 = $(".meshs-list li.active");
+                    var objNames = _.map(temp1, function (ele) {
+                        var text = $(ele).html();
+                        var temp2 = _.map(text.split(':'), function (t) {
+                            return t.trim();
+                        });
+                        return {
+                            type: temp2[0],
+                            name: temp2[1]
+                        }
+                    });
+                    var editorApp = require('editor.app');
+                    var viewportProxy = editorApp.viewportProxy;
+                    var json = viewportProxy.exportObjectArrayToJson(objNames);
+                    showInfo(JSON.stringify(json), '导出对象');
+                });
 
             }
         });

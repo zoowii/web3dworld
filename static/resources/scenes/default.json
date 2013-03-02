@@ -5,8 +5,10 @@
         "name": "floor",
         "width": 2000,
         "height": 2000,
+        "depth": 4,
         "widthSegments": 10,
         "heightSegments ": 10,
+        "depthSegments": 1,
         "material": {
             "type": "basic",
             "map": {

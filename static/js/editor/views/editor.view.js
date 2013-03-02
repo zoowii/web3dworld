@@ -2,7 +2,7 @@ define(function (require, exports, module) {
     var static_url = '/static/';
     var $ = require('jquery');
     var _ = require('underscore');
-    var helper = require('three.helper');
+    var helper = require('editor.helper');
     var Backbone = require('backbone');
     $(function () {
         var EditorView = Backbone.View.extend({
@@ -79,18 +79,23 @@ define(function (require, exports, module) {
                         projector.unprojectVector(vector, _this.camera);
                         ray.set(_this.camera.position, vector.sub(_this.camera.position).normalize());
                         intersects = ray.intersectObject(intersectionPlane);
+                        // TODO: shouldn't move at the z direction
                         if (intersects.length > 0) {
                             intersects[0].point.sub(offset);
                             if (picked.properties.isGizmo) {
-                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
-                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
+                                intersects[0].point.z = 0; // Only x, y direction can be moved
+//                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
+//                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
+                                _this.dispatchMeshMove(picked.name, intersects[0].point);
                                 // TODO: use mouse move subject
-                                console.log('mouse move subject: ', picked.properties.gizmoSubject);
+//                                console.log('mouse move subject1: ', picked.properties.gizmoSubject);
                             } else {
+                                intersects[0].point.z = 0; // Only x, y direction can be moved
                                 // 移动选中的
-                                picked.position.copy(intersects[0].point);
+//                                picked.position.copy(intersects[0].point);
+                                _this.dispatchMeshMove(picked.name, intersects[0].point);
                                 // TODO: use mouse move subject
-                                console.log('mouse move subject: ', picked.properties.gizmoSubject);
+//                                console.log('mouse move subject2: ', picked.properties.gizmoSubject);
                             }
                             return _this.update();
                         }
@@ -108,6 +113,9 @@ define(function (require, exports, module) {
             },
             handleSelected: function (selected) {
                 return this.model.trigger('meshSelect', selected);
+            },
+            dispatchMeshMove: function(name, point) {
+                this.model.trigger('passMeshMove', name, point);
             },
             update: function () {
                 return this.renderOnce();

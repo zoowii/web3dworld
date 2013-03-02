@@ -17,7 +17,7 @@ define(function (require, exports, module) {
             $(".view_area").hide();
             return $(".edit_area").show();
         });
-        return $(".show_3d_btn").click(function () {
+        $(".show_3d_btn").click(function () {
             $(".edit_area").hide();
             return $(".view_area").show();
         });

@@ -2,7 +2,7 @@ define(function(require, exports, module) {
     var static_url = '/static/';
     var $ = require('jquery');
     var _ = require('underscore');
-    var helper = require('three.helper');
+    var helper = require('editor.helper');
     var Backbone = require('backbone');
     $(function() {
         var EditorViewportProxy = Backbone.Model.extend({
@@ -26,7 +26,8 @@ define(function(require, exports, module) {
                 this.despatchMeshJson(fogJson, from);
                 this.despatchMeshJson(skyboxJson, from);
                 this.despatchMeshArrayJson(wallsJson, 'wall', from);
-                return this.despatchMeshArrayJson(lightsJson, 'light', from);
+                this.despatchMeshArrayJson(lightsJson, 'light', from);
+                return this;
             },
             despatchMeshJson: function (json, from) {
                 var viewport, _i, _len, _ref, _results;
@@ -43,7 +44,7 @@ define(function(require, exports, module) {
                         _results.push(void 0);
                     }
                 }
-                return _results;
+                return this;
             },
             despatchMeshArrayJson: function (array, type, from) {
                 var json, _i, _len, _results;
@@ -56,14 +57,14 @@ define(function(require, exports, module) {
                 _results = [];
                 for (_i = 0, _len = array.length; _i < _len; _i++) {
                     json = array[_i];
-                    helper.preprocessJsonResource(json, type);
+                    json = helper.preprocessJsonResource(json, type);
                     _results.push(this.despatchMeshJson(json, from));
                 }
-                return _results;
+                return this;
             },
             initialize: function () {
                 this.set('viewports', []);
-                return this.on('all', function () {
+                this.on('all', function () {
                     var viewports, _arguments;
                     _arguments = _.toArray(arguments);
                     if (_arguments[0].endsWith('ed')) {
@@ -83,18 +84,21 @@ define(function(require, exports, module) {
                 }
                 viewport = viewports[0];
                 this.listenTo(viewport, 'meshAdded', function () {
-                    return this.trigger('meshAdded');
+                    this.trigger('meshAdded');
                 });
                 this.listenTo(viewport, 'meshChanged', function () {
-                    return this.trigger('meshChanged');
+                    this.trigger('meshChanged');
                 });
                 this.listenTo(viewport, 'meshRemoved', function () {
-                    return this.trigger('meshRemoved');
+                    this.trigger('meshRemoved');
                 });
-                return _.each(viewports, function (m) {
-                    return this.listenTo(m, 'meshSelected', function () {
+                this.listenTo(viewport, 'meshMoved', function(name, point) {
+                    this.trigger('meshMoved', name, point);
+                });
+                _.each(viewports, function (m) {
+                    this.listenTo(m, 'meshSelected', function () {
                         this.selected = m.getSelected();
-                        return this.trigger('meshSelected');
+                        this.trigger('meshSelected');
                     });
                 }, this);
             },
@@ -111,6 +115,14 @@ define(function(require, exports, module) {
                 } else {
                     return [];
                 }
+            },
+            exportObjectToJson: function(obj) {
+                var viewport = this.get('viewports')[0];
+                var object = viewport.getObject(obj.name);
+                return helper.parseObject3DToJson(object);
+            },
+            exportObjectArrayToJson: function(objs) {
+                return _.map(objs, function(obj) { return this.exportObjectToJson(obj); }, this);
             }
         });
         exports.EditorViewportProxy = EditorViewportProxy;

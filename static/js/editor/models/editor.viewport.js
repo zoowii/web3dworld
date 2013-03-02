@@ -2,22 +2,32 @@ define(function (require, exports, module) {
     var static_url = '/static/';
     var $ = require('jquery');
     var _ = require('underscore');
-    var helper = require('three.helper');
+    var helper = require('editor.helper');
     var Backbone = require('backbone');
     $(function () {
         var EditorViewport = Backbone.Model.extend({
             afterAddObject: function (obj, options) {
-                var objects;
                 if (options == null) {
                     options = {};
                 }
-                objects = this.get('objects');
+                var objects = this.get('objects');
                 if (helper.inArray(obj, objects)) {
                     return false;
                 }
                 objects.push(obj);
                 helper.extendFrom(obj, options);
-                return this.trigger('meshAdded');
+                this.trigger('meshAdded');
+                return this;
+            },
+            getObject: function(name) {
+                var objects = this.get('objects');
+                for(var i=0;i<objects.length;++i) {
+                    var obj = objects[i];
+                    if(obj.name == name) {
+                        return obj;
+                    }
+                }
+                return null;
             },
             addToProxy: function (proxy) {
                 this.proxy = proxy;
@@ -67,10 +77,11 @@ define(function (require, exports, module) {
                 floor.doubleSided = true;
                 scene.add(floor);
                 this.set('floorboard', floor);
-                return this.afterAddObject(floor, {
+                this.afterAddObject(floor, {
                     name: 'floorboard',
                     meshType: 'floor'
                 });
+                return this;
             },
             loadFloorFromJson: function (json) {
                 var floor, floorboard, geom, material, oldFloor, scene;
@@ -86,55 +97,24 @@ define(function (require, exports, module) {
                     scene.remove(oldFloor);
                     this.set('floor', void 0);
                 }
-                geom = new THREE.PlaneGeometry(json.width, json.height, json.widthSegments, json.heightSegments);
+                geom = new THREE.CubeGeometry(json.width, json.height, json.depth, json.widthSegments, json.heightSegments, json.depthSegments);
                 material = helper.loadMaterialFromJson(json.material);
                 floor = new THREE.Mesh(geom, material);
                 scene.add(floor);
                 helper.updateMeshFromJson(floor, json);
                 this.set('floor', floor);
-                return this.afterAddObject(floor, {
+                this.afterAddObject(floor, {
                     name: 'floor',
                     meshType: 'floor'
                 });
-            },
-            loadFloor: function (textureUrl, width, height) {
-                var floor, floorboard, geom, material, oldFloor, scene, texture;
-                if (width == null) {
-                    width = 2000;
-                }
-                if (height == null) {
-                    height = 2000;
-                }
-                scene = this.get('scene');
-                floorboard = this.get('floorboard');
-                floorboard.visible = false;
-                oldFloor = this.get('floor');
-                if (oldFloor !== void 0) {
-                    scene.remove(oldFloor);
-                    this.set('floor', void 0);
-                }
-                geom = new THREE.PlaneGeometry(width, height, 10, 10);
-                texture = THREE.ImageUtils.loadTexture(textureUrl);
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                texture.repeat.set(width / 50, height / 50);
-                material = new THREE.MeshBasicMaterial({
-                    map: texture
-                });
-                floor = new THREE.Mesh(geom, material);
-                floor.doubleSided = true;
-                scene.add(floor);
-                this.set('floor', floor);
-                return this.afterAddObject(floor, {
-                    name: 'floor',
-                    meshType: 'floor'
-                });
+                return this;
             },
             loadWallFromjson: function (json) {
-                var scene, wall;
-                scene = this.get('scene');
-                wall = helper.loadWallFromJson(json);
+                var scene = this.get('scene');
+                var wall = helper.loadWallFromJson(json);
                 scene.add(wall);
-                return this.afterAddObject(wall);
+                this.afterAddObject(wall);
+                return this;
             },
             loadWallsFromJson: function (json) {
                 var jsonLoader, scene, wallJson, _i, _len, _results;
@@ -145,45 +125,7 @@ define(function (require, exports, module) {
                     wallJson = json[_i];
                     _results.push(this.loadWallFromjson(wallJson));
                 }
-                return _results;
-            },
-            loadWall: function (geomUrl, textureUrl, proportion, rotation) {
-                var jsonLoader, scene;
-                if (proportion == null) {
-                    proportion = 1.0;
-                }
-                if (rotation == null) {
-                    rotation = {
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    };
-                }
-                jsonLoader = this.get('jsonLoader');
-                scene = this.get('scene');
-                return jsonLoader.load(geomUrl, function (geom) {
-                    var material, mesh, texture;
-                    texture = THREE.ImageUtils.loadTexture(textureUrl);
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                    texture.repeat.set(10, 10);
-                    material = new THREE.MeshBasicMaterial({
-                        // map: texture
-                        color: 0xff0000,
-                        transparent: true,
-                        opacity: 0.5
-                    });
-                    mesh = new THREE.Mesh(geom, material);
-                    mesh.receiveShadow = true;
-                    mesh.doubleSided = true;
-                    mesh.rotation.x = rotation.x;
-                    mesh.rotation.y = rotation.y;
-                    mesh.rotation.z = rotation.z;
-                    mesh.scale.x *= proportion;
-                    mesh.scale.y *= proportion;
-                    mesh.scale.z /= proportion;
-                    mesh.castShadow = true;
-                    return scene.add(mesh);
-                });
+                return this;
             },
             loadSkyboxFromJson: function (json) {
                 var geom, material, scene, skybox;
@@ -195,34 +137,19 @@ define(function (require, exports, module) {
                 helper.updateMeshFromJson(skybox, json);
                 scene.add(skybox);
                 this.set('skybox', skybox);
-                return this.afterAddObject(skybox, {
+                this.afterAddObject(skybox, {
                     name: 'skybox',
                     meshType: 'skybox'
                 });
-            },
-            initSkybox: function () {
-                var geom, material, scene, skybox;
-                scene = this.get('scene');
-                geom = new THREE.CubeGeometry(10000, 10000, 10000);
-                material = new THREE.MeshBasicMaterial({
-                    color: "#9999ff"
-                });
-                skybox = new THREE.Mesh(geom, material);
-                skybox.flipSided = true;
-                scene.add(skybox);
-                return this.set('skybox', skybox);
+                return this;
             },
             loadFogFromJson: function (json) {
                 var fog, scene;
                 json = helper.preprocessJsonResource(json, 'fog');
                 scene = this.get('scene');
                 scene.fog = fog = new THREE.FogExp2(json.color, json.density);
-                return this.afterAddObject(fog);
-            },
-            initFog: function () {
-                var scene;
-                scene = this.get('scene');
-                return scene.fog = new THREE.FogExp2("#9999ff", 0.00025);
+                this.afterAddObject(fog);
+                return this;
             },
             initDerectionHelp: function () {
                 // 绿色为 y 轴正方向
@@ -236,15 +163,15 @@ define(function (require, exports, module) {
                 selectionAxis.material.transparent = true;
                 selectionAxis.matrixAutoUpdate = false;
                 selectionAxis.visible = false;
-                return scene.add(selectionAxis);
+                scene.add(selectionAxis);
             },
             initUtils: function () {
-                return this.set('jsonLoader', new THREE.JSONLoader);
+                this.set('jsonLoader', new THREE.JSONLoader);
             },
             initScene: function () {
                 var scene;
                 scene = new THREE.Scene;
-                return this.set('scene', scene);
+                this.set('scene', scene);
             },
             initControls: function () {
                 var intersectionPlane, scene;
@@ -273,15 +200,6 @@ define(function (require, exports, module) {
                 }
                 return _results;
             },
-            initLight: function () {
-                var light, scene;
-                scene = this.get('scene');
-                light = new THREE.DirectionalLight("#ff0000", 1.0, 0);
-                this.set('light', light);
-                light.position.set(500, 250, 500);
-                scene.add(light);
-                return scene.add(new THREE.AmbientLight("#ff0000"));
-            },
             onAddMeshByJson: function (meshJson) {
                 var scene;
                 scene = this.get('scene');
@@ -296,16 +214,29 @@ define(function (require, exports, module) {
                         return this.loadFogFromJson(meshJson);
                     case 'skybox':
                         return this.loadSkyboxFromJson(meshJson);
+                    case 'light':
+                        return this.loadLightsFromJson(meshJson);
                     // else TODO
                 }
+                return this;
             },
             onMeshSelect: function (selected) {
                 this.selected = selected;
-                return this.trigger('meshSelected');
+                this.trigger('meshSelected');
             },
-            initEvents: function () {
+            onPassMeshMove: function(mesh, point) {
+                this.proxy.trigger('meshMove', mesh, point);
+            },
+            onMeshMove: function(name, point) {
+                var mesh = this.getObject(name);
+                mesh.position.copy(point);
+                this.trigger('meshMoved', name, point);
+            },
+           initEvents: function () {
                 this.on('addMeshByJson', this.onAddMeshByJson, this);
-                return this.on('meshSelect', this.onMeshSelect, this);
+                this.on('meshSelect', this.onMeshSelect, this);
+                this.on('passMeshMove', this.onPassMeshMove, this); // mesh movement event passed from View
+                this.on('meshMove', this.onMeshMove, this); // real mesh movement do here
             },
             getSelected: function () {
                 return this.selected;

@@ -23,16 +23,18 @@
 * 开发环境时使用sqlite数据库，数据库文件直接放在项目根目录中；
 * 开发环境的MongoDB使用名为web3dhouse的数据库并有用户名/密码为admin/admin的账户
 * 开发环境MongoDB配置方式
->下载MongoDB程序后，解压，进入MongoDB的bin目录，运行
+```JavaScript
+下载MongoDB程序后，解压，进入MongoDB的bin目录，运行
 mongod --dbpath=E:/data --rest (E:/data是存放数据的目录，可自定)
 启动MongoDB
 在运行mongo命令，进入MongoDB交互环境，运行：
 use web3dhouse
-db.system.addUser('admin', 'admin')
+db.addUser('admin', 'admin')
 Ctrl+C(关闭)
 然后Ctrl+C关闭之前的mongod进程。
 以后每次启动时执行
 mongod --dbpath=E:/data --rest -auth
 即可启动mongod了
+```
 
 * 开发环境中，以上配置好后，运行python application.py即可运行了

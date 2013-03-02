@@ -3,7 +3,7 @@ define(function (require, exports, module) {
     var $ = require('jquery');
     require('jquery.mousewheel');
     var _ = require('underscore');
-    var helper = require('three.helper');
+    var helper = require('editor.helper');
     var Backbone = require('backbone');
     var EditorViewport = require('editor.viewport').EditorViewport;
     var EditorViewportProxy = require('editor.viewportproxy').EditorViewportProxy;
@@ -63,5 +63,6 @@ define(function (require, exports, module) {
                 });
             }
         });
+        exports.viewportProxy = viewportProxy;
     });
 });

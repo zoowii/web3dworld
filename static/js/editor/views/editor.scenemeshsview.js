@@ -2,7 +2,7 @@ define(function (require, exports, module) {
     var static_url = '/static/';
     var $ = require('jquery');
     var _ = require('underscore');
-    var helper = require('three.helper');
+    var helper = require('editor.helper');
     var Backbone = require('backbone');
     $(function () {
         var SceneMeshsView = Backbone.View.extend({
