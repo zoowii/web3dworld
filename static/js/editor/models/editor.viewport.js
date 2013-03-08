@@ -19,6 +19,10 @@ define(function (require, exports, module) {
                 this.trigger('meshAdded');
                 return this;
             },
+            addMesh: function(mesh) {
+                var scene = this.get('scene');
+                scene.add(mesh);
+            },
             getObject: function(name) {
                 var objects = this.get('objects');
                 for(var i=0;i<objects.length;++i) {

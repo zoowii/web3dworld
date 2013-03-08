@@ -1,5 +1,9 @@
 {% extends 'layout/website.html' %}
 {% block body %}
+    <script type="text/javascript">
+    var static_url = '/static';
+    var resource_list_json_url = '{{ url_for('resource.json_list') }}';
+    </script>
     <div id="container_wrapper">
         <div class="container container-fluid">
             <div id="menubar_wrapper">
@@ -17,7 +21,7 @@
                         <div id="scenePanelHtmlTmpl">
                             <div class="scene-panel">
                                 <div class="meshs-list-panel">
-                               </div>
+                                </div>
                             </div>
                         </div>
                         <div id="propertyPanelHtmlTmpl">
@@ -38,6 +42,22 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div id="importObjectPanelHtmlTmpl">
+                            <div class="panel">
+                                <div class="control_panel">
+                                    <a href="{{ url_for('resource.index') }}" target="_blank">上传资源</a>
+                                </div>
+                                <div class="geometry_list">
+                                    <table class="resource_list_table table table-striped table-bordered">
+                                        <thead>
+                                            <th>#</th> <th>Name</th> <th>Tags</th> <th>Type</th> <th></th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="span8 edit-view-area">
@@ -53,5 +73,6 @@
     </div>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/editor.css') }}">
     <script type="text/javascript" src="{{ url_for('static', filename='js/lib/signals.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/require.js') }}" data-main="{{ url_for('static', filename='js/editor.main.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/require.js') }}"
+            data-main="{{ url_for('static', filename='js/editor.main.js') }}"></script>
 {% endblock %}

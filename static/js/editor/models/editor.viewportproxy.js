@@ -29,6 +29,18 @@ define(function(require, exports, module) {
                 this.dispatchMeshArrayJson(lightsJson, 'light', from);
                 return this;
             },
+            dispathGeometryOriginJson: function(json) {
+                var _this = this;
+                helper.createObject3DFromJson(json, function(geom) {
+                    var mesh = new THREE.Mesh(geom, new THREE.MeshFaceMaterial);
+                    mesh = helper.updateOriginMeshFromJson(mesh, json);
+                    // TODO: bugs here
+                    var viewports = _this.get('viewports');
+                    _.each(viewports, function(viewport) {
+                        viewport.addMesh(mesh);
+                    });
+                });
+            },
             dispatchMeshJson: function (json, from) {
                 var viewport, _i, _len, _ref, _results;
                 if (from == null) {

@@ -63,14 +63,14 @@ define(function (require, exports, module) {
         axisWidth = 5;
         axisLenght = 5000;
         xUpD = new THREE.Mesh(new THREE.CubeGeometry(axisLenght, axisWidth, axisWidth), new THREE.MeshBasicMaterial({
-            color: '#ff0000'
-        }));
+                                                                                                                        color: '#ff0000'
+                                                                                                                    }));
         yUpD = new THREE.Mesh(new THREE.CubeGeometry(axisWidth, axisLenght, axisWidth), new THREE.MeshBasicMaterial({
-            color: '#00ff00'
-        }));
+                                                                                                                        color: '#00ff00'
+                                                                                                                    }));
         zUpD = new THREE.Mesh(new THREE.CubeGeometry(axisWidth, axisWidth, axisLenght), new THREE.MeshBasicMaterial({
-            color: '#0000ff'
-        }));
+                                                                                                                        color: '#0000ff'
+                                                                                                                    }));
         scene.add(xUpD);
         scene.add(yUpD);
         scene.add(zUpD);
@@ -152,23 +152,23 @@ define(function (require, exports, module) {
             lastPosition.y = e.offsetY;
             return isMouseDown = true;
         }).mousemove(function (e) {
-                var oldLastPosition;
-                if (isMouseDown) {
-                    nowPosition.x = e.offsetX;
-                    nowPosition.y = e.offsetY;
-                    delta = {
-                        x: nowPosition.x - lastPosition.x,
-                        y: nowPosition.y - lastPosition.y
-                    };
-                    oldLastPosition = _.clone(lastPosition);
-                    lastPosition = _.clone(nowPosition);
-                    return handler(oldLastPosition, nowPosition, delta);
-                }
-            }).mouseup(function () {
-                return isMouseDown = false;
-            }).mouseleave(function () {
-                return isMouseDown = false;
-            });
+                         var oldLastPosition;
+                         if (isMouseDown) {
+                             nowPosition.x = e.offsetX;
+                             nowPosition.y = e.offsetY;
+                             delta = {
+                                 x: nowPosition.x - lastPosition.x,
+                                 y: nowPosition.y - lastPosition.y
+                             };
+                             oldLastPosition = _.clone(lastPosition);
+                             lastPosition = _.clone(nowPosition);
+                             return handler(oldLastPosition, nowPosition, delta);
+                         }
+                     }).mouseup(function () {
+                                    return isMouseDown = false;
+                                }).mouseleave(function () {
+                                                  return isMouseDown = false;
+                                              });
     };
 
     defaultSceneJson = null;
@@ -236,6 +236,43 @@ define(function (require, exports, module) {
             options.name = _.uniqueId(options.meshType);
         }
         return _.extend({}, options, json);
+    };
+
+    var jsonLoader = new THREE.JSONLoader;
+    helper.jsonLoad3D = function (url, callback) {
+        jsonLoader.load(url, callback);
+    };
+
+    helper.createObject3DFromJson = function (json, callback) {
+        jsonLoader.createModel(json, function (geom) {
+            geom = helper.updateOriginGeometryFromJson(geom, json);
+            callback(geom);
+        });
+    };
+
+    helper.updateOriginGeometryFromJson = function (geom, json) {
+        geom['__type__'] = 'origin';
+        geom['__from__'] = json;
+        return geom;
+    };
+
+    helper.updateOriginMeshFromJson = function (mesh, json) {
+        mesh['__type__'] = 'origin';
+        mesh['__from__'] = json;
+        if (mesh.name === undefined) {
+            mesh.name = helper.uniqueId('mesh');
+        }
+        return mesh;
+    };
+
+    helper.preprocessGeometryOriginJson = function (json) {
+        if (json.originJson == undefined) {
+            json.originJson = {
+                __type__: '__origin__',
+                __meshType__: '__geometry__'
+            };
+        }
+        return json;
     };
 
     helper.loadMaterialFromJson = function (json) {
@@ -362,6 +399,10 @@ define(function (require, exports, module) {
                 return json;
             }
         }
+    };
+
+    helper.getUrlForResource = function (name) {
+        return '/admin/resource/get_by_name/' + name;
     };
 
     _.extend(exports, helper);

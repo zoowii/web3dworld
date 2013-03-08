@@ -103,6 +103,32 @@ define(function (require, exports, module) {
                             toolbar.getComponent('disselectMenuItem').hide();
                         }
                     },
+                    {
+                        itemId: 'importObjectMenuItem',
+                        text: '导入对象',
+                        handler: function() {
+                            var importObjHtml = $('#importObjectPanelHtmlTmpl').html();
+                            var $html = $(showInfo(importObjHtml, '导入对象').getEl().dom);
+                            helper.getJSON(resource_list_json_url, function(json) {
+                                var $tbody = $html.find('.resource_list_table tbody');
+                                $tbody.html('');
+                                for(var i=0;i<json.length;++i) {
+                                    var item = json[i];
+                                    var $tr = $("<tr></tr>");
+                                    $tr.append("<td>" + item.id + "</td>");
+                                    $tr.append("<td class='resource-name'>" + item.name + "</td>");
+                                    $tr.append("<td>" + JSON.stringify(item.tags) + "</td>");
+                                    $tr.append("<td>" + item.type + "</td>");
+                                    var $btnTd = $("<td></td>");
+                                    var $importBtn = $("<button>导入</button>");
+                                    $importBtn.addClass('btn btn-primary btn-small import-btn');
+                                    $btnTd.append($importBtn);
+                                    $tr.append($btnTd);
+                                    $tbody.append($tr);
+                                }
+                            });
+                        }
+                    },
                     '->',
                     '<a href="#">Help</a>',
                     '<a href="#">About</a>'
@@ -240,6 +266,7 @@ define(function (require, exports, module) {
                     infoDialog.setTitle(title);
                     infoInnerPanel.html = text;
                     infoDialog.show();
+                    return infoDialog;
                 }
 
                 $(document).on('click', '.meshs-list li', function () {

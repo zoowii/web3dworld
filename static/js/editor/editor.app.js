@@ -74,6 +74,14 @@ define(function (require, exports, module) {
                     break;
             }
         });
+        $(document).on('click', '.import-btn', function() {
+            var name = $(this).parents('tr').find('.resource-name').html();
+            var resource_url = helper.getUrlForResource(name);
+            helper.getJSON(resource_url, function(json) {
+                viewportProxy.dispathGeometryOriginJson(json);
+            });
+        });
+
         exports.viewportProxy = viewportProxy;
     });
 });
