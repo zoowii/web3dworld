@@ -30,15 +30,10 @@ define(function(require, exports, module) {
                 return this;
             },
             dispathGeometryOriginJson: function(json) {
-                var _this = this;
-                helper.createObject3DFromJson(json, function(geom) {
-                    var mesh = new THREE.Mesh(geom, new THREE.MeshFaceMaterial);
-                    mesh = helper.updateOriginMeshFromJson(mesh, json);
-                    // TODO: bugs here
-                    var viewports = _this.get('viewports');
-                    _.each(viewports, function(viewport) {
-                        viewport.addMesh(mesh);
-                    });
+                var viewports = this.get('viewports');
+                json = helper.preprocessGeometryOriginJson(json);
+                _.each(viewports, function(viewport) {
+                    viewport.addOriginGeometryFromJson(json);
                 });
             },
             dispatchMeshJson: function (json, from) {

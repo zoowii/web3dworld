@@ -22,6 +22,15 @@ define(function (require, exports, module) {
             addMesh: function(mesh) {
                 var scene = this.get('scene');
                 scene.add(mesh);
+                return this.afterAddObject(mesh);
+            },
+            addOriginGeometryFromJson: function(json) {
+                var _this = this;
+                helper.createObject3DFromJson(json, function(geom) {
+                    var mesh = new THREE.Mesh(geom, new THREE.MeshBasicMaterial);
+                    mesh = helper.updateOriginMeshFromJson(mesh, json);
+                    _this.addMesh(mesh);
+                });
             },
             getObject: function(name) {
                 var objects = this.get('objects');

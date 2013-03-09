@@ -10,6 +10,7 @@ define(function (require, exports, module) {
     var Editor2DView = require('editor.2dview').Editor2DView;
     var Editor3DView = require('editor.3dview').Editor3DView;
     var SceneMeshsView = require('editor.scenemeshsview').SceneMeshsView;
+    var EditorPropertyView = require('editor.propertyview').EditorPropertyView;
     $(function () {
         var editor, editor2dview, editor3dview, height, viewport2d, viewport3d, viewportProxy, width;
         var static_url = '/static/';
@@ -47,8 +48,12 @@ define(function (require, exports, module) {
         });
         editor['view2d'] = editor2dview;
         editor['view3d'] = editor3dview;
-        window.sceneMeshsView = new SceneMeshsView({
+        var sceneMeshsView = new SceneMeshsView({
             el: $(".scene.panel .scene-panel"),
+            model: viewportProxy
+        });
+        var meshPropertyView = new EditorPropertyView({
+            el: $(".property.panel .property-panel"),
             model: viewportProxy
         });
         // init dom events
@@ -77,7 +82,7 @@ define(function (require, exports, module) {
         $(document).on('click', '.import-btn', function() {
             var name = $(this).parents('tr').find('.resource-name').html();
             var resource_url = helper.getUrlForResource(name);
-            helper.getJSON(resource_url, function(json) {
+            helper.uncacheGetJSON(resource_url, function(json) {
                 viewportProxy.dispathGeometryOriginJson(json);
             });
         });

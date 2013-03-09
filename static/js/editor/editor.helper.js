@@ -26,6 +26,14 @@ define(function (require, exports, module) {
         }
     };
 
+    // get json with no cache
+    helper.uncacheGetJSON = function(url, handler) {
+        return $.getJSON(url, function (json) {
+            jsonStore[url] = json;
+            return handler(json);
+        });
+    };
+
     helper.storeSet = function (name, obj) {
         return store[name] = obj;
     };
@@ -259,8 +267,11 @@ define(function (require, exports, module) {
     helper.updateOriginMeshFromJson = function (mesh, json) {
         mesh['__type__'] = 'origin';
         mesh['__from__'] = json;
-        if (mesh.name === undefined) {
-            mesh.name = helper.uniqueId('mesh');
+        if (mesh.name === undefined || mesh.name == '') {
+            if(json.originJson['__name__'] === undefined) {
+                json.originJson['__name__'] = _.uniqueId('mesh');
+            }
+            mesh.name = json.originJson['__name__'];
         }
         return mesh;
     };
@@ -269,7 +280,8 @@ define(function (require, exports, module) {
         if (json.originJson == undefined) {
             json.originJson = {
                 __type__: '__origin__',
-                __meshType__: '__geometry__'
+                __meshType__: '__geometry__',
+                __name__: _.uniqueId('mesh')
             };
         }
         return json;

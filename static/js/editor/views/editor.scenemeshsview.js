@@ -10,13 +10,13 @@ define(function (require, exports, module) {
                 this.items = [];
                 this.listenTo(this.model, 'meshAdded meshChanged meshRemoved', this.render);
                 this.listenTo(this.model, 'meshSelected', this.handleSelected);
-                return this.render();
+                this.render();
             },
             handleSelected: function () {
-                var founded, item, selected, _i, _len, _ref;
-                selected = this.model.selected;
-                founded = false;
-                _ref = this.items;
+                var item, _i, _len;
+                var selected = this.model.selected;
+                var founded = false;
+                var _ref = this.items;
                 for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                     item = _ref[_i];
                     if (item.obj === selected || (selected.name !== '' && item.obj.name === selected.name)) {
@@ -27,7 +27,7 @@ define(function (require, exports, module) {
                     }
                 }
                 if (!founded && this.items.length > 0) {
-                    return this.items[0].$el.addClass('active');
+                    this.items[0].$el.addClass('active');
                 }
             },
             render: function () {

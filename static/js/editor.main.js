@@ -13,6 +13,7 @@ require.config({
         "editor.2dview": 'editor/views/editor.2dview',
         "editor.3dview": 'editor/views/editor.3dview',
         "editor.scenemeshsview": 'editor/views/editor.scenemeshsview',
+        "editor.propertyview": 'editor/views/editor.propertyview',
         "editor.viewport": 'editor/models/editor.viewport',
         "editor.viewportproxy": 'editor/models/editor.viewportproxy'
     },

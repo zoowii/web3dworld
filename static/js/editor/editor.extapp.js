@@ -143,7 +143,9 @@ define(function (require, exports, module) {
                     itemId: 'propertyPanel',
                     title: '属性',
                     html: $("#propertyPanelHtmlTmpl").html(),
-                    collapsible: true
+                    collapsible: true,
+                    bodyCls: ['property', 'panel'],
+                    overflowY: 'auto'
                 });
                 var scenePanel = Ext.create('Ext.panel.Panel', {
                     itemId: 'scenePanel',
