@@ -74,7 +74,7 @@ define(function(require, exports, module) {
                 this.on('all', function () {
                     var viewports, _arguments;
                     _arguments = _.toArray(arguments);
-                    if (_arguments[0].endsWith('ed')) {
+                    if (helper.endsWith(_arguments[0], 'ed')) {
                         return;
                     }
                     viewports = this.get('viewports');

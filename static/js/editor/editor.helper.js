@@ -42,6 +42,10 @@ define(function (require, exports, module) {
         return store[name];
     };
 
+    helper.endsWith = function(str, end) {
+        return _.isString(str) && str.length === str.indexOf(end) + end.length;
+    };
+
     helper.scaleObject3D = function (mesh, proportion) {
         if (proportion == null) {
             proportion = 1.0;
