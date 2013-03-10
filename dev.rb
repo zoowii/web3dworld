@@ -8,6 +8,10 @@ tasks = `tasklist|grep mongod`
 task = tasks[0...6]
 $mongod = dir + '/mongod'
 def start_mongod(dbpath = 'E:/data')
+  lock_path = dbpath + '/mongod.lock'
+  if File::exists?(lock_path)
+    File::delete(lock_path)
+  end
   t = Thread.new { system "\"#{$mongod}\" --dbpath=#{dbpath} --rest -auth" }
   sleep(5)
 end
