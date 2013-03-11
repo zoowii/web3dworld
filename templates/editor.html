@@ -1,8 +1,8 @@
 {% extends 'layout/website.html' %}
 {% block body %}
     <script type="text/javascript">
-    var static_url = '/static';
-    var resource_list_json_url = '{{ url_for('resource.json_list') }}';
+        var static_url = '/static';
+        var resource_list_json_url = '{{ url_for('resource.json_list') }}';
     </script>
     <div id="container_wrapper">
         <div class="container container-fluid">
@@ -24,15 +24,51 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="editControlHtmlTmpl">
+                            <div class="simple edit-control">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>" valueType="<%= type %>">
+                                    <span origin-data="<%= name %>" class="property-name label label-inverse"><%= name %>: </span>
+                                    <input class="span8" origin-data="<%= value %>" type="text" value="<%= value %>">
+                                </div>
+                            </div>
+                            <div class="boolean edit-control">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>" valueType="<%= type %>">
+                                    <div class="combobox-area"></div>
+                                </div>
+                            </div>
+                            <div class="vector3 edit-control">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>" valueType="<%= type %>">
+                                <span class="property-name label label-inverse"
+                                      origin-data="<%= name %>"><%= name %>:</span>
+                                    <span class="label label-warning">x</span>:
+                                    <input name-data="x" origin-data="<%= value.x %>" class="span2" type="number"
+                                           value="<%= value.x %>">
+                                    <span class="label label-info">y</span>:
+                                    <input name-data="y" origin-data="<%= value.y %>" class="span2" type="number"
+                                           value="<%= value.y %>">
+                                    <span class="label label-success">z</span>:
+                                    <input name-data="z" origin-data="<%= value.z %>" class="span2" type="number"
+                                           value="<%= value.z %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="propertyPanelContentHtmlTmpl">
+                            <div><span class="label label-inverse">名称</span>：<span class="label label-success"><%- mesh.name %></span>
+                            </div>
+                            <hr>
+                            <div class="property-control-area">
+                                <button class="btn btn-inverse delete">Delete</button>
+                            </div>
+                            <hr>
+                            <div class="property-list">
+
+                            </div>
+                            <hr>
+                            <div class="placeholder placeholder-height-100"></div>
+                        </div>
                         <div id="propertyPanelHtmlTmpl">
                             <div class="property-panel">
 
-                            </div>
-                            <div class="property-panel-content-tmpl template" style="display: none">
-                                <div>名称：<span><%- mesh.name %></span></div>
-                                <% for(var property in mesh) { %>
-                                <%- mesh[property] %>
-                                <% } %>
                             </div>
                         </div>
                         <div id="wallsPanelHtmlTmpl">
@@ -58,7 +94,11 @@
                                 <div class="geometry_list">
                                     <table class="resource_list_table table table-striped table-bordered">
                                         <thead>
-                                            <th>#</th> <th>Name</th> <th>Tags</th> <th>Type</th> <th></th>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Tags</th>
+                                        <th>Type</th>
+                                        <th></th>
                                         </thead>
                                         <tbody>
                                         </tbody>

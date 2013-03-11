@@ -86,6 +86,9 @@ define(function (require, exports, module) {
                 viewportProxy.dispathGeometryOriginJson(json);
             });
         });
+//		$(document).on('keyup', '.property-panel .edit-control-row input', _.debounce(function() {
+//			console.log(this);
+//		}, 300));
 
         exports.viewportProxy = viewportProxy;
     });

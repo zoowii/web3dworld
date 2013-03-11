@@ -6,9 +6,8 @@ define(function (require, exports, module) {
 	var Backbone = require('backbone');
 	$(function () {
 		var EditorPropertyView = Backbone.View.extend({
+														  template: _.template(_.unescape($("#propertyPanelContentHtmlTmpl").html())),
 														  initialize: function () {
-															  var tmplStr = _.unescape(this.$el.parent().children('.property-panel-content-tmpl').html());
-															  this.template = _.template(tmplStr);
 															  this.listenTo(this.model, 'meshSelected', this.handleSelected);
 															  this.render();
 														  },
@@ -17,14 +16,22 @@ define(function (require, exports, module) {
 															  this.render();
 														  },
 														  render: function () {
-															  // TODO
 															  if (this.model.selected) {
-																  var data = {mesh: this.model.selected};
+																  var selected = this.model.selected;
+																  var data = {mesh: selected};
 																  this.$el.html(this.template(data));
+																  for (var property in selected) {
+																	  var view = helper.genControlForProperty(selected, property, selected[property]);
+																	  if (view) {
+																		  this.$(".property-list").append(view.el);
+																	  }
+																  }
+																  // TODO: delete function
 															  }
-//																  this.$el.html(this.model.selected.name);
 														  }
 													  });
 		exports.EditorPropertyView = EditorPropertyView;
+		exports.editableProperties = ['position', 'scale', 'rotation', 'meshName', 'type', 'meshType', 'typeName', 'title', 'text',
+			'visible', 'castShadow', 'receiveShadow', 'useQuaternion', 'quaternion', 'up', 'opacity', 'translate', 'material', 'geometry'];
 	});
 });

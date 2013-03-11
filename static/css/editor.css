@@ -54,3 +54,7 @@
 .meshs-list {
     cursor: pointer;
 }
+
+.property-panel .property-list {
+    min-height: 400px;
+}
