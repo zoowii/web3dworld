@@ -69,6 +69,13 @@ define(function(require, exports, module) {
                 }
                 return this;
             },
+            dispathSimpleGeometry: function(type) {
+                var viewports = this.get('viewports');
+                var meshName = _.uniqueId(type);
+                _.each(viewports, function(viewport) {
+                    viewport.trigger('addSimpleGeometry', type, meshName);
+                });
+            },
             initialize: function () {
                 this.set('viewports', []);
                 this.on('all', function () {

@@ -20,12 +20,10 @@ define(function (require, exports, module) {
                             menu: new Ext.menu.Menu({
                                 ignoreParentClicks: true,
                                 items: [
-                                    {text: '平面', handler: function () {
-                                        console.log('plane')
-                                    }},
-                                    {text: '长方体'},
-                                    {text: '球体'},
-                                    {text: '圆柱体'}
+                                    {text: '平面', handler: onAddPlane},
+                                    {text: '长方体', handler: onAddCube},
+                                    {text: '球体', handler: onAddSphere},
+                                    {text: '圆柱体', handler: onAddCylinder}
                                 ]
                             })
                         },
@@ -233,7 +231,24 @@ define(function (require, exports, module) {
                 loadResourcesToPanels();
 
                 function onAddPlane() {
+                    addSimpleGeometry('plane');
+                }
 
+                function onAddCube() {
+                    addSimpleGeometry('cube');
+                }
+
+                function onAddSphere() {
+                    addSimpleGeometry('sphere');
+                }
+
+                function onAddCylinder() {
+                    addSimpleGeometry('cylinder');
+                }
+
+                function addSimpleGeometry(type) {
+                    var viewportProxy = require('editor.app').viewportProxy;
+                    viewportProxy.dispathSimpleGeometry(type);
                 }
 
                 function onAddWall() {

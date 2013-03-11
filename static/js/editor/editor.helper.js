@@ -322,6 +322,7 @@ define(function (require, exports, module) {
             material = helper.loadMaterialFromJson(json.material);
             mesh = new THREE.Mesh(geom, material);
             helper.updateMeshFromJson(mesh, json);
+            mesh.position.z += 200;
             return mesh;
         } else {
             return console.log('unsupported yet');
@@ -361,7 +362,11 @@ define(function (require, exports, module) {
         }
         directExtendObjProperties(mesh, json, ['version', 'doubleSided', 'flipSided', 'castShadow', 'name', 'typeName', 'meshType', 'meshName', 'typeName']);
         if (mesh.name === void 0) {
-            return mesh.name = _.uniqueId('Mesh');
+            if(json.name) {
+                mesh.name = json.name;
+            } else {
+                mesh.name = _.uniqueId('Mesh');
+            }
         }
     };
 

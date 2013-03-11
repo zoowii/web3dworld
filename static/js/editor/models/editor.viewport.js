@@ -14,6 +14,9 @@ define(function (require, exports, module) {
                 if (helper.inArray(obj, objects)) {
                     return false;
                 }
+                if(obj.up) {
+                    obj.up.set(0, 0, 1);
+                }
                 objects.push(obj);
                 helper.extendFrom(obj, options);
                 this.trigger('meshAdded');
@@ -242,17 +245,40 @@ define(function (require, exports, module) {
             },
             onMeshMove: function(name, point) {
                 var mesh = this.getObject(name);
-                if(mesh == undefined) {
+                if(mesh == undefined || mesh.position == undefined) {
                     return;
                 }
                 mesh.position.copy(point);
                 this.trigger('meshMoved', name, point);
+            },
+            onAddSimpleGeometry: function(type, meshName) {
+                var scene = this.get('scene');
+                var geom = null;
+                switch(type) {
+                    case 'plane': geom = new THREE.PlaneGeometry(200, 200); break;
+                    case 'cube': geom = new THREE.CubeGeometry(200, 200, 200); break
+                    case 'sphere': geom = new THREE.SphereGeometry(); break;
+                    case 'cylinder': geom = new THREE.CylinderGeometry(50, 50, 200); break;
+                    default: throw new Error('Unknown simple geometry type: ' + type);
+                }
+                var material = new THREE.MeshBasicMaterial();
+                var mesh = new THREE.Mesh(geom, material);
+                helper.updateMeshFromJson(mesh, {
+                    name: meshName,
+                    meshType: type,
+                    typeName: type,
+                    meshName: meshName
+                });
+                mesh.position.z += 100;
+                scene.add(mesh);
+                this.afterAddObject(mesh);
             },
            initEvents: function () {
                 this.on('addMeshByJson', this.onAddMeshByJson, this);
                 this.on('meshSelect', this.onMeshSelect, this);
                 this.on('passMeshMove', this.onPassMeshMove, this); // mesh movement event passed from View
                 this.on('meshMove', this.onMeshMove, this); // real mesh movement do here
+               this.on('addSimpleGeometry', this.onAddSimpleGeometry, this);
             },
             getSelected: function () {
                 return this.selected;

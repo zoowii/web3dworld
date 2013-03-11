@@ -25,7 +25,15 @@
                             </div>
                         </div>
                         <div id="propertyPanelHtmlTmpl">
-                            <div class="property-panel">Property</div>
+                            <div class="property-panel">
+
+                            </div>
+                            <div class="property-panel-content-tmpl template" style="display: none">
+                                <div>名称：<span><%- mesh.name %></span></div>
+                                <% for(var property in mesh) { %>
+                                <%- mesh[property] %>
+                                <% } %>
+                            </div>
                         </div>
                         <div id="wallsPanelHtmlTmpl">
                             <table class="walls-table table table-striped table-bordered">
