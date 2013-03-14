@@ -6,9 +6,8 @@ define(function (require, exports, module) {
 	var Backbone = require('backbone');
 	$(function () {
 		var EditorPropertyView = Backbone.View.extend({
+														  template: _.template(_.unescape($("#propertyPanelContentHtmlTmpl").html())),
 														  initialize: function () {
-															  var tmplStr = _.unescape(this.$el.parent().children('.property-panel-content-tmpl').html());
-															  this.template = _.template(tmplStr);
 															  this.listenTo(this.model, 'meshSelected', this.handleSelected);
 															  this.render();
 														  },
@@ -16,15 +15,34 @@ define(function (require, exports, module) {
 															  var selected = this.model.selected;
 															  this.render();
 														  },
-														  render: function () {
-															  // TODO
+														  events: {
+															  'click .property-control-area .delete': 'deleteSelected'
+														  },
+														  deleteSelected: function () {
 															  if (this.model.selected) {
-																  var data = {mesh: this.model.selected};
-																  this.$el.html(this.template(data));
+																  var selected = this.model.selected;
+																  if (selected.name && selected.name != '') {
+																	  var editor = require('editor.app');
+																	  editor.viewportProxy.dispatchDeleteMesh(selected.name);
+																  }
 															  }
-//																  this.$el.html(this.model.selected.name);
+														  },
+														  render: function () {
+															  if (this.model.selected) {
+																  var selected = this.model.selected;
+																  var data = {mesh: selected};
+																  this.$el.html(this.template(data));
+																  for (var property in selected) {
+																	  var view = helper.genControlForProperty(selected, property, selected[property]);
+																	  if (view) {
+																		  this.$(".property-list").append(view.el);
+																	  }
+																  }
+															  }
 														  }
 													  });
 		exports.EditorPropertyView = EditorPropertyView;
+		exports.editableProperties = ['position', 'scale', 'rotation', 'meshName', 'type', 'meshType', 'typeName', 'title', 'text',
+			'visible', 'castShadow', 'receiveShadow', 'useQuaternion', 'quaternion', 'up', 'opacity', 'translate', 'material', 'geometry'];
 	});
 });

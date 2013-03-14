@@ -15,7 +15,8 @@ require.config({
         "editor.scenemeshsview": 'editor/views/editor.scenemeshsview',
         "editor.propertyview": 'editor/views/editor.propertyview',
         "editor.viewport": 'editor/models/editor.viewport',
-        "editor.viewportproxy": 'editor/models/editor.viewportproxy'
+        "editor.viewportproxy": 'editor/models/editor.viewportproxy',
+		"editor.edit_controls": 'editor/views/editor.edit_controls'
     },
     shim: {
         'underscore': {

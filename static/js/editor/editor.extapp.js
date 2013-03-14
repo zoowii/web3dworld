@@ -143,7 +143,7 @@ define(function (require, exports, module) {
                     html: $("#propertyPanelHtmlTmpl").html(),
                     collapsible: true,
                     bodyCls: ['property', 'panel'],
-                    overflowY: 'auto'
+                    autoScroll: 'true'
                 });
                 var scenePanel = Ext.create('Ext.panel.Panel', {
                     itemId: 'scenePanel',
@@ -310,7 +310,7 @@ define(function (require, exports, module) {
                     var json = viewportProxy.exportObjectArrayToJson(objNames);
                     showInfo(JSON.stringify(json), '导出对象');
                 });
-
+				exports.propertyPanel = propertyPanel;
             }
         });
     });
