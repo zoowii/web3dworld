@@ -52,7 +52,7 @@ define(function (require, exports, module) {
         }
         mesh.scale.x *= proportion;
         mesh.scale.y *= proportion;
-        return mesh.scale.y *= proportion;
+        mesh.scale.z *= proportion;
     };
 
     helper.scaleObject3DWithPosition = function (mesh, proportion) {
@@ -64,7 +64,7 @@ define(function (require, exports, module) {
         mesh.scale.y *= proportion;
         mesh.position.x *= proportion;
         mesh.position.y *= proportion;
-        return mesh.position.y *= proportion;
+        mesh.position.z *= proportion;
     };
 
     helper.addAxis = function (scene, proportion) {
