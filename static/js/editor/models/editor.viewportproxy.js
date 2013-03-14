@@ -61,6 +61,19 @@ define(function (require, exports, module) {
 																	}
 																});
 															},
+															dispatchMeshPropertyChangeFunc: function (meshName, property, changeFunc) {
+																_.each(this.get('viewports'), function (viewport) {
+																	var mesh = viewport.getObject(meshName);
+																	if (mesh) {
+																		changeFunc(mesh[property]);
+																	}
+																});
+															},
+															dispatchDeleteMesh: function (meshName) {
+																_.each(this.get('viewports'), function (viewport) {
+																	viewport.deleteMesh(meshName);
+																})
+															},
 															dispatchMeshArrayJson: function (array, type, from) {
 																var json, _i, _len, _results;
 																if (type == null) {

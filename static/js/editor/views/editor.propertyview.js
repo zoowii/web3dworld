@@ -15,6 +15,18 @@ define(function (require, exports, module) {
 															  var selected = this.model.selected;
 															  this.render();
 														  },
+														  events: {
+															  'click .property-control-area .delete': 'deleteSelected'
+														  },
+														  deleteSelected: function () {
+															  if (this.model.selected) {
+																  var selected = this.model.selected;
+																  if (selected.name && selected.name != '') {
+																	  var editor = require('editor.app');
+																	  editor.viewportProxy.dispatchDeleteMesh(selected.name);
+																  }
+															  }
+														  },
 														  render: function () {
 															  if (this.model.selected) {
 																  var selected = this.model.selected;
@@ -26,7 +38,6 @@ define(function (require, exports, module) {
 																		  this.$(".property-list").append(view.el);
 																	  }
 																  }
-																  // TODO: delete function
 															  }
 														  }
 													  });

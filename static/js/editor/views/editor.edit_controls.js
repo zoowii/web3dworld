@@ -16,7 +16,8 @@ define(function (require, exports, module) {
 												   return this;
 											   },
 											   events: {
-												   "keyup input": "editProxy"
+												   "keyup input": "editProxy",
+												   "change input": "editProxy"
 											   },
 											   editProxy: _.debounce(function () {
 												   this.edit.apply(this, arguments);
@@ -28,8 +29,8 @@ define(function (require, exports, module) {
 												   edit: function (e) {
 													   var from = e.currentTarget,
 														   $from = $(from);
-													   var newVal = $from.val(),
-														   originVal = $from.attr('origin-data');
+													   var newVal = $from.val().trim(),
+														   originVal = $from.attr('origin-data').trim();
 													   if (newVal === originVal) {
 														   return;
 													   }
@@ -43,6 +44,7 @@ define(function (require, exports, module) {
 													   }
 													   var editor = require('editor.app');
 													   editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal);
+													   $from.attr('origin-data', newVal);
 												   }
 											   });
 	var BooleanEditControl = EditControl.extend({
@@ -76,20 +78,69 @@ define(function (require, exports, module) {
 														});
 													},
 													edit: function (e) {
-														console.log(e);
-														// TODO
+														var from = e.container.dom,
+															$from = $(from);
+														var newVal = e.value;
+														var $parent = $from.parents(".edit-control-row-content");
+														var oldVal = $parent.attr('origin-data').trim();
+														if (oldVal == newVal || newVal === '') {
+															return;
+														}
+														var propertyName = $parent.attr('property-name');
+														newVal = (newVal == 'true');
+														var editor = require('editor.app');
+														var meshName = $parent.attr('meshName');
+														editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal);
+														$parent.attr('origin-data', newVal + '');
 													}
 												});
 	var Vector3EditControl = EditControl.extend({
 													className: 'edit-control-row vector3',
 													template: _.template(_.unescape($("#editControlHtmlTmpl .vector3").html())),
 													edit: function (e) {
-														console.log(this, arguments);
-														// TODO
+														var from = e.currentTarget,
+															$from = $(from),
+															$parent = $from.parents('.edit-control-row-content');
+														var propertyName = $parent.find('.property-name').attr('origin-data');
+														var xyzName = $from.attr('name-data');
+														var oldVal = parseFloat($from.attr('origin-data'));
+														var newVal = parseFloat($from.val());
+														if (oldVal == newVal) {
+															return;
+														}
+														var meshName = $parent.attr('meshName');
+														var editor = require('editor.app');
+														editor.viewportProxy.dispatchMeshPropertyChangeFunc(meshName, propertyName, function (val) {
+															val[xyzName] = newVal;
+														});
+														$from.attr('origin-data', newVal);
 													}
 												});
+	var MaterialEditControl = EditControl.extend({
+													 className: 'edit-control-row material',
+													 template: _.template(_.unescape($("#editControlHtmlTmpl .material").html())),
+													 edit: function (e) {
+														 var from = e.currentTarget,
+															 $from = $(from),
+															 $outer = $from.parents('.edit-line'),
+															 $parent = $outer.parents('.edit-control-row-content');
+														 var propertyName = $parent.attr('property-name');
+														 var meshName = $parent.attr('meshName');
+														 var newVal = $from.val();
+														 if (newVal === '') {
+															 return;
+														 }
+														 var materialType = 'color';
+														 if ($outer.attr('sub-name') === 'map') {
+															 materialType = 'texture';
+														 }
+														 var oldVal = $outer.attr('origin-data');
+														 console.log(meshName, propertyName, newVal, materialType, oldVal);
+													 }
+												 });
 	exports.EditControlModel = EditControlModel;
 	exports.SimpleEditControl = SimpleEditControl;
 	exports.BooleanEditControl = BooleanEditControl;
 	exports.Vector3EditControl = Vector3EditControl;
+	exports.MaterialEditControl = MaterialEditControl;
 });

@@ -52,7 +52,7 @@ define(function (require, exports, module) {
 		}
 		mesh.scale.x *= proportion;
 		mesh.scale.y *= proportion;
-		return mesh.scale.y *= proportion;
+		mesh.scale.z *= proportion;
 	};
 
 	helper.scaleObject3DWithPosition = function (mesh, proportion) {
@@ -61,10 +61,10 @@ define(function (require, exports, module) {
 		}
 		mesh.scale.x *= proportion;
 		mesh.scale.y *= proportion;
-		mesh.scale.y *= proportion;
+		mesh.scale.z *= proportion;
 		mesh.position.x *= proportion;
 		mesh.position.y *= proportion;
-		return mesh.position.y *= proportion;
+		mesh.position.z *= proportion;
 	};
 
 	helper.addAxis = function (scene, proportion) {
@@ -459,6 +459,7 @@ define(function (require, exports, module) {
 			SimpleEditControl = editControls.SimpleEditControl,
 			BooleanEditControl = editControls.BooleanEditControl,
 			Vector3EditControl = editControls.Vector3EditControl,
+			MaterialEditControl = editControls.MaterialEditControl,
 			EditControlModel = editControls.EditControlModel;
 		var model = new EditControlModel({
 											 mesh: mesh,
@@ -481,6 +482,12 @@ define(function (require, exports, module) {
 			var view = new Vector3EditControl({
 												  model: model
 											  });
+			return view.render();
+		} else if (propertyValue instanceof THREE.Material) {
+			model.set('type', 'material');
+			var view = new MaterialEditControl({
+												   model: model
+											   });
 			return view.render();
 		}
 	};

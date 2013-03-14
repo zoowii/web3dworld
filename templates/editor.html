@@ -26,18 +26,21 @@
                         </div>
                         <div id="editControlHtmlTmpl">
                             <div class="simple edit-control">
-                                <div class="edit-control-row-content" meshName="<%= mesh.name %>" valueType="<%= type %>">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>"
+                                     valueType="<%= type %>">
                                     <span origin-data="<%= name %>" class="property-name label label-inverse"><%= name %>: </span>
                                     <input class="span8" origin-data="<%= value %>" type="text" value="<%= value %>">
                                 </div>
                             </div>
                             <div class="boolean edit-control">
-                                <div class="edit-control-row-content" meshName="<%= mesh.name %>" valueType="<%= type %>">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>"
+                                     valueType="<%= type %>" property-name="<%= name %>" origin-data="<%= value %>">
                                     <div class="combobox-area"></div>
                                 </div>
                             </div>
                             <div class="vector3 edit-control">
-                                <div class="edit-control-row-content" meshName="<%= mesh.name %>" valueType="<%= type %>">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>"
+                                     valueType="<%= type %>">
                                 <span class="property-name label label-inverse"
                                       origin-data="<%= name %>"><%= name %>:</span>
                                     <span class="label label-warning">x</span>:
@@ -51,6 +54,22 @@
                                            value="<%= value.z %>">
                                 </div>
                             </div>
+                            <div class="material edit-control">
+                                <div class="edit-control-row-content" meshName="<%= mesh.name %>"
+                                     valueType="<%= type %>" property-name="<%= name %>">
+                                    <div class="material-texture edit-line" sub-name="map" origin-data="<%
+                                     if(mesh.material.map) { var oldVal = mesh.material.map.originJson; }
+                                     else { var oldVal = null; }
+                                     %><%= JSON.stringify(oldVal) %>">
+                                        <span class="property-name label label-inverse">材质</span>
+                                        <input type="text" placeholder="新的材质的URL或资源名称">
+                                    </div>
+                                    <div class="material-color edit-line" sub-name="color" origin-data="<%= JSON.stringify(mesh.material.color) %>">
+                                        <span class="property-name label label-inverse material-color">颜色</span>
+                                        <input type="text" placeholder="输入16进制的颜色，路#ffffff">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div id="propertyPanelContentHtmlTmpl">
                             <div><span class="label label-inverse">名称</span>：<span class="label label-success"><%- mesh.name %></span>
@@ -61,7 +80,6 @@
                             </div>
                             <hr>
                             <div class="property-list">
-
                             </div>
                             <hr>
                             <div class="placeholder placeholder-height-100"></div>
