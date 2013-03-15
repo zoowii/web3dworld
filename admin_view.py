@@ -1,7 +1,7 @@
 # coding: UTF-8
 from application import app, db
 from flask_admin import BaseView, Admin, expose
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, Response, make_response
 from flask_admin.contrib.sqlamodel import ModelView
 
 admin = Admin(app, name=u'后台管理')
@@ -20,6 +20,22 @@ class ResourceView(BaseView):
 
 		resources = Resource.query.all()
 		return self.render('admin/resource/index.html', resources=resources)
+
+	@expose('/json/list/type/<type_name>')
+	def json_list_type(self, type_name):
+		from models import *
+
+		resources = Resource.query.all()
+		json_array = []
+		for r in resources:
+			if r.type == type_name:
+				json_array.append({
+				'id': r.id,
+				'name': r.name,
+				'tags': r.tags,
+				'type': r.type
+				})
+		return json.dumps(json_array)
 
 	@expose('/json/list')
 	def json_list(self):
@@ -59,10 +75,17 @@ class ResourceView(BaseView):
 	@expose('/get_by_name/<resource_name>')
 	def get_by_name(self, resource_name):
 		from models import *
+		import tempfile, shutil
 
 		resource = Resource.query.filter_by(name=resource_name).first()
 		blob_key = resource.blob_key
-		return Blob.find_one(blob_key).data
+		data = Blob.find_one(blob_key).data
+		if resource.type == 'image':
+			res = make_response(data)
+			res.headers['Content-Type'] = 'image/jpeg'
+			return res
+		else:
+			return data
 
 
 admin.add_view(ResourceView(u'资源列表', endpoint='resource', category=u'资源管理'))

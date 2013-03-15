@@ -64,7 +64,7 @@ define(function (require, exports, module) {
 															dispatchMeshPropertyChangeFunc: function (meshName, property, changeFunc) {
 																_.each(this.get('viewports'), function (viewport) {
 																	var mesh = viewport.getObject(meshName);
-																	if (mesh) {
+																	if (mesh && mesh[property]) {
 																		changeFunc(mesh[property]);
 																	}
 																});

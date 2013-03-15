@@ -9,6 +9,7 @@ define(function (require, exports, module) {
 														  template: _.template(_.unescape($("#propertyPanelContentHtmlTmpl").html())),
 														  initialize: function () {
 															  this.listenTo(this.model, 'meshSelected', this.handleSelected);
+															  this.listenTo(this.model, 'meshMoved', this.render);
 															  this.render();
 														  },
 														  handleSelected: function () {
@@ -43,6 +44,6 @@ define(function (require, exports, module) {
 													  });
 		exports.EditorPropertyView = EditorPropertyView;
 		exports.editableProperties = ['position', 'scale', 'rotation', 'meshName', 'type', 'meshType', 'typeName', 'title', 'text',
-			'visible', 'castShadow', 'receiveShadow', 'useQuaternion', 'quaternion', 'up', 'opacity', 'translate', 'material', 'geometry'];
+			'visible', 'castShadow', 'receiveShadow', 'opacity', 'translate', 'material', 'geometry'];
 	});
 });

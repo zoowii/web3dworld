@@ -1,0 +1,231 @@
+{
+	"version": "0.0.1",
+	"meshType": "room",
+	"meshName": "Room1",
+	"typeName": "房间",
+	"thumbnailUrl": "",
+	"items": [
+		{
+			"meshType": "wall",
+			"typeName": "横墙",
+			"type": "basic",
+			"thumbnailUrl": "",
+			"receiveShadow": false,
+			"doubleSided": true,
+			"castShadow": true,
+			"meshName": "horizontalWall",
+			"width": 30,
+			"height": 300,
+			"depth": 500,
+			"widthSegments": 1,
+			"heightSegments": 1,
+			"depthSegments": 1,
+			"material": {
+				"type": "basic",
+				"color": "#ff0000",
+				"transparent": true,
+				"opacity": 0.5
+			},
+			"position": {
+				"x": -481.0306772484421,
+				"y": -245.65444593210373,
+				"z": 200
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		{
+			"meshType": "wall",
+			"typeName": "横墙",
+			"type": "basic",
+			"thumbnailUrl": "",
+			"receiveShadow": false,
+			"doubleSided": true,
+			"castShadow": true,
+			"meshName": "horizontalWall",
+			"width": 30,
+			"height": 300,
+			"depth": 500,
+			"widthSegments": 1,
+			"heightSegments": 1,
+			"depthSegments": 1,
+			"material": {
+				"type": "basic",
+				"color": "#ff0000",
+				"transparent": true,
+				"opacity": 0.5
+			},
+			"position": {
+				"x": -484.81894507709166,
+				"y": 54.923410280350176,
+				"z": 200
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		{
+			"meshType": "wall",
+			"typeName": "竖墙",
+			"type": "basic",
+			"thumbnailUrl": "",
+			"receiveShadow": false,
+			"doubleSided": true,
+			"castShadow": true,
+			"meshName": "verticalWall",
+			"width": 300,
+			"height": 30,
+			"depth": 500,
+			"widthSegments": 1,
+			"heightSegments": 1,
+			"depthSegments": 1,
+			"material": {
+				"type": "basic",
+				"color": "#ff0000",
+				"transparent": true,
+				"opacity": 0.5
+			},
+			"position": {
+				"x": -284.2195985095481,
+				"y": -382.0631476385979,
+				"z": 200
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		{
+			"meshType": "wall",
+			"typeName": "竖墙",
+			"type": "basic",
+			"thumbnailUrl": "",
+			"receiveShadow": false,
+			"doubleSided": true,
+			"castShadow": true,
+			"meshName": "verticalWall",
+			"width": 300,
+			"height": 30,
+			"depth": 500,
+			"widthSegments": 1,
+			"heightSegments": 1,
+			"depthSegments": 1,
+			"material": {
+				"type": "basic",
+				"color": "#ff0000",
+				"transparent": true,
+				"opacity": 0.5
+			},
+			"position": {
+				"x": -298.5476792703146,
+				"y": 210.13523207713231,
+				"z": 200
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		{
+			"meshType": "wall",
+			"typeName": "竖墙",
+			"type": "basic",
+			"thumbnailUrl": "",
+			"receiveShadow": false,
+			"doubleSided": true,
+			"castShadow": true,
+			"meshName": "verticalWall",
+			"width": 300,
+			"height": 30,
+			"depth": 500,
+			"widthSegments": 1,
+			"heightSegments": 1,
+			"depthSegments": 1,
+			"material": {
+				"type": "basic",
+				"color": "#ff0000",
+				"transparent": true,
+				"opacity": 0.5
+			},
+			"position": {
+				"x": 19.04208769040787,
+				"y": -384.4316467265574,
+				"z": 200
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		{
+			"meshType": "wall",
+			"typeName": "横墙",
+			"type": "basic",
+			"thumbnailUrl": "",
+			"receiveShadow": false,
+			"doubleSided": true,
+			"castShadow": true,
+			"meshName": "horizontalWall",
+			"width": 30,
+			"height": 300,
+			"depth": 500,
+			"widthSegments": 1,
+			"heightSegments": 1,
+			"depthSegments": 1,
+			"material": {
+				"type": "basic",
+				"color": "#ff0000",
+				"transparent": true,
+				"opacity": 0.5
+			},
+			"position": {
+				"x": 176.6305663837556,
+				"y": -207.73090936433206,
+				"z": 200
+			},
+			"rotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0
+			},
+			"scale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	]
+}

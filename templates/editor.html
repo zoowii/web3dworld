@@ -63,6 +63,7 @@
                                      %><%= JSON.stringify(oldVal) %>">
                                         <span class="property-name label label-inverse">材质</span>
                                         <input type="text" placeholder="新的材质的URL或资源名称">
+                                        <input class="btn btn-primary btn-small select-texture-btn" type="button" value="选择材质">
                                     </div>
                                     <div class="material-color edit-line" sub-name="color" origin-data="<%= JSON.stringify(mesh.material.color) %>">
                                         <span class="property-name label label-inverse material-color">颜色</span>
@@ -72,7 +73,7 @@
                             </div>
                         </div>
                         <div id="propertyPanelContentHtmlTmpl">
-                            <div><span class="label label-inverse">名称</span>：<span class="label label-success"><%- mesh.name %></span>
+                            <div><span class="label label-inverse">名称</span>：<span class="label label-success mesh-name-display"><%- mesh.name %></span>
                             </div>
                             <hr>
                             <div class="property-control-area">
@@ -91,6 +92,21 @@
                         </div>
                         <div id="wallsPanelHtmlTmpl">
                             <table class="walls-table table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Style</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="roomsPanelHtmlTmpl">
+                            <table class="rooms-table table table-striped table-bordered">
                                 <thead>
                                 <tr>
                                     <th>#</th>
