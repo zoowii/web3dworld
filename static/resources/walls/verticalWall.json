@@ -10,7 +10,7 @@
     "depth": 500,
     "material": {
         "type": "basic",
-        "color": "#ff0000",
+        "color": "#ffffff",
         "transparent": true,
         "opacity": 0.5
     },

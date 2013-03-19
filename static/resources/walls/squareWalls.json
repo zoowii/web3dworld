@@ -22,9 +22,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -626.7136070625921,
@@ -59,9 +59,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -148.816433122172,
@@ -96,9 +96,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -458.43346280030727,
@@ -133,9 +133,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -629.7325601905303,
@@ -170,9 +170,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 154.72271424037197,
@@ -207,9 +207,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 617.7315048806387,
@@ -244,9 +244,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 452.73764805696914,
@@ -281,9 +281,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 623.0237110563347,
@@ -318,9 +318,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 623.0237110563347,
@@ -355,9 +355,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 623.0237110563311,
@@ -392,9 +392,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 452.7376480569691,
@@ -429,9 +429,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": 158.5931549009783,
@@ -466,9 +466,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -127.82775968412125,
@@ -503,9 +503,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -425.8782108164735,
@@ -540,9 +540,9 @@
             "depthSegments": 1,
             "material": {
                 "type": "basic",
-                "color": "#ff0000",
+                "color": "#ffffff",
                 "transparent": true,
-                "opacity": 0.5
+                "opacity": 1
             },
             "position": {
                 "x": -584.298808616021,

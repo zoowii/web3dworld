@@ -77,6 +77,13 @@ define(function (require, exports, module) {
 					});
 				}
 					break;
+				case 'room':
+				{
+					helper.getJSON(url, function (json) {
+						return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
+					});
+				}
+					break
 			}
 		});
 		$(document).on('click', '.import-resource-btn', function () {
@@ -90,13 +97,30 @@ define(function (require, exports, module) {
 			var name = $(this).parents('tr').find('.resource-name').html();
 			var resource_url = helper.getUrlForResource(name);
 			var meshName = meshPropertyView.$(".mesh-name-display").html();
-			viewportProxy.dispatchMeshPropertyChangeFunc(meshName, 'material', function (material) {
-				var texture = THREE.ImageUtils.loadTexture(resource_url);
-				material.map = texture;
-				material.needsUpdate = true;
-			});
+			viewportProxy.dispatchMeshTextureChangeFunc(meshName, resource_url);
+//			viewportProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
+//				window.mesh = mesh;
+//				var material = mesh.material;
+//				if (!material) {
+//					return;
+//				}
+//				var texture = helper.loadTextureFromJson({
+//															 from_type: 'url',
+//															 url: resource_url
+//														 });
+//				material.map = texture;
+//				material.needsUpdate = true;
+//			});
 		});
-
+		window.proxy = viewportProxy;
+//		window.scene = window.proxy.get('viewports')[1].get('scene');
+//		window.cube = new THREE.CubeGeometry(200, 200, 200);
+//		window.texture = THREE.ImageUtils.loadTexture('/admin/resource/get_by_name/images.buwen.buwen004.jpg');
+//		window.material = new THREE.MeshBasicMaterial;
+//		window.mesh1 = new THREE.Mesh(cube, material);
+//		scene.add(mesh1);
+//		mesh1.material.map = texture;
+//		mesh1.material.needsUpdate = true;
 		exports.viewportProxy = viewportProxy;
 	});
 });

@@ -22,14 +22,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ff0000",
+				"color": "#ffffff",
 				"transparent": true,
-				"opacity": 0.5
+				"opacity": 1
 			},
 			"position": {
 				"x": -481.0306772484421,
 				"y": -245.65444593210373,
-				"z": 200
+				"z": 0
 			},
 			"rotation": {
 				"x": 0,
@@ -59,14 +59,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ff0000",
+				"color": "#ffffff",
 				"transparent": true,
-				"opacity": 0.5
+				"opacity": 1
 			},
 			"position": {
 				"x": -484.81894507709166,
 				"y": 54.923410280350176,
-				"z": 200
+				"z": 0
 			},
 			"rotation": {
 				"x": 0,
@@ -96,14 +96,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ff0000",
+				"color": "#ffffff",
 				"transparent": true,
-				"opacity": 0.5
+				"opacity": 1
 			},
 			"position": {
 				"x": -284.2195985095481,
 				"y": -382.0631476385979,
-				"z": 200
+				"z": 0
 			},
 			"rotation": {
 				"x": 0,
@@ -133,14 +133,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ff0000",
+				"color": "#ffffff",
 				"transparent": true,
-				"opacity": 0.5
+				"opacity": 1
 			},
 			"position": {
 				"x": -298.5476792703146,
 				"y": 210.13523207713231,
-				"z": 200
+				"z": 0
 			},
 			"rotation": {
 				"x": 0,
@@ -170,14 +170,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ff0000",
+				"color": "#ffffff",
 				"transparent": true,
-				"opacity": 0.5
+				"opacity": 1
 			},
 			"position": {
 				"x": 19.04208769040787,
 				"y": -384.4316467265574,
-				"z": 200
+				"z": 0
 			},
 			"rotation": {
 				"x": 0,
@@ -207,14 +207,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ff0000",
+				"color": "#ffffff",
 				"transparent": true,
-				"opacity": 0.5
+				"opacity": 1
 			},
 			"position": {
 				"x": 176.6305663837556,
 				"y": -207.73090936433206,
-				"z": 200
+				"z": 0
 			},
 			"rotation": {
 				"x": 0,

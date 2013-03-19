@@ -45,7 +45,8 @@ define(function (require, exports, module) {
 																														   handler: onAddWall},
 																													   {text: '门'},
 																													   {text: '窗'},
-																													   {text: '阳台'}
+																													   {text: '阳台'},
+																													   {text: '屋顶', handler: onAddRoof}
 																												   ]
 																											   })},
 																		{
@@ -183,12 +184,19 @@ define(function (require, exports, module) {
 											title: '房间',
 											html: $("#roomsPanelHtmlTmpl").html(),
 											collapsible: true
+										},
+										{
+											itemId: 'addRoofPanel',
+											title: '屋顶',
+											html: 'roof',
+											collapsible: true
 										}
 									]
 								});
 								var static_url = '/static/';
 								var addWallPanel = controlPanel.getComponent('addWallPanel');
 								var addRoomPanel = controlPanel.getComponent('addRoomPanel');
+								var addRoofPanel = controlPanel.getComponent('addRoofPanel');
 
 								function loadResourcesToPanels() {
 									// load walls to wall panel
@@ -306,6 +314,10 @@ define(function (require, exports, module) {
 
 								function onAddRoom() {
 									showPanel(addRoomPanel);
+								}
+
+								function onAddRoof() {
+									showPanel(addRoofPanel);
 								}
 
 								function showInfo(text, title) {

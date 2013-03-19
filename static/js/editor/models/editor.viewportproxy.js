@@ -61,11 +61,31 @@ define(function (require, exports, module) {
 																	}
 																});
 															},
+															dispatchMeshTextureChangeFunc: function (meshName, textureUrl) {
+																_.each(this.get('viewports'), function (viewport) {
+																	var mesh = viewport.getObject(meshName);
+																	if (mesh && mesh.material) {
+																		console.log(mesh, mesh.material);
+																		var material = mesh.material;
+																		var texture = THREE.ImageUtils.loadTexture(textureUrl);
+																		material.map = texture;
+																		material.needsUpdate = true;
+																	}
+																});
+															},
 															dispatchMeshPropertyChangeFunc: function (meshName, property, changeFunc) {
 																_.each(this.get('viewports'), function (viewport) {
 																	var mesh = viewport.getObject(meshName);
 																	if (mesh && mesh[property]) {
 																		changeFunc(mesh[property]);
+																	}
+																});
+															},
+															dispatchMeshChangeFunc: function (meshName, changeFunc) {
+																_.each(this.get('viewports'), function (viewport) {
+																	var mesh = viewport.getObject(meshName);
+																	if (mesh) {
+																		changeFunc(mesh);
 																	}
 																});
 															},

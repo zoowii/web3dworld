@@ -296,7 +296,7 @@ define(function (require, exports, module) {
 		if (json.type === 'basic') {
 			materialClass = THREE.MeshBasicMaterial;
 		} else {
-			materialClass = THREE.MeshFaceMaterial;
+			materialClass = THREE.MeshNormalMaterial;
 		}
 		params = {};
 		if (json.map) {
