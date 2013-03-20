@@ -244,7 +244,10 @@ define(function (require, exports, module) {
 									var $roomsTableBody = $roomsTable.find("tbody");
 									var roomUrlsToAdd = [
 										{url: static_url + 'resources/rooms/room1.json', type: 'room'},
-										{url: static_url + 'resources/rooms/room2.json', type: 'import'}
+										{url: static_url + 'resources/rooms/room2.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/room11.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/room12.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/room13.json', type: 'import'}
 									];
 									var rooms = [];
 									var runAfterRoomsLoaded = _.after(roomUrlsToAdd.length, function () {

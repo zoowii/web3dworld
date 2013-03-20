@@ -1,0 +1,27 @@
+{
+    "version": "0.0.1",
+    "meshName": "importRoom",
+    "typeName": "房间",
+    "meshType": "room",
+    "thumbnailUrl": "",
+    "type": "import",
+    "geometry_url": "/static/resources/json/room11.json",
+    "receiveShadow": true,
+    "doubleSided": true,
+    "castShadow": true,
+    "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "rotation": {
+        "x": 1.57,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 2.0,
+        "y": 2.0,
+        "z": 2.0
+    }
+}
