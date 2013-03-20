@@ -38,7 +38,12 @@ define(function (require, exports, module) {
 													   addOriginGeometryFromJson: function (json) {
 														   var _this = this;
 														   helper.createObject3DFromJson(json, function (geom) {
-															   var mesh = new THREE.Mesh(geom, new THREE.MeshBasicMaterial);
+															   if(json['__options__'] && json['__options__']['material']) {
+																   var material = helper.loadMaterialFromJson(json['__options__']['material']);
+															   } else {
+																   var material = new THREE.MeshBasicMaterial;
+															   }
+															   var mesh = new THREE.Mesh(geom, material);
 															   mesh = helper.updateOriginMeshFromJson(mesh, json);
 															   _this.addMesh(mesh);
 														   });
