@@ -29,7 +29,16 @@ define(function (require, exports, module) {
 																this.dispatchMeshArrayJson(lightsJson, 'light', from);
 																return this;
 															},
-															dispathGeometryOriginJson: function (json) {
+															dispatchGeometryOriginJsonFromUrl: function (url, options) {
+																var _this = this;
+																helper.getJSON(url, function (json) {
+																	if (options) {
+																		json['__options__'] = options;
+																	}
+																	_this.dispatchGeometryOriginJson(json);
+																});
+															},
+															dispatchGeometryOriginJson: function (json) {
 																var viewports = this.get('viewports');
 																json = helper.preprocessGeometryOriginJson(json);
 																_.each(viewports, function (viewport) {

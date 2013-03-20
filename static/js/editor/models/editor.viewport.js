@@ -12,6 +12,9 @@ define(function (require, exports, module) {
 														   this.set('objects', objects);
 													   },
 													   afterAddObject: function (obj, options) {
+														   if (obj['__options__']) {
+															   helper.updateMeshFromJson(obj, obj['__options__']);
+														   }
 														   if (options == null) {
 															   options = {};
 														   }

@@ -84,13 +84,19 @@ define(function (require, exports, module) {
 					});
 				}
 					break
+				case 'import':
+				{
+					helper.getJSON(url, function(json) {
+						viewportProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
+					});
+				}
 			}
 		});
 		$(document).on('click', '.import-resource-btn', function () {
 			var name = $(this).parents('tr').find('.resource-name').html();
 			var resource_url = helper.getUrlForResource(name);
 			helper.uncacheGetJSON(resource_url, function (json) {
-				viewportProxy.dispathGeometryOriginJson(json);
+				viewportProxy.dispatchGeometryOriginJson(json);
 			});
 		});
 		$(document).on('click', '.import-image-btn', function () {

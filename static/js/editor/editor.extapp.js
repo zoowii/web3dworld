@@ -207,7 +207,8 @@ define(function (require, exports, module) {
 									var wallUrlsToAdd = [
 										{url: static_url + 'resources/walls/horizontalWall.json', type: 'wall'},
 										{url: static_url + 'resources/walls/verticalWall.json', type: 'wall'},
-										{url: static_url + 'resources/walls/squareWalls.json', type: 'walls'}
+										{url: static_url + 'resources/walls/squareWalls.json', type: 'walls'},
+										{url: static_url + 'resources/walls/walls3.json', type: 'import'}
 									];
 									var walls = [];
 									var runAfterWallsLoaded = _.after(wallUrlsToAdd.length, function () {
@@ -242,7 +243,8 @@ define(function (require, exports, module) {
 									var $roomsTable = $(roomDom).find('.rooms-table');
 									var $roomsTableBody = $roomsTable.find("tbody");
 									var roomUrlsToAdd = [
-										{url: static_url + 'resources/rooms/room1.json', type: 'room'}
+										{url: static_url + 'resources/rooms/room1.json', type: 'room'},
+										{url: static_url + 'resources/rooms/room2.json', type: 'import'}
 									];
 									var rooms = [];
 									var runAfterRoomsLoaded = _.after(roomUrlsToAdd.length, function () {

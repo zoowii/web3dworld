@@ -277,6 +277,9 @@ define(function (require, exports, module) {
 			}
 			mesh.name = json.originJson['__name__'];
 		}
+		if(json['__options__']) {
+			mesh['__options__'] = json['__options__'];
+		}
 		return mesh;
 	};
 
