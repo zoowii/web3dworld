@@ -11,7 +11,8 @@
         "type": "basic",
         "color": "#ffffff",
         "transparent": true,
-        "opacity": 1
+        "opacity": 1,
+		"map": {"from_type": "url","url":"/static/resources/images/shicai/shicai002.bmp"}
     },
     "receiveShadow": true,
     "doubleSided": true,
@@ -19,10 +20,10 @@
     "position": {
         "x": 0,
         "y": 0,
-        "z": 0
+        "z": 150
     },
     "rotation": {
-        "x": 0,
+        "x": 1.57,
         "y": 0,
         "z": 0
     },

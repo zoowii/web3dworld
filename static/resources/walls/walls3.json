@@ -6,6 +6,14 @@
 	"thumbnailUrl": "",
 	"type": "import",
 	"geometry_url": "/static/resources/json/qiangbi3.json",
+	"material": {
+		"map": {
+			"from_type": "url",
+			"url":"/static/resources/images/shicai/shicai011.jpg"
+		},
+		"type": "basic",
+		"opacity": 1
+	},
 	"receiveShadow": true,
 	"doubleSided": true,
 	"castShadow": true,

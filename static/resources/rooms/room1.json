@@ -22,14 +22,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ffffff",
+				"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
 				"transparent": true,
 				"opacity": 1
 			},
 			"position": {
 				"x": -481.0306772484421,
 				"y": -245.65444593210373,
-				"z": 0
+				"z": 150
 			},
 			"rotation": {
 				"x": 0,
@@ -51,22 +51,22 @@
 			"doubleSided": true,
 			"castShadow": true,
 			"meshName": "horizontalWall",
+			"material": {
+				"type": "basic",
+				"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
+				"transparent": true,
+				"opacity": 1
+			},
 			"width": 30,
 			"height": 300,
 			"depth": 500,
 			"widthSegments": 1,
 			"heightSegments": 1,
 			"depthSegments": 1,
-			"material": {
-				"type": "basic",
-				"color": "#ffffff",
-				"transparent": true,
-				"opacity": 1
-			},
 			"position": {
 				"x": -484.81894507709166,
 				"y": 54.923410280350176,
-				"z": 0
+				"z": 150
 			},
 			"rotation": {
 				"x": 0,
@@ -96,14 +96,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ffffff",
+				"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
 				"transparent": true,
 				"opacity": 1
 			},
 			"position": {
 				"x": -284.2195985095481,
 				"y": -382.0631476385979,
-				"z": 0
+				"z": 150
 			},
 			"rotation": {
 				"x": 0,
@@ -133,14 +133,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ffffff",
+				"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
 				"transparent": true,
 				"opacity": 1
 			},
 			"position": {
 				"x": -298.5476792703146,
 				"y": 210.13523207713231,
-				"z": 0
+				"z": 150
 			},
 			"rotation": {
 				"x": 0,
@@ -170,14 +170,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ffffff",
+				"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
 				"transparent": true,
 				"opacity": 1
 			},
 			"position": {
 				"x": 19.04208769040787,
 				"y": -384.4316467265574,
-				"z": 0
+				"z": 150
 			},
 			"rotation": {
 				"x": 0,
@@ -207,14 +207,14 @@
 			"depthSegments": 1,
 			"material": {
 				"type": "basic",
-				"color": "#ffffff",
+				"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
 				"transparent": true,
 				"opacity": 1
 			},
 			"position": {
 				"x": 176.6305663837556,
 				"y": -207.73090936433206,
-				"z": 0
+				"z": 150
 			},
 			"rotation": {
 				"x": 0,

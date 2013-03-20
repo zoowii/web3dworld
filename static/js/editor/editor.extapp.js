@@ -71,6 +71,10 @@ define(function (require, exports, module) {
 																														  {text: '装饰物'}
 																													  ]
 																												  })
+																		},
+																		{
+																			text: '其他',
+																			handler: onShowOther
 																		}
 																	]
 																});
@@ -190,6 +194,12 @@ define(function (require, exports, module) {
 											title: '屋顶',
 											html: 'roof',
 											collapsible: true
+										},
+										{
+											itemId: 'addOtherPanel',
+											title: '其他',
+											html: $("#otherPanelHtmlTmpl").html(),
+											collapsible: true
 										}
 									]
 								});
@@ -197,6 +207,7 @@ define(function (require, exports, module) {
 								var addWallPanel = controlPanel.getComponent('addWallPanel');
 								var addRoomPanel = controlPanel.getComponent('addRoomPanel');
 								var addRoofPanel = controlPanel.getComponent('addRoofPanel');
+								var addOtherPanel = controlPanel.getComponent('addOtherPanel');
 
 								function loadResourcesToPanels() {
 									// load walls to wall panel
@@ -276,6 +287,42 @@ define(function (require, exports, module) {
 											runAfterRoomsLoaded();
 										})
 									});
+									// load other to roomPanel
+									var otherEl = addOtherPanel.getEl();
+									var otherDom = otherEl.dom;
+									var $otherTable = $(otherDom).find('.panel-table');
+									var $otherTableBody = $otherTable.find("tbody");
+									var otherUrlsToAdd = [
+										{url: static_url + 'resources/other/roof1.json', type: 'import'},
+										{url: static_url + 'resources/other/roof2.json', type: 'import'}
+									];
+									var others = [];
+									var runAfterOthersLoaded = _.after(otherUrlsToAdd.length, function () {
+										for (var i = 0; i < others.length; ++i) {
+											var obj = others[i];
+											var o = obj.json,
+												type = obj.type;
+											var tr = $("<tr></tr>");
+											tr.append($("<td>" + (i + 1) + "</td>"));
+											tr.append($("<td><a href='" + o.originUrl + "'>" + o.typeName + "</a></td>"));
+											tr.append($("<td><img src='" + o.thumbnailUrl + "'></td>"));
+											var addBtn = $("<button class='addToScene btn btn-small btn-inverse' data-type='" + type + "' data-url='" + o.originUrl + "'>添加</button>");
+											var addBtnTd = $("<td></td>");
+											addBtnTd.append(addBtn);
+											tr.append(addBtnTd);
+											$otherTableBody.append(tr);
+										}
+									});
+									_.each(otherUrlsToAdd, function (obj) {
+										var url = obj.url,
+											type = obj.type;
+										helper.getJSON(url, function (json) {
+											var _json = _.clone(json);
+											_json.originUrl = url;
+											others.push({json: _json, type: type});
+											runAfterOthersLoaded();
+										})
+									});
 								}
 
 								loadResourcesToPanels();
@@ -323,6 +370,10 @@ define(function (require, exports, module) {
 
 								function onAddRoof() {
 									showPanel(addRoofPanel);
+								}
+
+								function onShowOther() {
+									showPanel(addOtherPanel);
 								}
 
 								function showInfo(text, title) {

@@ -209,7 +209,10 @@ define(function (require, exports, module) {
 
 	helper.loadTextureFromJson = function (json) {
 		var texture;
-		if (json.from_type === 'url') {
+		if (json.from_type === 'url' || json.url || _.isString(json)) {
+			if (_.isString(json)) {
+				json = {url: json};
+			}
 			texture = THREE.ImageUtils.loadTexture(json.url);
 			if (json.repeat) {
 				texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -277,7 +280,7 @@ define(function (require, exports, module) {
 			}
 			mesh.name = json.originJson['__name__'];
 		}
-		if(json['__options__']) {
+		if (json['__options__']) {
 			mesh['__options__'] = json['__options__'];
 		}
 		return mesh;
@@ -325,7 +328,7 @@ define(function (require, exports, module) {
 			material = helper.loadMaterialFromJson(json.material);
 			mesh = new THREE.Mesh(geom, material);
 			helper.updateMeshFromJson(mesh, json);
-			mesh.position.z += 200;
+//			mesh.position.z += 150;
 			return mesh;
 		} else {
 			return console.log('unsupported yet');
@@ -363,7 +366,7 @@ define(function (require, exports, module) {
 		if (json.scale) {
 			mesh.scale.set(json.scale.x, json.scale.y, json.scale.z);
 		}
-		directExtendObjProperties(mesh, json, ['version', 'doubleSided', 'flipSided', 'castShadow', 'name', 'typeName', 'meshType', 'meshName', 'typeName']);
+		directExtendObjProperties(mesh, json, ['version', 'doubleSided', 'flipSided', 'castShadow', 'name', 'typeName', 'meshType', 'meshName', 'typeName', 'opacity']);
 		if (mesh.name === void 0) {
 			if (json.name) {
 				mesh.name = json.name;
