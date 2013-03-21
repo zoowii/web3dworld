@@ -258,7 +258,13 @@ define(function (require, exports, module) {
 										{url: static_url + 'resources/rooms/room2.json', type: 'import'},
                                         {url: static_url + 'resources/rooms/room11.json', type: 'import'},
                                         {url: static_url + 'resources/rooms/room12.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/room13.json', type: 'import'}
+                                        {url: static_url + 'resources/rooms/room13.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/bed.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/bathtub.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/teadesk.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/toilet.json', type: 'import'},
+                                        {url: static_url + 'resources/rooms/table.json', type: 'import'}
+
 									];
 									var rooms = [];
 									var runAfterRoomsLoaded = _.after(roomUrlsToAdd.length, function () {
