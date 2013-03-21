@@ -6,6 +6,12 @@
     "thumbnailUrl": "",
     "type": "import",
     "geometry_url": "/static/resources/json/room11.json",
+	"material": {
+		"type": "basic",
+		"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
+		"transparent": true,
+		"opacity": 1
+	},
     "receiveShadow": true,
     "doubleSided": true,
     "castShadow": true,
