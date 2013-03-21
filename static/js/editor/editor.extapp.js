@@ -295,7 +295,12 @@ define(function (require, exports, module) {
 									var otherUrlsToAdd = [
 										{url: static_url + 'resources/roofs/roof1.json', type: 'import'},
 										{url: static_url + 'resources/roofs/roof2.json', type: 'import'},
-										{url: static_url + 'resources/furnitures/safa1.json', type: 'import'}
+										{url: static_url + 'resources/furnitures/safa1.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/bathtub.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/bed.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/table.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/teadesk.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/toilet.json', type: 'import'}
 									];
 									var others = [];
 									var runAfterOthersLoaded = _.after(otherUrlsToAdd.length, function () {

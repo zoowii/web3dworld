@@ -1,0 +1,33 @@
+{
+    "version": "0.0.1",
+    "meshName": "importFurniture",
+    "typeName": "餐桌",
+    "meshType": "Furniture",
+    "thumbnailUrl": "",
+    "type": "import",
+    "geometry_url": "/static/resources/json/table.json",
+	"material": {
+		"type": "basic",
+		 "map": {"url":"/static/resources/images/buwen/buwen002.jpg"},
+		"transparent": true,
+		"opacity": 1
+	},
+    "receiveShadow": true,
+    "doubleSided": true,
+    "castShadow": true,
+    "position": {
+        "x": -500,
+        "y": 300,
+        "z": 0
+    },
+    "rotation": {
+        "x": 1.57,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 0.10,
+        "y": 0.10,
+        "z": 0.10
+    }
+}

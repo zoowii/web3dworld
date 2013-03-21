@@ -1,0 +1,33 @@
+{
+    "version": "0.0.1",
+    "meshName": "importFurniture",
+    "typeName": "马桶",
+    "meshType": "Furniture",
+    "thumbnailUrl": "",
+    "type": "import",
+    "geometry_url": "/static/resources/json/toilet.json",
+	"material": {
+		"type": "basic",
+		 "map": {"url":"/static/resources/images/shicai/shicai041.jpg"},
+		"transparent": true,
+		"opacity": 1
+	},
+    "receiveShadow": true,
+    "doubleSided": true,
+    "castShadow": true,
+    "position": {
+        "x": 0,
+        "y": 80,
+        "z": 0
+    },
+    "rotation": {
+        "x": 1.57,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 0.15,
+        "y": 0.15,
+        "z": 0.15
+    }
+}
