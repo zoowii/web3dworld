@@ -260,6 +260,7 @@ define(function (require, exports, module) {
 
 	helper.createObject3DFromJson = function (json, callback) {
 		jsonLoader.createModel(json, function (geom) {
+			console.log(json, geom);
 			geom = helper.updateOriginGeometryFromJson(geom, json);
 			callback(geom);
 		});
