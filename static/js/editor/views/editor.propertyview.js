@@ -29,6 +29,7 @@ define(function (require, exports, module) {
 															  }
 														  },
 														  render: function () {
+															  console.log(this);
 															  if (this.model.selected) {
 																  var selected = this.model.selected;
 																  var data = {mesh: selected};
@@ -39,6 +40,7 @@ define(function (require, exports, module) {
 																		  this.$(".property-list").append(view.el);
 																	  }
 																  }
+																  this.options.panel.doLayout();
 															  }
 														  }
 													  });

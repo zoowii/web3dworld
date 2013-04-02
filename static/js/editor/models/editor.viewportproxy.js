@@ -74,7 +74,6 @@ define(function (require, exports, module) {
 																_.each(this.get('viewports'), function (viewport) {
 																	var mesh = viewport.getObject(meshName);
 																	if (mesh && mesh.material) {
-																		console.log(mesh, mesh.material);
 																		var material = mesh.material;
 																		var texture = THREE.ImageUtils.loadTexture(textureUrl);
 																		material.map = texture;

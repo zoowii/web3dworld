@@ -52,9 +52,11 @@ define(function (require, exports, module) {
 													el: $(".scene.panel .scene-panel"),
 													model: viewportProxy
 												});
+		var extapp = require('editor.extapp');
 		var meshPropertyView = new EditorPropertyView({
 														  el: $(".property.panel .property-panel"),
-														  model: viewportProxy
+														  model: viewportProxy,
+														  panel: extapp.propertyPanel
 													  });
 		// init dom events
 		$(document).on('click', '.addToScene', function () {
@@ -86,7 +88,7 @@ define(function (require, exports, module) {
 					break
 				case 'import':
 				{
-					helper.getJSON(url, function(json) {
+					helper.getJSON(url, function (json) {
 						viewportProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
 					});
 				}

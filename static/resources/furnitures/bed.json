@@ -1,0 +1,33 @@
+{
+    "version": "0.0.1",
+    "meshName": "importFurniture",
+    "typeName": "床",
+    "meshType": "Furniture",
+    "thumbnailUrl": "",
+    "type": "import",
+    "geometry_url": "/static/resources/json/bed.json",
+	"material": {
+		"type": "basic",
+		 "map": {"url":"/static/resources/images/buwen/buwen005.jpg"},
+		"transparent": true,
+		"opacity": 1
+	},
+    "receiveShadow": true,
+    "doubleSided": true,
+    "castShadow": true,
+    "position": {
+        "x": 0,
+        "y": 400,
+        "z": 0
+    },
+    "rotation": {
+        "x": 1.57,
+        "y": 4.28,
+        "z": 0
+    },
+    "scale": {
+        "x": 0.1,
+        "y": 0.1,
+        "z": 0.1
+    }
+}

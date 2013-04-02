@@ -40,9 +40,8 @@ define(function (require, exports, module) {
 																		{text: '基本装饰', menu: new Ext.menu.Menu({
 																												   ignoreParentClicks: true,
 																												   items: [
-																													   {text: '地板'},
-																													   {text: '墙',
-																														   handler: onAddWall},
+																													   {text: '地板', handler: onSetFloor},
+																													   {text: '墙', handler: onAddWall},
 																													   {text: '门'},
 																													   {text: '窗'},
 																													   {text: '阳台'},
@@ -75,6 +74,10 @@ define(function (require, exports, module) {
 																		{
 																			text: '其他',
 																			handler: onShowOther
+																		},
+																		{
+																			text: '设置房屋基本布局',
+																			handler: onSetHouseLayout
 																		}
 																	]
 																});
@@ -134,23 +137,36 @@ define(function (require, exports, module) {
 											});
 										}
 									},
+									{
+										itemId: 'enterFirstPersonModeItem',
+										text: '主角模式',
+										handler: function () {
+											toolbar.getComponent('leaveFirstPersonModeItem').show();
+											toolbar.getComponent('enterFirstPersonModeItem').hide();
+											// TODO: 进入上帝模式
+										}
+									},
+									{
+										itemId: 'leaveFirstPersonModeItem',
+										text: '上帝模式',
+										hidden: true,
+										handler: function () {
+											toolbar.getComponent('enterFirstPersonModeItem').show();
+											toolbar.getComponent('leaveFirstPersonModeItem').hide();
+											// TODO: 进入第一人称模式
+										}
+									},
 									'->',
 									'<a href="#">Help</a>',
 									'<a href="#">About</a>'
 								);
-								var setHouseLayoutPanel = Ext.create('Ext.panel.Panel', {
-									itemId: 'setHouseLayoutPanel',
-									title: '设置房屋基本布局',
-									html: 'hi',
-									collapsible: true
-								});
 								var propertyPanel = Ext.create('Ext.panel.Panel', {
 									itemId: 'propertyPanel',
 									title: '属性',
 									html: $("#propertyPanelHtmlTmpl").html(),
 									collapsible: true,
 									bodyCls: ['property', 'panel'],
-									autoScroll: 'true'
+									overflowY: 'auto'
 								});
 								var scenePanel = Ext.create('Ext.panel.Panel', {
 									itemId: 'scenePanel',
@@ -160,6 +176,94 @@ define(function (require, exports, module) {
 									bodyCls: ['scene', 'panel'],
 									overflowY: 'auto'
 								});
+								var addRoofWindow = Ext.create('Ext.window.Window', {
+									title: '屋顶',
+									height: 600,
+									width: 500,
+									layout: 'fit',
+									closeAction: 'hide',
+									items: [
+										{
+											xtype: 'panel',
+											itemId: 'addRoofPanel',
+											html: 'roof'
+										}
+									]
+								}).show().hide();
+								var addRoofPanel = addRoofWindow.getComponent('addRoofPanel');
+								var addOtherWindow = Ext.create('Ext.window.Window', {
+									title: '其他',
+									height: 600,
+									width: 500,
+									layout: 'fit',
+									closeAction: 'hide',
+									items: [
+										Ext.create('Ext.panel.Panel', {
+											itemId: 'addOtherPanel',
+											html: $("#otherPanelHtmlTmpl").html(),
+											bodyCls: ['panel'],
+											overflowY: 'auto'
+										})
+									]
+								}).show().hide();
+								var addOtherPanel = addOtherWindow.getComponent('addOtherPanel');
+								var addRoomWindow = Ext.create('Ext.window.Window', {
+									title: '房间',
+									height: 600,
+									width: 500,
+									layout: 'fit',
+									closeAction: 'hide',
+									items: [
+										Ext.create('Ext.panel.Panel', {
+											itemId: 'addRoomPanel',
+											html: $("#roomsPanelHtmlTmpl").html(),
+											overflowY: true
+										})
+									]
+								}).show().hide();
+								var addRoomPanel = addRoomWindow.getComponent('addRoomPanel');
+								var addWallWindow = Ext.create('Ext.window.Window', {
+									title: '墙',
+									height: 600,
+									width: 500,
+									layout: 'fit',
+									closeAction: 'hide',
+									items: [
+										Ext.create('Ext.panel.Panel', {
+											itemId: 'addWallPanel',
+											html: $("#wallsPanelHtmlTmpl").html()
+										})
+									]
+								}).show().hide();
+								var addWallPanel = addWallWindow.getComponent('addWallPanel');
+								var setFloorWindow = Ext.create('Ext.window.Window', {
+									title: '地板',
+									height: 600,
+									width: 500,
+									layout: 'fit',
+									closeAction: 'hide',
+									items: [
+										Ext.create('Ext.panel.Panel', {
+											itemId: 'setFloorPanel',
+											html: '<b>hi</b>'
+										})
+									]
+								}).show().hide();
+								var setFloorPanel = setFloorWindow.getComponent('setFloorPanel');
+								var setHouseLayoutWindow = Ext.create('Ext.window.Window', {
+									title: '设置房屋基本布局',
+									height: 600,
+									width: 500,
+									layout: 'fit',
+									closeAction: 'hide',
+									items: [
+										Ext.create('Ext.panel.Panel', {
+											itemId: 'setHouseLayoutPanel',
+											html: 'hi'
+										})
+									]
+								}).show().hide();
+								var setHouseLayoutPanel = setHouseLayoutWindow.getComponent('setHouseLayoutPanel');
 								var controlPanel = Ext.create('Ext.panel.Panel', {
 									renderTo: 'control_panel',
 									title: '控制面板',
@@ -169,45 +273,10 @@ define(function (require, exports, module) {
 									layout: 'fit',
 									items: [
 										scenePanel,
-										propertyPanel,
-										setHouseLayoutPanel,
-										{
-											itemId: 'setFloorPanel',
-											title: '地板',
-											html: '<b>hi</b>',
-											collapsible: true
-										},
-										{
-											itemId: 'addWallPanel',
-											title: '墙',
-											html: $("#wallsPanelHtmlTmpl").html(),
-											collapsible: true
-										},
-										{
-											itemId: 'addRoomPanel',
-											title: '房间',
-											html: $("#roomsPanelHtmlTmpl").html(),
-											collapsible: true
-										},
-										{
-											itemId: 'addRoofPanel',
-											title: '屋顶',
-											html: 'roof',
-											collapsible: true
-										},
-										{
-											itemId: 'addOtherPanel',
-											title: '其他',
-											html: $("#otherPanelHtmlTmpl").html(),
-											collapsible: true
-										}
+										propertyPanel
 									]
 								});
 								var static_url = '/static/';
-								var addWallPanel = controlPanel.getComponent('addWallPanel');
-								var addRoomPanel = controlPanel.getComponent('addRoomPanel');
-								var addRoofPanel = controlPanel.getComponent('addRoofPanel');
-								var addOtherPanel = controlPanel.getComponent('addOtherPanel');
 
 								function loadResourcesToPanels() {
 									// load walls to wall panel
@@ -256,15 +325,9 @@ define(function (require, exports, module) {
 									var roomUrlsToAdd = [
 										{url: static_url + 'resources/rooms/room1.json', type: 'room'},
 										{url: static_url + 'resources/rooms/room2.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/room11.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/room12.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/room13.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/bed.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/bathtub.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/teadesk.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/toilet.json', type: 'import'},
-                                        {url: static_url + 'resources/rooms/table.json', type: 'import'}
-
+										{url: static_url + 'resources/rooms/room11.json', type: 'import'},
+										{url: static_url + 'resources/rooms/room12.json', type: 'import'},
+										{url: static_url + 'resources/rooms/room13.json', type: 'import'}
 									];
 									var rooms = [];
 									var runAfterRoomsLoaded = _.after(roomUrlsToAdd.length, function () {
@@ -299,8 +362,14 @@ define(function (require, exports, module) {
 									var $otherTable = $(otherDom).find('.panel-table');
 									var $otherTableBody = $otherTable.find("tbody");
 									var otherUrlsToAdd = [
-										{url: static_url + 'resources/other/roof1.json', type: 'import'},
-										{url: static_url + 'resources/other/roof2.json', type: 'import'}
+										{url: static_url + 'resources/roofs/roof1.json', type: 'import'},
+										{url: static_url + 'resources/roofs/roof2.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/safa1.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/bathtub.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/bed.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/table.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/teadesk.json', type: 'import'},
+										{url: static_url + 'resources/furnitures/toilet.json', type: 'import'}
 									];
 									var others = [];
 									var runAfterOthersLoaded = _.after(otherUrlsToAdd.length, function () {
@@ -367,19 +436,27 @@ define(function (require, exports, module) {
 								}
 
 								function onAddWall() {
-									showPanel(addWallPanel);
+									addWallWindow.show();
 								}
 
 								function onAddRoom() {
-									showPanel(addRoomPanel);
+									addRoomWindow.show();
 								}
 
 								function onAddRoof() {
-									showPanel(addRoofPanel);
+									addRoofWindow.show();
+								}
+
+								function onSetFloor() {
+									setFloorWindow.show();
 								}
 
 								function onShowOther() {
-									showPanel(addOtherPanel);
+									addOtherWindow.show();
+								}
+
+								function onSetHouseLayout() {
+									setHouseLayoutWindow.show();
 								}
 
 								function showInfo(text, title) {
@@ -452,6 +529,7 @@ define(function (require, exports, module) {
 									});
 								});
 								exports.propertyPanel = propertyPanel;
+								window.p1 = propertyPanel;
 							}
 						});
 	});

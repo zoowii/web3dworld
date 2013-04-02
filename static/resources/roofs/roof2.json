@@ -1,0 +1,32 @@
+{
+	"version": "0.0.1",
+	"meshName": "importRoof",
+	"typeName": "屋顶",
+	"meshType": "roof",
+	"thumbnailUrl": "",
+	"type": "import",
+	"geometry_url": "/static/resources/json/roof2.json",
+	"material": {
+		"type": "basic",
+		"map": "/static/resources/images/shicai/shicai005.jpg",
+		"opacity": 0.5
+	},
+	"receiveShadow": true,
+	"doubleSided": true,
+	"castShadow": true,
+	"position": {
+		"x": 0,
+		"y": 0,
+		"z": 1000
+	},
+	"rotation": {
+		"x": 1.57,
+		"y": 0,
+		"z": 0
+	},
+	"scale": {
+		"x": 2.0,
+		"y": 2.0,
+		"z": 2.0
+	}
+}
