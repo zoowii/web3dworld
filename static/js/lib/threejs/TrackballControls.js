@@ -7,7 +7,7 @@ THREE.TrackballControls = function (object, domElement) {
     THREE.EventDispatcher.call(this);
 
     var _this = this;
-    var STATE = { NONE:-1, ROTATE:0, ZOOM:1, PAN:2, TOUCH_ROTATE:3, TOUCH_ZOOM:4, TOUCH_PAN:5 };
+    var STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM: 4, TOUCH_PAN: 5 };
 
     this.object = object;
     this.domElement = ( domElement !== undefined ) ? domElement : document;
@@ -16,7 +16,7 @@ THREE.TrackballControls = function (object, domElement) {
 
     this.enabled = true;
 
-    this.screen = { width:0, height:0, offsetLeft:0, offsetTop:0 };
+    this.screen = { width: 0, height: 0, offsetLeft: 0, offsetTop: 0 };
     this.radius = ( this.screen.width + this.screen.height ) / 4;
 
     this.rotateSpeed = 1.0;
@@ -60,7 +60,7 @@ THREE.TrackballControls = function (object, domElement) {
 
     // events
 
-    var changeEvent = { type:'change' };
+    var changeEvent = { type: 'change' };
 
 
     // methods
@@ -239,6 +239,8 @@ THREE.TrackballControls = function (object, domElement) {
 
     };
 
+    this.holdLookAt = false;
+
     this.update = function () {
 
         _eye.subVectors(_this.object.position, _this.target);
@@ -265,7 +267,11 @@ THREE.TrackballControls = function (object, domElement) {
 
         _this.checkDistances();
 
-        _this.object.lookAt(_this.target);
+        if (!this.holdLookAt) {
+            _this.object.lookAt(_this.target);
+        } else {
+            _this.object.lookAt(this.holdLookAt.position);
+        }
 
         if (lastPosition.distanceToSquared(_this.object.position) > 0) {
 
