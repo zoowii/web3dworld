@@ -268,7 +268,18 @@ define(function (require, exports, module) {
                 if (mesh == undefined || mesh.position == undefined) {
                     return;
                 }
+                if(mesh['__group__']) {
+                    var group = mesh['__group__'];
+                    var offset = point.clone();
+                    offset.sub(mesh.position);
+                    _.each(group.getItems(), function(item) {
+                        var t1 = offset.clone();
+                        t1.add(item.position);
+                        item.position.copy(t1);
+                    });
+                } else {
                 mesh.position.copy(point);
+                }
                 this.trigger('meshMoved', name, point);
             },
             onAddSimpleGeometry: function (type, meshName) {

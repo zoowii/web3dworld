@@ -4,6 +4,7 @@ define(function (require, exports, module) {
     var _ = require('underscore');
     var helper = require('editor.helper');
     var Backbone = require('backbone');
+    var Object3DGroup = require('editor.extra').Object3DGroup;
     $(function () {
         var EditorViewportProxy = Backbone.Model.extend({
             loadSceneFromJson: function (json) {
@@ -111,8 +112,11 @@ define(function (require, exports, module) {
                     from = null;
                 }
                 _results = [];
+                // create a group
+                var group = new Object3DGroup();
                 for (_i = 0, _len = array.length; _i < _len; _i++) {
                     json = array[_i];
+                    json['__group__'] = group;
                     json = helper.preprocessJsonResource(json, type);
                     _results.push(this.dispatchMeshJson(json, from));
                 }

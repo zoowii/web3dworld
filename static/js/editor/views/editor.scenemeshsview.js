@@ -39,7 +39,12 @@ define(function (require, exports, module) {
                 listView.addClass('meshs-list');
                 for (i = _i = 0, _ref = objects.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
                     obj = objects[i];
-                    str = '<li>' + (obj.meshType ? obj.meshType : 'Object3D') + ': ' + (obj.name ? obj.name : _.uniqueId('object3d')) + '</li>';
+                    var displayText = (obj.meshType ? obj.meshType : 'Object3D') + ': ' + (obj.name ? obj.name : _.uniqueId('object3d'));
+                    if (obj['__group__']) {
+                        var group = obj['__group__'];
+//                        displayText += "[group=" + group.name + "]";
+                    }
+                    str = '<li>' + displayText + '</li>';
                     item = $(str);
                     this.items.push({
                         obj: obj,
@@ -55,6 +60,50 @@ define(function (require, exports, module) {
                 return panel.append(listView);
             }
         });
+        $(document).on('mousedown', '#control_panel .meshs-list li', function (e) {
+            if (e.button === 0) { // left mouse click
+                if ($(this).hasClass('active')) {
+                    $(this).removeClass('active');
+                } else {
+                    $(this).addClass('active');
+                }
+            } else if (e.button === 1) { // middle mouse click
+                var _this = this;
+                _.each($("#control_panel .meshs-list li"), function (li) {
+                    if (li == _this) {
+                        $(li).addClass('active');
+                    } else {
+                        $(li).removeClass('active');
+                    }
+                });
+                var menu = Ext.create('Ext.menu.Menu', {
+                    items: [
+                        {
+                            text: 'Remove from group',
+                            handler: function() {
+
+                            }
+                        },
+                        {
+                            text: 'Add to group',
+                            handler: function() {
+
+                            }
+                        }
+                    ]
+                });
+                var e1 = Ext.EventObject;
+                e1.stopEvent();
+                menu.showAt(e1.getPoint());
+            } else {
+
+            }
+        });
+        $(document).on('contextmenu', '#control_panel .meshs-list', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+//        Ext.getBody().on("contextmenu", Ext.emptyFn, null, {preventDefault: true});
         exports.SceneMeshsView = SceneMeshsView;
     });
 });

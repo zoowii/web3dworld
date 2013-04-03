@@ -473,13 +473,6 @@ define(function (require, exports, module) {
                     return infoDialog;
                 }
 
-                $(document).on('click', '.meshs-list li', function () {
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-                    } else {
-                        $(this).addClass('active');
-                    }
-                });
                 $(".exportSceneObjects").click(function () {
                     var temp1 = $(".meshs-list li.active");
                     var objNames = _.map(temp1, function (ele) {
