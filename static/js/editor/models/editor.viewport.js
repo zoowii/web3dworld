@@ -197,7 +197,7 @@ define(function (require, exports, module) {
                 // moving cube or moving person
                 var cube = new THREE.CubeGeometry(100, 100, 100);
                 var mesh = new THREE.Mesh(cube, new THREE.MeshBasicMaterial);
-                mesh.position.set(0, 0, 50.1);
+                mesh.position.set(0, 0, 100.1);
                 mesh.visible = false;
                 scene.add(mesh);
                 this.movingCube = mesh;

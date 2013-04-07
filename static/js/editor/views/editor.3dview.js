@@ -51,7 +51,7 @@ define(function (require, exports, module) {
                     var cameraOffset = relativeCameraOffset.applyMatrix4(movingCube.matrixWorld);
                     camera.position.x = cameraOffset.x;
                     camera.position.y = cameraOffset.y;
-                    camera.position.z = cameraOffset.z - 50;
+                    camera.position.z = cameraOffset.z;
 //                    camera.up.set(1, 1, 0);
                     camera.lookAt(movingCube.position);
                 }
