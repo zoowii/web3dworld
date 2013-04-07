@@ -48,6 +48,7 @@ define(function (require, exports, module) {
                     _this.addMesh(mesh);
                 });
             },
+
             getObject: function (name) {
                 var objects = this.get('objects');
                 for (var i = 0; i < objects.length; ++i) {
@@ -253,6 +254,7 @@ define(function (require, exports, module) {
                     case 'light':
                         return this.loadLightsFromJson(meshJson);
                     // else TODO
+
                 }
                 return this;
             },

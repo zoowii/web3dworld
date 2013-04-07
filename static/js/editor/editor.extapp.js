@@ -41,8 +41,8 @@ define(function (require, exports, module) {
                             ignoreParentClicks: true,
                             items: [
                                 {text: '地板', handler: onSetFloor},
-                                {text: '墙', handler: onAddWall},
-                                {text: '门'},
+                                {text: '墙',handler: onAddWall},
+                                {text: '门',handler:onAddDoor},
                                 {text: '窗'},
                                 {text: '阳台'},
                                 {text: '屋顶', handler: onAddRoof}
@@ -226,6 +226,19 @@ define(function (require, exports, module) {
                         })
                     ]
                 }).show().hide();
+                var addDoorWindow = Ext.create('Ext.window.Window', {
+                    title: '门',
+                    height: 600,
+                    width: 500,
+                    layout: 'fit',
+                    closeAction: 'hide',
+                    items: [
+                        Ext.create('Ext.panel.Panel', {
+                            itemId: 'addWallPanel',
+                            html: '<button class ="addDoor">door1</button>'
+                        })
+                    ]
+                }).show().hide();
                 var addWallPanel = addWallWindow.getComponent('addWallPanel');
                 var setFloorWindow = Ext.create('Ext.window.Window', {
                     title: '地板',
@@ -250,9 +263,9 @@ define(function (require, exports, module) {
                     items: [
                         Ext.create('Ext.panel.Panel', {
                             itemId: 'setHouseLayoutPanel',
-                            html: 'hi'
+                            html: '<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout1.json">layout1</button>'
                         })
-                    ]
+                    ]                  //TODO:  hd
                 }).show().hide();
                 var setHouseLayoutPanel = setHouseLayoutWindow.getComponent('setHouseLayoutPanel');
                 var controlPanel = Ext.create('Ext.panel.Panel', {
@@ -429,7 +442,10 @@ define(function (require, exports, module) {
                 function onAddWall() {
                     addWallWindow.show();
                 }
-
+                function onAddDoor()
+                {
+                    addDoorWindow.show();
+                }
                 function onAddRoom() {
                     addRoomWindow.show();
                 }

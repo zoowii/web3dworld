@@ -39,6 +39,19 @@ define(function (require, exports, module) {
                     _this.dispatchGeometryOriginJson(json);
                 });
             },
+            dispatchLayoutArrayJson: function (array) {
+                var _i, _len,json;
+                for(_i=0, _len= array.length; _i < _len; _i++)
+                {
+                    json = array[_i];
+                    if(json.type=='import'){
+                    this.dispatchGeometryOriginJsonFromUrl(json.geometry_url,json);
+                    }
+                    else{
+                    this.dispatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
+                    }
+                }
+            },                               //TODO:  hd
             dispatchGeometryOriginJson: function (json) {
                 var viewports = this.get('viewports');
                 json = helper.preprocessGeometryOriginJson(json);
@@ -122,6 +135,7 @@ define(function (require, exports, module) {
                 }
                 return this;
             },
+
             dispathSimpleGeometry: function (type) {
                 var viewports = this.get('viewports');
                 var meshName = _.uniqueId(type);

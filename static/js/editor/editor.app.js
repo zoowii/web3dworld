@@ -89,13 +89,20 @@ define(function (require, exports, module) {
                         return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
                     });
                 }
-                    break
+                    break ;
                 case 'import':
                 {
                     helper.getJSON(url, function (json) {
                         viewportProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
                     });
                 }
+                    break;
+                case 'layout':
+                {
+                    helper.getJSON(url, function(json){
+                         viewportProxy.dispatchLayoutArrayJson(json.items);
+                    });
+                }                                       //TODO:hd
             }
         });
         $(document).on('click', '.import-resource-btn', function () {
@@ -105,6 +112,12 @@ define(function (require, exports, module) {
                 viewportProxy.dispatchGeometryOriginJson(json);
             });
         });
+        $(document).on('click', '.addDoor', function () {
+            var url = '/static/resources/doors/door1.json';
+            helper.getJSON(url, function (json) {
+                return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
+            });
+        });//TODO:hd
         $(document).on('click', '.import-image-btn', function () {
             var name = $(this).parents('tr').find('.resource-name').html();
             var resource_url = helper.getUrlForResource(name);

@@ -335,7 +335,6 @@ define(function (require, exports, module) {
             return console.log('unsupported yet');
         }
     };
-
     helper.loadLightFromJson = function (_json) {
         var json, light;
         json = helper.preprocessJsonResource(_json, 'light');
