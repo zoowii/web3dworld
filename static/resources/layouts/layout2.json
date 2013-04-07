@@ -1,0 +1,303 @@
+{
+    "version": "0.0.1",
+    "meshName": "layout",
+    "typeName": "布局2",
+    "meshType": "layout",
+    "thumbnailUrl": "",
+    "items":[
+        {
+            "meshName": "room1",
+            "typeName": "房间",
+            "meshType": "room",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/room11.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 614,
+                "y": 360,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 5.0,
+                "y": 4.0,
+                "z": 7.0
+            }
+         },
+        {
+            "meshName": "room2",
+            "typeName": "房间",
+            "meshType": "room",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/room12.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 509,
+                "y": -587,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 6.0,
+                "y": 4.0,
+                "z": 6.0
+            }
+        },
+        {
+            "meshName": "room3",
+            "typeName": "房间",
+            "meshType": "room",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/room13.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 200,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 3.14,
+                "z": 0
+            },
+            "scale": {
+                "x": 10.0,
+                "y": 4.0,
+                "z": 15.0
+            }
+        },
+        {
+            "meshName": "room4",
+            "typeName": "墙",
+            "meshType": "walls",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/qiangbi3.json",
+            "material": {
+                "map": {
+                    "from_type": "url",
+                    "url":"/static/resources/images/shicai/shicai011.jpg"
+                },
+                "type": "basic",
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": -572,
+                "y": -448,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 3.5,
+                "y": 4,
+                "z": 3
+            }
+        },
+        {
+            "meshName": "table",
+            "typeName": "餐桌",
+            "meshType": "Furniture",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/table.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/buwen/buwen002.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 29,
+                "y": 340,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.10,
+                "y": 0.10,
+                "z": 0.10
+            }
+        } ,
+
+        {
+            "meshName": "bathtub",
+            "typeName": "浴缸",
+            "meshType": "Furniture",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/bathtub.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/shicai/shicai041.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 300,
+                "y": -700,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.15,
+                "y": 0.15,
+                "z": 0.15
+            }
+        },
+        {
+            "meshName": "bed",
+            "typeName": "床",
+            "meshType": "Furniture",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/bed.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/buwen/buwen005.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": -300,
+                "y": -500,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 2.71,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.15,
+                "y": 0.15,
+                "z": 0.15
+            }
+        }
+        ,{
+            "meshName": "sofa",
+            "typeName": "沙发",
+            "meshType": "furniture",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/json/safa3.json",
+            "material": {
+                "type": "basic",
+                "map": "/static/resources/images/zihua/zihua318.jpg",
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": -600,
+                "y": 400,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 1.57,
+                "z": 0
+            },
+            "scale": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 2.0
+            }
+        }     ,
+        {
+            "meshName": "toilet",
+            "typeName": "马桶",
+            "meshType": "Furniture",
+            "thumbnailUrl": "",
+            "type": "import",
+            "geometry_url": "/static/resources/json/toilet.json",
+            "material": {
+                "type": "basic",
+                "map": {"url":"/static/resources/images/shicai/shicai041.jpg"},
+                "transparent": true,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 200,
+                "y": -500,
+                "z": 0
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.22,
+                "y": 0.22,
+                "z": 0.22
+            }
+        }
+
+
+    ]
+
+}

@@ -263,7 +263,9 @@ define(function (require, exports, module) {
                     items: [
                         Ext.create('Ext.panel.Panel', {
                             itemId: 'setHouseLayoutPanel',
-                            html: '<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout1.json">layout1</button>'
+                            html: '<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout1.json">layout1</button><br>' +
+                                '<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout2.json">layout2</button><br>' +
+                                '<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout3.json">layout3</button><br>'
                         })
                     ]                  //TODO:  hd
                 }).show().hide();
