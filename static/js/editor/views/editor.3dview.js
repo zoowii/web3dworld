@@ -24,22 +24,22 @@ define(function (require, exports, module) {
                     switch (e.keyCode) {
                         case 119:
                         { // w
-                            movingCube.translateX(moveDistance);
+                            movingCube.translateX(-moveDistance);
                         }
                             break;
                         case 97:
                         { // a
-                            movingCube.translateY(moveDistance);
+                            movingCube.translateY(-moveDistance);
                         }
                             break;
                         case 100:
                         { // d
-                            movingCube.translateY(-moveDistance);
+                            movingCube.translateY(moveDistance);
                         }
                             break;
                         case 115:
                         { // s
-                            movingCube.translateX(-moveDistance);
+                            movingCube.translateX(moveDistance);
                         }
                             break;
                         default:
