@@ -2,16 +2,25 @@ define(function (require, exports, module) {
     var $ = require('jquery');
     var _ = require('underscore');
     var helper = require('editor.helper');
-    var Backbone = require('backbone');
     $(function () {
-        var Object3DGroup = function () {
-            this.name = _.uniqueId('group');
+        var Object3DGroup = function (name) {
+			if(name === undefined || Object3DGroup.findByName(name) != null) {
+            	this.name = _.uniqueId('group');
+			} else {
+				this.name = name;
+			}
             this.items = new helper.Set();
             this.add = function (item) {
                 this.items.add(item);
+				if(!item['__group__']) {
+				item['__group__'] = this;
+				}
             };
             this.remove = function (item) {
                 this.items.remove(item);
+				if(item['__group__']) {
+					delete item['__group__'];
+				}
             };
             this.applyToAll = function (func, params) {
                 if (params === undefined ||
@@ -46,6 +55,15 @@ define(function (require, exports, module) {
             });
             return data;
         };
+		Object3DGroup.findByName = function(name) {
+			for(var i=0;i<Object3DGroup.groupSet.data.length;++i) {
+				var group = Object3DGroup.groupSet.data[i];
+				if(group && group.name == name) {
+					return group;
+				}
+			}
+			return null;
+		};
         exports.Object3DGroup = Object3DGroup;
     });
 });

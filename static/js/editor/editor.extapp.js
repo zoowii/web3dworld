@@ -161,7 +161,7 @@ define(function (require, exports, module) {
                 });
                 var scenePanel = Ext.create('Ext.panel.Panel', {
                     itemId: 'scenePanel',
-                    title: '场景 <button class="btn btn-small btn-inverse exportSceneObjects">导出对象</button>',
+                    title: '场景 <button class="btn btn-small btn-inverse exportSceneObjects">导出对象</button> <button class="btn btn-small btn-inverse showGroupManager">Group</button>',
                     html: $("#scenePanelHtmlTmpl").html(),
                     collapsible: true,
                     bodyCls: ['scene', 'panel'],
@@ -488,7 +488,15 @@ define(function (require, exports, module) {
                     infoDialog.show();
                     return infoDialog;
                 }
-
+				$(".showGroupManager").click(function() {
+					var Object3DGroup = require('editor.extra').Object3DGroup;
+					var groups = Object3DGroup.getGroups();
+					var str = "";
+					_.each(groups, function(group) {
+						str += group.name + '<br>';
+					});
+					showInfo(str, "Group Manager");
+				});
                 $(".exportSceneObjects").click(function () {
                     var temp1 = $(".meshs-list li.active");
                     var objNames = _.map(temp1, function (ele) {

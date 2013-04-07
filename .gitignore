@@ -3,3 +3,4 @@
 *~
 *.pyc
 development.db
+*.iml
