@@ -1,0 +1,83 @@
+{
+    "version": "0.0.1",
+    "meshType": "door",
+    "meshName": "door",
+    "typeName": "门",
+    "thumbnailUrl": "",
+    "items": [
+
+        {
+            "typeName": "门",
+            "meshType":"wall",
+            "meshName": "door2",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "width": 30,
+            "height": 300,
+            "depth": 200,
+            "material": {
+                "type": "basic",
+                "color": "#ffffff",
+                "transparent": true,
+                "opacity": 1,
+                "map": {"from_type": "url","url":"/static/resources/images/shicai/shicai002.bmp"}
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 150
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+
+
+        {
+            "typeName": "门",
+            "meshType": "wall",
+            "meshName": "door1",
+            "thumbnailUrl": "",
+            "type": "basic",
+            "width": 60,
+            "height": 300,
+            "depth": 200,
+            "material": {
+                "type": "basic",
+                "color": "#ffffff",
+                "transparent": false,
+                "opacity": 1
+            },
+            "receiveShadow": true,
+            "doubleSided": true,
+            "castShadow": true,
+            "position": {
+                "x": 100,
+                "y": 100,
+                "z": 150
+            },
+            "rotation": {
+                "x": 1.57,
+                "y": 1.57,
+                "z": 0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+
+    ]
+}
+
