@@ -119,7 +119,7 @@ define(function (require, exports, module) {
         return setTimeout(newTask, interval);
     };
 
-    helper.Set = Set = (function () {
+    helper.Set = (function () {
 
         function Set() {
             this.data = [];
@@ -260,7 +260,6 @@ define(function (require, exports, module) {
 
     helper.createObject3DFromJson = function (json, callback) {
         jsonLoader.createModel(json, function (geom) {
-            console.log(json, geom);
             geom = helper.updateOriginGeometryFromJson(geom, json);
             callback(geom);
         });
@@ -289,11 +288,15 @@ define(function (require, exports, module) {
 
     helper.preprocessGeometryOriginJson = function (json) {
         if (json.originJson == undefined) {
+            var name = _.uniqueId('mesh');
             json.originJson = {
                 __type__: '__origin__',
                 __meshType__: '__geometry__',
-                __name__: _.uniqueId('mesh')
+                __name__: name
             };
+            if (json['__options__']) {
+                json['__options__']['name'] = name;
+            }
         }
         return json;
     };
@@ -402,6 +405,9 @@ define(function (require, exports, module) {
         var json = {};
         json.type = material.originJson.type;
         json.color = helper.parseRGBToNumber(material.color);
+        if (material.map) {
+            json.map = material.map.image.src;
+        }
         directExtendObjProperties(json, material, ['transparent', 'opacity']);
         return json;
     };
@@ -412,7 +418,7 @@ define(function (require, exports, module) {
         json.y = vector.y;
         json.z = vector.z;
         return json;
-    }
+    };
 
     helper.parseObject3DToJson = function (obj) {
         var json = {};
@@ -421,13 +427,33 @@ define(function (require, exports, module) {
             case 'wall':
             {
                 directExtendObjProperties(json, obj.originJson, ['typeName', 'type', 'thumbnailUrl']);
-                directExtendObjProperties(json, obj, ['receiveShadow', 'doubleSided', 'castShadow', 'meshName']);
+                _.extend(json, obj.__options__);
+                directExtendObjProperties(json, obj, ['receiveShadow', 'doubleSided', 'castShadow', 'meshName', 'version']);
                 directExtendObjProperties(json, obj.geometry, ['width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments']);
                 json.material = helper.parseMaterialToJson(obj.material);
                 json.position = helper.parseVector3ToObj(obj.position);
                 json.rotation = helper.parseVector3ToObj(obj.rotation);
                 json.scale = helper.parseVector3ToObj(obj.scale);
-                console.log(obj);
+                if (obj.group) {
+                    json.groupName = obj.group.name;
+                }
+                delete json.name;
+                return json;
+            }
+                break;
+            default:
+            {
+                directExtendObjProperties(json, obj.originJson, ['typeName', 'type', 'thumbnailUrl']);
+                _.extend(json, obj.__options__);
+                directExtendObjProperties(json, obj, ['receiveShadow', 'doubleSided', 'castShadow', 'meshName', 'version']);
+                json.material = helper.parseMaterialToJson(obj.material);
+                json.position = helper.parseVector3ToObj(obj.position);
+                json.rotation = helper.parseVector3ToObj(obj.rotation);
+                json.scale = helper.parseVector3ToObj(obj.scale);
+                if (obj.group) {
+                    json.groupName = obj.group.name;
+                }
+                delete json.name;
                 return json;
             }
         }

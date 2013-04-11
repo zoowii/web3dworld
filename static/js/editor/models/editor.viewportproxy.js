@@ -14,20 +14,21 @@ define(function (require, exports, module) {
                 return helper.loadSceneJson(url, _.bind(this.loadSceneFromJson, this));
             },
             dispatchSceneJson: function (json, from) {
-                var floorJson, fogJson, lightsJson, skyboxJson, wallsJson;
                 if (from == null) {
                     from = null;
                 }
-                floorJson = helper.preprocessJsonResource(json.floor, 'floor');
-                wallsJson = json.walls;
-                lightsJson = json.lights;
-                fogJson = helper.preprocessJsonResource(json.fog, 'fog');
-                skyboxJson = helper.preprocessJsonResource(json.skybox, 'skybox');
+                var floorJson = helper.preprocessJsonResource(json.floor, 'floor');
+                var wallsJson = json.walls;
+                var lightsJson = json.lights;
+                var fogJson = helper.preprocessJsonResource(json.fog, 'fog');
+                var skyboxJson = helper.preprocessJsonResource(json.skybox, 'skybox');
+                var itemsJson = json.items;
                 this.dispatchMeshJson(floorJson, from);
                 this.dispatchMeshJson(fogJson, from);
                 this.dispatchMeshJson(skyboxJson, from);
                 this.dispatchMeshArrayJson(wallsJson, 'wall', from);
                 this.dispatchMeshArrayJson(lightsJson, 'light', from);
+                this.dispatchMeshArrayJson(itemsJson, 'mesh', from, false);
                 return this;
             },
             dispatchGeometryOriginJsonFromUrl: function (url, options) {
@@ -40,20 +41,20 @@ define(function (require, exports, module) {
                 });
             },
             dispatchLayoutArrayJson: function (array) {
-                var _i, _len,json;
-                for(_i=0, _len= array.length; _i < _len; _i++)
-                {
+                var _i, _len, json;
+                for (_i = 0, _len = array.length; _i < _len; _i++) {
                     json = array[_i];
-                    if(json.type=='import'){
-                    this.dispatchGeometryOriginJsonFromUrl(json.geometry_url,json);
+                    if (json.type == 'import') {
+                        this.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
                     }
-                    else{
-                    this.dispatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
+                    else {
+                        this.dispatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
                     }
                 }
             },                               //TODO:  hd
             dispatchGeometryOriginJson: function (json) {
                 var viewports = this.get('viewports');
+                delete json.originJson;
                 json = helper.preprocessGeometryOriginJson(json);
                 _.each(viewports, function (viewport) {
                     viewport.addOriginGeometryFromJson(json);
@@ -116,7 +117,10 @@ define(function (require, exports, module) {
                     viewport.deleteMesh(meshName);
                 })
             },
-            dispatchMeshArrayJson: function (array, type, from) {
+            dispatchMeshArrayJson: function (array, type, from, new_group) {
+                if (new_group === undefined) {
+                    new_group = true;
+                }
                 var json, _i, _len, _results;
                 if (type == null) {
                     type = 'mesh';
@@ -126,12 +130,22 @@ define(function (require, exports, module) {
                 }
                 _results = [];
                 // create a group
-                var group = new Object3DGroup();
+                if (new_group) {
+                    var group = new Object3DGroup();
+                }
                 for (_i = 0, _len = array.length; _i < _len; _i++) {
                     json = array[_i];
-                    json['__group__'] = group;
+                    if (new_group) {
+                        json['__group__'] = group;
+                    }
                     json = helper.preprocessJsonResource(json, type);
-                    _results.push(this.dispatchMeshJson(json, from));
+                    var result = null;
+                    if (json.geometry_url) {
+                        result = this.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
+                    } else {
+                        result = this.dispatchMeshJson(json, from);
+                    }
+                    _results.push(result);
                 }
                 return this;
             },

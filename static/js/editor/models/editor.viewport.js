@@ -45,6 +45,11 @@ define(function (require, exports, module) {
                     }
                     var mesh = new THREE.Mesh(geom, material);
                     mesh = helper.updateOriginMeshFromJson(mesh, json);
+                    if (json['__options__'] && json['__options__']['groupName']) {
+                        var Object3DGroup = require('editor.extra').Object3DGroup;
+                        var group = Object3DGroup.getOrCreate(json['__options__']['groupName']);
+                        mesh['__group__'] = group;
+                    }
                     _this.addMesh(mesh);
                 });
             },
@@ -270,17 +275,17 @@ define(function (require, exports, module) {
                 if (mesh == undefined || mesh.position == undefined) {
                     return;
                 }
-                if(mesh['__group__']) {
+                if (mesh['__group__']) {
                     var group = mesh['__group__'];
                     var offset = point.clone();
                     offset.sub(mesh.position);
-                    _.each(group.getItems(), function(item) {
+                    _.each(group.getItems(), function (item) {
                         var t1 = offset.clone();
                         t1.add(item.position);
                         item.position.copy(t1);
                     });
                 } else {
-                mesh.position.copy(point);
+                    mesh.position.copy(point);
                 }
                 this.trigger('meshMoved', name, point);
             },
