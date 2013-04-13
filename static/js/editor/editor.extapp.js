@@ -41,8 +41,8 @@ define(function (require, exports, module) {
                             ignoreParentClicks: true,
                             items: [
                                 {text: '地板', handler: onSetFloor},
-                                {text: '墙',handler: onAddWall},
-                                {text: '门',handler:onAddDoor},
+                                {text: '墙', handler: onAddWall},
+                                {text: '门', handler: onAddDoor},
                                 {text: '窗'},
                                 {text: '阳台'},
                                 {text: '屋顶', handler: onAddRoof}
@@ -444,10 +444,11 @@ define(function (require, exports, module) {
                 function onAddWall() {
                     addWallWindow.show();
                 }
-                function onAddDoor()
-                {
+
+                function onAddDoor() {
                     addDoorWindow.show();
                 }
+
                 function onAddRoom() {
                     addRoomWindow.show();
                 }
@@ -468,6 +469,8 @@ define(function (require, exports, module) {
                     setHouseLayoutWindow.show();
                 }
 
+                var infoDialog = null;
+
                 function showInfo(text, title) {
                     var infoInnerPanel = Ext.create('Ext.panel.Panel', {
                         html: 'info',
@@ -475,7 +478,7 @@ define(function (require, exports, module) {
                         overflowY: 'auto'
                     });
 
-                    var infoDialog = Ext.create('Ext.window.Window', {
+                    infoDialog = Ext.create('Ext.window.Window', {
                         title: 'Info',
                         height: 400,
                         width: 600,
@@ -490,15 +493,22 @@ define(function (require, exports, module) {
                     infoDialog.show();
                     return infoDialog;
                 }
-				$(".showGroupManager").click(function() {
-					var Object3DGroup = require('editor.extra').Object3DGroup;
-					var groups = Object3DGroup.getGroups();
-					var str = "";
-					_.each(groups, function(group) {
-						str += group.name + '<br>';
-					});
-					showInfo(str, "Group Manager");
-				});
+
+                function closeCurrentInfoDlg() {
+                    if (infoDialog) {
+                        infoDialog.close();
+                    }
+                }
+
+                $(".showGroupManager").click(function () {
+                    var Object3DGroup = require('editor.extra').Object3DGroup;
+                    var groups = Object3DGroup.getGroups();
+                    var str = "";
+                    _.each(groups, function (group) {
+                        str += group.name + '<br>';
+                    });
+                    showInfo(str, "Group Manager");
+                });
                 $(".exportSceneObjects").click(function () {
                     var temp1 = $(".meshs-list li.active");
                     var objNames = _.map(temp1, function (ele) {
@@ -506,9 +516,16 @@ define(function (require, exports, module) {
                         var temp2 = _.map(text.split(':'), function (t) {
                             return t.trim();
                         });
+                        var groupName = null;
+                        if (temp2.length >= 3) {
+                            groupName = temp2[2].substring(7, temp2[2].length - 1);
+                        }
+                        var Object3DGroup = require('editor.extra').Object3DGroup;
+                        var group = Object3DGroup.findByName(groupName);
                         return {
                             type: temp2[0],
-                            name: temp2[1]
+                            name: temp2[1],
+                            group: group
                         }
                     });
                     var editorApp = require('editor.app');
@@ -537,6 +554,22 @@ define(function (require, exports, module) {
                             $tbody.append($tr);
                         }
                     });
+                });
+                $(document).on('click', '.import-from-json-string', function () {
+                    closeCurrentInfoDlg();
+                    var str = prompt("Input the resource json string: ");
+                    if (!str) {
+                        return;
+                    }
+                    var json = JSON.parse(str);
+                    var viewportProxy = require('editor.app').viewportProxy;
+                    if (json.geometry_url) {
+                        viewportProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
+                    } else if (_.isArray(json)) {
+                        viewportProxy.dispatchMeshArrayJson(json.items, 'tempArray');
+                    } else {
+                        viewportProxy.dispatchMeshJson(helper.preprocessJsonResource(json, 'temp'));
+                    }
                 });
                 exports.propertyPanel = propertyPanel;
             }
