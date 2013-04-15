@@ -30,7 +30,7 @@ define(function (require, exports, module) {
                         {text: '光源', menu: new Ext.menu.Menu({
                             ignoreParentClicks: true,
                             items: [
-                                {text: '点光源(Point)'},
+                                {text: '点光源(Point)',handler:onAddPointLight},
                                 {text: '卫星光源(Spot)'},
                                 {text: '平行光源(Directional)/太阳光源'},
                                 {text: '半球光源(Hemisphere)'},
@@ -411,7 +411,10 @@ define(function (require, exports, module) {
                 function onAddPlane() {
                     addSimpleGeometry('plane');
                 }
-
+                function onAddPointLight()
+                {
+                    addLight('point');
+                }
                 function onAddCube() {
                     addSimpleGeometry('cube');
                 }
@@ -428,7 +431,10 @@ define(function (require, exports, module) {
                     var viewportProxy = require('editor.app').viewportProxy;
                     viewportProxy.dispathSimpleGeometry(type);
                 }
-
+                function addLight(type){
+                    var viewportProxy = require('editor.app').viewportProxy;
+                    viewportProxy.dispatchLight(type);
+                }
                 function showPanel(panel) {
                     _.each(controlPanel.items.items, function (item) {
                         if (item === panel) {

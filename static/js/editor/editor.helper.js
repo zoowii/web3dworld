@@ -359,6 +359,8 @@ define(function (require, exports, module) {
     };
 
     helper.updateMeshFromJson = function (mesh, json) {
+        mesh.receiveShadow = true; // test TODO: REMOVE
+        mesh.castShadow = true; // test TODO: REMOVE
         mesh.originJson = json;
         if (json.position) {
             mesh.position.set(json.position.x, json.position.y, json.position.z);

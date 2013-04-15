@@ -34,5 +34,11 @@
                 "z": 4.0
             }
         }
+    ],
+    "lights":[
+        {
+            "type": "ambient",
+            "color": "0xffffff"
+        }
     ]
 }

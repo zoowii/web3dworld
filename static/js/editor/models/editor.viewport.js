@@ -289,6 +289,60 @@ define(function (require, exports, module) {
                 }
                 this.trigger('meshMoved', name, point);
             },
+            onAddLight:function(type,meshName){
+                var scene = this.get('scene');
+                var light = null;
+                var color = 0xffffff;
+                var intensity = 1;
+                var distance = 0;
+
+                light = new THREE.PointLight( color, intensity, distance );
+                //light.position.set(100,100,100);
+                light.position.z += 600;
+                light.position.y -= 200;
+                light.position.x -= 200;
+                helper.updateMeshFromJson(light, {
+                    name: meshName,
+                    meshType: type,
+                    typeName: type,
+                    meshName: meshName
+                });
+                this.afterAddObject(light);
+                var sphereSize = 100;
+
+                var lightGizmo = new THREE.PointLightHelper( light, sphereSize );
+                scene.add( lightGizmo );
+
+                light.properties.helper = lightGizmo;
+                light.properties.pickingProxy = lightGizmo.lightSphere;
+
+                this.afterAddObject(lightGizmo.lightSphere);
+                scene.add(light);
+
+                this.updateMaterials( scene );
+            },
+            updateMaterials:function(root){
+                root.traverse( function ( node ) {
+
+                    if ( node.material ) {
+
+                        node.material.needsUpdate = true;
+
+                    }
+
+                    if ( node.geometry && node.geometry.materials ) {
+
+                        for ( var i = 0; i < node.geometry.materials.length; i ++ ) {
+
+                            node.geometry.materials[ i ].needsUpdate = true;
+
+                        }
+
+                    }
+
+                } );
+
+            },
             onAddSimpleGeometry: function (type, meshName) {
                 var scene = this.get('scene');
                 var geom = null;
@@ -326,6 +380,7 @@ define(function (require, exports, module) {
                 this.on('passMeshMove', this.onPassMeshMove, this); // mesh movement event passed from View
                 this.on('meshMove', this.onMeshMove, this); // real mesh movement do here
                 this.on('addSimpleGeometry', this.onAddSimpleGeometry, this);
+                this.on('addLight',this.onAddLight,this);
             },
             getSelected: function () {
                 return this.selected;
@@ -340,5 +395,7 @@ define(function (require, exports, module) {
             }
         });
         exports.EditorViewport = EditorViewport;
+
     });
+
 });

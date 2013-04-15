@@ -82,10 +82,11 @@ define(function (require, exports, module) {
                         // TODO: shouldn't move at the z direction
                         if (intersects.length > 0) {
                             intersects[0].point.sub(offset);
+                            console.log(intersects);
                             if (picked.properties.isGizmo) {
-                                intersects[0].point.z = picked.position.z; // Only x, y direction can be moved
-//                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
-//                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
+                               // intersects[0].point.z = picked.position.z; // Only x, y direction can be moved
+                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
+                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
                                 console.log('gizmo?');
                                 _this.dispatchMeshMove(picked.name, intersects[0].point);
                                 // TODO: use mouse move subject
