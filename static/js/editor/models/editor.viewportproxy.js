@@ -3,6 +3,7 @@ define(function (require, exports, module) {
     var $ = require('jquery');
     var _ = require('underscore');
     var helper = require('editor.helper');
+	var exporter = require('editor.exporter');
     var Backbone = require('backbone');
     var Object3DGroup = require('editor.extra').Object3DGroup;
     $(function () {
@@ -224,7 +225,27 @@ define(function (require, exports, module) {
                 return _.map(objs, function (obj) {
                     return this.exportObjectToJson(obj);
                 }, this);
-            }
+            },
+			exportSceneToJson: function() {
+				var viewport = this.get('viewports')[0];
+				var sceneJson = {
+					items: []
+				};
+				var scene = viewport.get('scene');
+				window.scene = scene;
+				console.log(scene);
+				if(scene.fog) {
+					sceneJson.fog = exporter.parseFogToJson(scene.fog);
+				}
+				if(scene.skybox) {
+					sceneJson.skybox = exporter.parseSkyboxToJson(scene.skybox);
+				}
+				// TODO: export items, lights, walls, etc.
+				// TODO: change the code of load fog and skybox to beauty.
+				// Now the code is too old to load mesh(skybox is also a mesh)
+				// And even the fog and skybox should have a name, so they should be dispatched by ViewportProxy
+				return sceneJson;
+			}
         });
         exports.EditorViewportProxy = EditorViewportProxy;
     });

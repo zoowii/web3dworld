@@ -9,6 +9,7 @@ require.config({
         "editor.extapp": 'editor/editor.extapp',
         "editor.ui": 'editor/editor.ui',
         "editor.helper": 'editor/editor.helper',
+		"editor.exporter": 'editor/editor.exporter',
         "editor.extra": 'editor/editor.extra',
         "editor.view": 'editor/views/editor.view',
         "editor.2dview": 'editor/views/editor.2dview',

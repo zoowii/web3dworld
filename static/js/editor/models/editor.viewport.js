@@ -171,7 +171,9 @@ define(function (require, exports, module) {
 														   skybox = new THREE.Mesh(geom, material);
 														   helper.updateMeshFromJson(skybox, json);
 														   scene.add(skybox);
+														   skybox.name = 'skybox';
 														   this.set('skybox', skybox);
+														   scene.skybox = skybox;
 														   this.afterAddObject(skybox, {
 															   name: 'skybox',
 															   meshType: 'skybox'
@@ -183,6 +185,7 @@ define(function (require, exports, module) {
 														   json = helper.preprocessJsonResource(json, 'fog');
 														   scene = this.get('scene');
 														   scene.fog = fog = new THREE.FogExp2(json.color, json.density);
+														   fog.name = 'fog';
 														   this.afterAddObject(fog);
 														   return this;
 													   },
