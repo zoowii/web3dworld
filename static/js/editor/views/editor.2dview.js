@@ -20,6 +20,7 @@ define(function (require, exports, module) {
                 return camera.lookAt(this.model.get('scene').position);
             },
             initEvents: function () {
+                EditorView.prototype.initEvents.call(this);
                 var _camera, _model;
                 _model = this.model;
                 _camera = this.camera;

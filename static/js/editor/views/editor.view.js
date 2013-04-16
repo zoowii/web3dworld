@@ -17,6 +17,7 @@ define(function (require, exports, module) {
                 });
                 renderer.setSize(this.width, this.height);
                 renderer.setClearColor(0xffffff, 0.1);
+//                renderer.shadowMapEnabled = true;
                 // 设置canvas背景色，透明度
                 return this.el.appendChild(renderer.domElement);
             },

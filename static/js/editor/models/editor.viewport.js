@@ -83,16 +83,10 @@ define(function (require, exports, module) {
                 this.set('objects', []);
                 this.initUtils();
                 this.initScene();
-                // this.initLight()
                 this.initDerectionHelp();
                 this.initControls();
                 this.initEvents();
-                // this.loadWall(static_url + 'json/qiangbi2.json', static_url + 'img/sicai001.jpg', 3.0, {x: 1.57, y: 0, z: 0})
-                // this.initSkybox()
-                // this.initFog()
                 this.initFloor();
-                // this.loadFloor(static_url + 'img/diban1.jpg')
-                // this.loadScene(static_url + 'resources/scenes/test.json')
             },
             initFloor: function () {
                 var floor, floorGeometry, floorMaterial, floorTexture, jsonLoader, proportion, scene;
@@ -289,50 +283,113 @@ define(function (require, exports, module) {
                 }
                 this.trigger('meshMoved', name, point);
             },
-            onAddLight:function(type,meshName){
-                var scene = this.get('scene');
-                var light = null;
-                var color = 0xffffff;
-                var intensity = 1;
-                var distance = 0;
+            onAddLight: function (type, meshName) {
+                type = type.toLowerCase();
+                switch (type) {
+                    case 'point':
+                    {
+                        var scene = this.get('scene');
+                        var light = null;
+                        var color = 0xffffff;
+                        var intensity = 2;
+                        var distance = 0;
 
-                light = new THREE.PointLight( color, intensity, distance );
-                //light.position.set(100,100,100);
-                light.position.z += 600;
-                light.position.y -= 200;
-                light.position.x -= 200;
-                helper.updateMeshFromJson(light, {
-                    name: meshName,
-                    meshType: type,
-                    typeName: type,
-                    meshName: meshName
-                });
-                this.afterAddObject(light);
-                var sphereSize = 100;
+                        light = new THREE.PointLight(color, intensity, distance);
+                        //light.position.set(100,100,100);
+                        light.position.z += 600;
+                        light.position.y -= 200;
+                        light.position.x -= 200;
+                        helper.updateMeshFromJson(light, {
+                            name: meshName,
+                            meshType: type,
+                            typeName: type,
+                            meshName: meshName
+                        });
+                        light.shadowCameraVisible = true;
+                        light.castShadow = true;
+                        light.shadowDarkness = 0.95;
+                        light.position.z += 600;
+                        light.position.y -= 200;
+                        light.position.x -= 200;
+                        this.afterAddObject(light);
+                        var sphereSize = 100;
 
-                var lightGizmo = new THREE.PointLightHelper( light, sphereSize );
-                scene.add( lightGizmo );
+                        var lightGizmo = new THREE.PointLightHelper(light, sphereSize);
+                        scene.add(lightGizmo);
 
-                light.properties.helper = lightGizmo;
-                light.properties.pickingProxy = lightGizmo.lightSphere;
+                        light.properties.helper = lightGizmo;
+                        light.properties.pickingProxy = lightGizmo.lightSphere;
 
-                this.afterAddObject(lightGizmo.lightSphere);
-                scene.add(light);
+                        this.afterAddObject(lightGizmo.lightSphere);
+                        scene.add(light);
 
-                this.updateMaterials( scene );
+                        this.updateMaterials(scene);
+                    }
+                        break;
+                    case'spot':
+                    {
+                        var scene = this.get('scene');
+                        var light = null;
+                        var color = 0xffffff;
+                        var intensity = 1;
+                        var distance = 0;
+                        var angle = Math.PI * 0.1;
+                        var exponent = 10;
+
+                        var light = new THREE.SpotLight(color, intensity, distance, angle, exponent);
+                        light.position.z += 600;
+                        light.position.y -= 200;
+                        light.position.x -= 200;
+                        this.afterAddObject(light);
+                        scene.add(light);
+                        var sphereSize = 5;
+
+                        var lightGizmo = new THREE.SpotLightHelper(light, sphereSize);
+                        scene.add(lightGizmo);
+                        scene.add(lightGizmo.targetSphere);
+                        scene.add(lightGizmo.targetLine);
+
+                        light.properties.helper = lightGizmo;
+                        light.properties.pickingProxy = lightGizmo.lightSphere;
+                        light.target.properties.pickingProxy = lightGizmo.targetSphere;
+                        this.updateMaterials(scene);
+                        //    this.afterAddObject( lightGizmo.lightSphere );
+                        //        this.afterAddObject( lightGizmo.targetSphere );
+                        //  this.afterAddObject( lightGizmo.targetLine );
+
+                    }
+                        break;
+                    case'directional':
+                    {
+
+                    }
+                        break;
+                    case'hemisphere':
+                    {
+
+                    }
+                        break;
+                    case'ambient':
+                    {
+
+                    }
+                        break;
+
+                }
+
             },
-            updateMaterials:function(root){
-                root.traverse( function ( node ) {
+            updateMaterials: function (root) {
+                root.traverse(function (node) {
 
-                    if ( node.material ) {
+                    if (node.material) {
 
                         node.material.needsUpdate = true;
 
                     }
 
-                    if ( node.geometry && node.geometry.materials ) {
+                    if (node.geometry && node.geometry.materials) {
 
-                        for ( var i = 0; i < node.geometry.materials.length; i ++ ) {
+                        for (var i = 0; i < node.geometry.materials.length; i++) {
 
                             node.geometry.materials[ i ].needsUpdate = true;
 
@@ -340,7 +397,7 @@ define(function (require, exports, module) {
 
                     }
 
-                } );
+                });
 
             },
             onAddSimpleGeometry: function (type, meshName) {
@@ -380,7 +437,7 @@ define(function (require, exports, module) {
                 this.on('passMeshMove', this.onPassMeshMove, this); // mesh movement event passed from View
                 this.on('meshMove', this.onMeshMove, this); // real mesh movement do here
                 this.on('addSimpleGeometry', this.onAddSimpleGeometry, this);
-                this.on('addLight',this.onAddLight,this);
+                this.on('addLight', this.onAddLight, this);
             },
             getSelected: function () {
                 return this.selected;
