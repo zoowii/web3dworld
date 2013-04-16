@@ -30,11 +30,11 @@ define(function (require, exports, module) {
                         {text: '光源', menu: new Ext.menu.Menu({
                             ignoreParentClicks: true,
                             items: [
-                                {text: '点光源(Point)'},
-                                {text: '卫星光源(Spot)'},
-                                {text: '平行光源(Directional)/太阳光源'},
-                                {text: '半球光源(Hemisphere)'},
-                                {text: '环境光源(Ambient)'}
+                                {text: '点光源(Point)',handler:onAddPointLight},
+                                {text: '卫星光源(Spot)',handler:onAddSpotLight},
+                                {text: '平行光源(Directional)/太阳光源',handler:onAddDirectionalLight},
+                                {text: '半球光源(Hemisphere)',handler:onAddHemisphereLight},
+                                {text: '环境光源(Ambient)',handler:onAddAmbientLight}
                             ]
                         })},
                         {text: '基本装饰', menu: new Ext.menu.Menu({
@@ -411,7 +411,26 @@ define(function (require, exports, module) {
                 function onAddPlane() {
                     addSimpleGeometry('plane');
                 }
-
+                function onAddPointLight()
+                {
+                    addLight('point');
+                }
+                function onAddSpotLight()
+                {
+                    addLight('Spot');
+                }
+                function onAddDirectionalLight()
+                {
+                    addLight('Directional');
+                }
+                function onAddHemisphereLight()
+                {
+                    addLight('Hemisphere');
+                }
+                function onAddAmbientLight()
+                {
+                    addLight('Ambient');
+                }
                 function onAddCube() {
                     addSimpleGeometry('cube');
                 }
@@ -428,7 +447,10 @@ define(function (require, exports, module) {
                     var viewportProxy = require('editor.app').viewportProxy;
                     viewportProxy.dispathSimpleGeometry(type);
                 }
-
+                function addLight(type){
+                    var viewportProxy = require('editor.app').viewportProxy;
+                    viewportProxy.dispatchLight(type);
+                }
                 function showPanel(panel) {
                     _.each(controlPanel.items.items, function (item) {
                         if (item === panel) {

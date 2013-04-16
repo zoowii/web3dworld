@@ -1,0 +1,33 @@
+{
+    "version": "0.0.1",
+    "meshName": "importFurniture",
+    "typeName": "茶几",
+    "meshType": "Furniture",
+    "thumbnailUrl": "",
+    "type": "import",
+    "geometry_url": "/static/resources/json/teadesk.json",
+	"material": {
+		"type": "basic",
+		"map": {"url":"/static/resources/images/shicai/shicai005.jpg"},
+		"transparent": true,
+		"opacity": 1
+	},
+    "receiveShadow": true,
+    "doubleSided": true,
+    "castShadow": true,
+    "position": {
+        "x": 100,
+        "y": 500,
+        "z": 0
+    },
+    "rotation": {
+        "x": 1.57,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 0.125,
+        "y": 0.125,
+        "z": 0.125
+    }
+}

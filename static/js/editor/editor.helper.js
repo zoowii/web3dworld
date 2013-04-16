@@ -332,7 +332,6 @@ define(function (require, exports, module) {
 			material = helper.loadMaterialFromJson(json.material);
 			mesh = new THREE.Mesh(geom, material);
 			helper.updateMeshFromJson(mesh, json);
-//			mesh.position.z += 150;
 			return mesh;
 		} else {
 			return console.log('unsupported yet');

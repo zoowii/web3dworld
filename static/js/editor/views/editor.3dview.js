@@ -84,6 +84,7 @@ define(function (require, exports, module) {
                 return controls.enabled = true;
             },
             initEvents: function () {
+                EditorView.prototype.initEvents.call(this);
             },
             animate: function () {
                 return editor3dviewanimate(this);

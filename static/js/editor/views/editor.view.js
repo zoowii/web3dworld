@@ -17,6 +17,7 @@ define(function (require, exports, module) {
                 });
                 renderer.setSize(this.width, this.height);
                 renderer.setClearColor(0xffffff, 0.1);
+//                renderer.shadowMapEnabled = true;
                 // 设置canvas背景色，透明度
                 return this.el.appendChild(renderer.domElement);
             },
@@ -82,10 +83,11 @@ define(function (require, exports, module) {
                         // TODO: shouldn't move at the z direction
                         if (intersects.length > 0) {
                             intersects[0].point.sub(offset);
+                            console.log(intersects);
                             if (picked.properties.isGizmo) {
-                                intersects[0].point.z = picked.position.z; // Only x, y direction can be moved
-//                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
-//                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
+                               // intersects[0].point.z = picked.position.z; // Only x, y direction can be moved
+                                picked.properties.gizmoRoot.position.copy(intersects[0].point);
+                                picked.properties.gizmoSubject.position.copy(intersects[0].point);
                                 console.log('gizmo?');
                                 _this.dispatchMeshMove(picked.name, intersects[0].point);
                                 // TODO: use mouse move subject

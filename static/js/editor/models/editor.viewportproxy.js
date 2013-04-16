@@ -149,7 +149,13 @@ define(function (require, exports, module) {
                 }
                 return this;
             },
-
+            dispatchLight:function(type){
+                var viewports = this.get('viewports');
+                var meshName = _.uniqueId(type);
+                _.each(viewports,function(viewport){
+                    viewport.trigger('addLight',type,meshName);
+                })
+            },
             dispathSimpleGeometry: function (type) {
                 var viewports = this.get('viewports');
                 var meshName = _.uniqueId(type);

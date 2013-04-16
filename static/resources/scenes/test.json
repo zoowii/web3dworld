@@ -34,5 +34,40 @@
                 "z": 4.0
             }
         }
+    ],
+    "skybox": {
+        "width": 10000,
+        "height": 10000,
+        "depth": 10000,
+        "material": {
+            "type": "basic",
+            "color": "#000000"
+        },
+        "flipSided": true,
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    },
+    "fog": {
+        "color": "#000000",
+        "density": 0.00025
+    },
+    "lights":[
+        {
+            "type": "ambient",
+            "color": "0xff0000"
+        }
     ]
 }
