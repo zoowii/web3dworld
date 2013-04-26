@@ -75,5 +75,6 @@ define(function (require, exports, module) {
             return group;
         };
         exports.Object3DGroup = Object3DGroup;
+        window.groups = Object3DGroup.getGroups;
     });
 });
