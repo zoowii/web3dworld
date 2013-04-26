@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
 	var _ = require('underscore');
 
-	var Set, defaultSceneJson, defaultSceneJsonUrl, directExtendObjProperties, helper, jsonStore, processLoadedSceneJson, static_url, store;
+	var defaultSceneJson, defaultSceneJsonUrl, directExtendObjProperties, helper, jsonStore, processLoadedSceneJson, static_url, store;
 
 	if (window.helper === void 0) {
 		window.helper = {};
@@ -223,6 +223,9 @@ define(function (require, exports, module) {
 	};
 
 	directExtendObjProperties = function (desObj, srcObj, properties) {
+        if(!srcObj) {
+            return desObj;
+        }
 		var property, _i, _len, _results;
 		_results = [];
 		for (_i = 0, _len = properties.length; _i < _len; _i++) {
@@ -423,6 +426,10 @@ define(function (require, exports, module) {
 		return json;
 	};
 
+    helper.getGroup = function(obj) {
+        return obj['__group__'];
+    };
+
 	helper.parseObject3DToJson = function (obj) {
 		var json = {};
 		json.meshType = obj.meshType;
@@ -437,8 +444,8 @@ define(function (require, exports, module) {
 				json.position = helper.parseVector3ToObj(obj.position);
 				json.rotation = helper.parseVector3ToObj(obj.rotation);
 				json.scale = helper.parseVector3ToObj(obj.scale);
-				if (obj.group) {
-					json.groupName = obj.group.name;
+				if (helper.getGroup(obj)) {
+					json.groupName = helper.getGroup(obj).name;
 				}
 				delete json.name;
 				delete json.meshName;
@@ -454,8 +461,8 @@ define(function (require, exports, module) {
 				json.position = helper.parseVector3ToObj(obj.position);
 				json.rotation = helper.parseVector3ToObj(obj.rotation);
 				json.scale = helper.parseVector3ToObj(obj.scale);
-				if (obj.group) {
-					json.groupName = obj.group.name;
+				if (helper.getGroup(obj)) {
+					json.groupName = helper.getGroup(obj).name;
 				}
 				delete json.name;
 				delete json.meshName;
@@ -490,6 +497,37 @@ define(function (require, exports, module) {
 				return val;
 		}
 	};
+
+    // meshType can be 'wall', or [ 'light', 'wall' ]
+    helper.filterMeshTypeFromViewport = function(viewport, meshType) {
+        if(!_.isArray(meshType)) {
+            meshType = [meshType];
+        }
+        var objects = viewport.get('objects');
+        var result = [];
+        for(var i=0;i<objects.length;++i) {
+            var object = objects[i];
+            if(_.contains(meshType, object.meshType)) {
+                result.push(object);
+            }
+        }
+        return result;
+    };
+    // nagative of helper.filterMeshTypeFromViewport
+    helper.filterNotMeshTypeFromViewport = function(viewport, meshType) {
+        if(!_.isArray(meshType)) {
+            meshType = [meshType];
+        }
+        var objects = viewport.get('objects');
+        var result = [];
+        for(var i=0;i<objects.length;++i) {
+            var object = objects[i];
+            if(!_.contains(meshType, object.meshType)) {
+                result.push(object);
+            }
+        }
+        return result;
+    };
 
 	// 给属性面板增加的控件，根据传入的属性名、属性值和类型返回不同类型的控件
 	helper.genControlForProperty = function (mesh, propertyName, propertyValue) {

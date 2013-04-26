@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         viewport2d.addToProxy(viewportProxy);
         viewport3d.addToProxy(viewportProxy);
         viewportProxy.startListen();
-        viewportProxy.loadScene(static_url + 'resources/scenes/test.json');
+        viewportProxy.loadScene(static_url + 'resources/scenes/test2.json');
         width = $(".editor_panel").width();
         height = $(".editor_panel").height();
         editor2dview = new Editor2DView({

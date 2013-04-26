@@ -1,0 +1,352 @@
+{"items": [
+    {
+        "meshType": "furniture",
+        "typeName": "沙发",
+        "type": "import",
+        "thumbnailUrl": "",
+        "groupName": "jiaju",
+        "version": "0.0.1",
+        "geometry_url": "/static/json/safa3.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 4,
+            "y": 4,
+            "z": 4
+        }
+    },
+    {
+        "meshType": "furniture",
+        "typeName": "沙发",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/json/safa3.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": -700,
+            "y": 400,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 1.57,
+            "z": 0
+        },
+        "scale": {
+            "x": 2,
+            "y": 2,
+            "z": 2
+        }
+    },
+    {
+        "meshType": "room",
+        "typeName": "房间",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/room11.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/shicai/shicai005.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": -700,
+            "y": -600,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 3.14,
+            "z": 0
+        },
+        "scale": {
+            "x": 7,
+            "y": 4,
+            "z": 9
+        }
+    },
+    {
+        "meshType": "room",
+        "typeName": "房间",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/room12.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/shicai/shicai005.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 26,
+            "y": -86,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 15,
+            "y": 4,
+            "z": 15
+        }
+    },
+    {
+        "meshType": "room",
+        "typeName": "房间",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/room13.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/shicai/shicai005.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 614,
+            "y": -255,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": -1.57,
+            "z": 0
+        },
+        "scale": {
+            "x": 5,
+            "y": 4,
+            "z": 5
+        }
+    },
+    {
+        "meshType": "walls",
+        "typeName": "墙",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/qiangbi3.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+            "transparent": false,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 640,
+            "y": 422,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 1.57,
+            "z": 0
+        },
+        "scale": {
+            "x": 3,
+            "y": 4,
+            "z": 2
+        }
+    },
+    {
+        "meshType": "Furniture",
+        "typeName": "餐桌",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/table.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/buwen/buwen002.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": -1230,
+            "y": -244,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 0.1,
+            "y": 0.1,
+            "z": 0.1
+        }
+    },
+    {
+        "meshType": "Furniture",
+        "typeName": "浴缸",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/bathtub.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 500,
+            "y": 360,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 0.15,
+            "y": 0.15,
+            "z": 0.15
+        }
+    },
+    {
+        "meshType": "Furniture",
+        "typeName": "床",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/bed.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/buwen/buwen005.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 672,
+            "y": -245,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": -2,
+            "z": 0
+        },
+        "scale": {
+            "x": 0.15,
+            "y": 0.15,
+            "z": 0.15
+        }
+    },
+    {
+        "meshType": "Furniture",
+        "typeName": "马桶",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/toilet.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+            "transparent": true,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 390,
+            "y": 543,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 0.22,
+            "y": 0.22,
+            "z": 0.22
+        }
+    }
+], "fog": {
+    "color": "#0",
+    "density": 0.00025
+}, "skybox": {
+    "meshType": "skybox",
+    "receiveShadow": false,
+    "castShadow": false,
+    "material": {
+        "type": "basic",
+        "color": "#0",
+        "transparent": false,
+        "opacity": 1
+    },
+    "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+    }
+}, "walls": []}

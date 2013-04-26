@@ -404,7 +404,7 @@ define(function (require, exports, module) {
                         break;
                     case 'cube':
                         geom = new THREE.CubeGeometry(200, 200, 200);
-                        break
+                        break;
                     case 'sphere':
                         geom = new THREE.SphereGeometry();
                         break;

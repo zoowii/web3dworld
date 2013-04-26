@@ -232,15 +232,43 @@ define(function (require, exports, module) {
 					items: []
 				};
 				var scene = viewport.get('scene');
+                var exported = [];
 				window.scene = scene;
-				console.log(scene);
+                window.viewport = viewport;
+				console.log(scene, viewport);
 				if(scene.fog) {
 					sceneJson.fog = exporter.parseFogToJson(scene.fog);
+                    exported.push(scene.fog);
 				}
 				if(scene.skybox) {
 					sceneJson.skybox = exporter.parseSkyboxToJson(scene.skybox);
+                    exported.push(scene.skybox);
 				}
-				// TODO: export items, lights, walls, etc.
+                var walls = helper.filterMeshTypeFromViewport(viewport, 'wall');
+                var _this = this;
+                var wallJsons = _.map(walls, function(wall) {
+                    return _this.exportObjectToJson(wall);
+                });
+                exported = _.union(exported, walls);
+                sceneJson.walls = wallJsons;
+                var lights = helper.filterMeshTypeFromViewport(viewport, 'light');
+                // TODO: export lights
+                exported = _.union(exported, lights);
+                var floor = viewport.get('floor');
+                if(floor) {
+                    var floorJson = this.exportObjectToJson(floor);
+//                    sceneJson.floor = floorJson; // TODO: FIX: BUG, when export meshes with no meshType
+                    exported = _.union(exported, floor);
+                }
+                // items exporter must be the last ones to be exported, because it exports anything not exported before
+                var items = _.difference(helper.filterNotMeshTypeFromViewport(viewport, ['wall', 'light', 'floor', 'floorboard']), exported);
+                var itemJsons = _.map(items, function(item) {
+                    return _this.exportObjectToJson(item);
+                });
+                sceneJson.items = itemJsons;
+                exported = _.union(exported, items);
+
+				// TODO: export items, lights, walls, floor etc.
 				// TODO: change the code of load fog and skybox to beauty.
 				// Now the code is too old to load mesh(skybox is also a mesh)
 				// And even the fog and skybox should have a name, so they should be dispatched by ViewportProxy
