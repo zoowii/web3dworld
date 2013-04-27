@@ -12,7 +12,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+                "url": "/static/resources/images/zihua/zihua318.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -51,7 +51,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+                "url": "/static/resources/images/zihua/zihua318.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -90,7 +90,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "url": "/static/resources/images/shicai/shicai011.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -129,7 +129,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "url": "/static/resources/images/shicai/shicai011.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -168,7 +168,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "url": "/static/resources/images/shicai/shicai011.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -207,7 +207,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "url": "/static/resources/images/shicai/shicai011.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -246,7 +246,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/buwen/buwen002.jpg",
+                "url": "/static/resources/images/buwen/buwen002.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -285,7 +285,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+                "url": "/static/resources/images/shicai/shicai041.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -324,7 +324,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/buwen/buwen005.jpg",
+                "url": "/static/resources/images/buwen/buwen005.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -363,7 +363,7 @@
             "color": "#ffffff",
             "map": {
                 "from_type": "url",
-                "url": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+                "url": "/static/resources/images/shicai/shicai041.jpg",
                 "repeat": {
                     "width": 1,
                     "height": 1
@@ -461,7 +461,7 @@
         "type": "basic",
         "map": {
             "from_type": "url",
-            "url": "http://localhost:5000/static/img/diban1.jpg",
+            "url": "/static/img/diban1.jpg",
             "repeat": {
                 "width": 40,
                 "height": 40
