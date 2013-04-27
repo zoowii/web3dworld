@@ -3,6 +3,7 @@
     <script type="text/javascript">
         var static_url = '/static';
         var resource_list_json_url = '{{ url_for('resource.json_list') }}';
+        var play_src = "{{ path }}";
     </script>
     <div id="container_wrapper">
         <div class="container container-fluid">
@@ -11,13 +12,15 @@
                     {# put menus here #}
                 </div>
                 <div class="menu-btn-group btn-group" data-toggle="buttons-radio">
-                    <a href="/play" class="btn btn-warning">Player</a>
+                    <a href="/editor" class="btn btn-warning">Editor</a>
                     <button type="button" class="show_2d_btn btn btn-inverse active">2D</button>
                     <button type="button" class="show_3d_btn btn btn-inverse">3D</button>
+                    <button type="button" class="enter_first_person_mode_btn view_mode_btn btn btn-success">主角模式</button>
+                    <button type="button" class="enter_god_mode_btn view_mode_btn btn btn-success" style="display: none;">上帝模式</button>
                 </div>
             </div>
             <div class="row-fluid">
-                <div id="control_panel" class="span4 control-area">
+                <div id="control_panel" class="span4 control-area" style="display: none;">
                     <div class="panelHtmlTmpl" style="display: none;">
                         <div id="scenePanelHtmlTmpl">
                             <div class="scene-panel">

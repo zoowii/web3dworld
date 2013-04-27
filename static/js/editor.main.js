@@ -6,6 +6,7 @@ require.config({
         underscore: 'lib/underscore',
         backbone: 'lib/backbone',
         "editor.app": 'editor/editor.app',
+        "player": 'player',
         "editor.extapp": 'editor/editor.extapp',
         "editor.ui": 'editor/editor.ui',
         "editor.helper": 'editor/editor.helper',

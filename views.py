@@ -5,15 +5,23 @@ import os
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index/')
 def index():
-    return redirect(url_for('editor'))
+    return player('/static/resources/scenes/test2.json')
 
 #	return 'hi, welcome to web3dhouse!'
 
-@app.route('/editor')
+@app.route('/editor/')
 def editor():
     return render_template('editor.html', title=u'3D编辑器')
+
+@app.route('/play/')
+def default_player():
+    return player('/static/resources/scenes/default.json')
+
+@app.route('/play/path=<path>')
+def player(path):
+    return render_template('player.html', path=path, title=u'3D展示页面')
 
 
 @app.route('/info')
