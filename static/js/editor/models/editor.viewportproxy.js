@@ -226,6 +226,15 @@ define(function (require, exports, module) {
                     return this.exportObjectToJson(obj);
                 }, this);
             },
+            exportFloorToJson: function(obj) {
+                var json = this.exportObjectToJson(obj);
+                json.name = 'floor';
+                helper.directExtendObjProperties(json, obj.geometry, ['width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments']);
+                delete json.meshType;
+                delete json.meshName;
+                delete json.xtype;
+                return json;
+            },
 			exportSceneToJson: function() {
 				var viewport = this.get('viewports')[0];
 				var sceneJson = {
@@ -235,7 +244,7 @@ define(function (require, exports, module) {
                 var exported = [];
 				window.scene = scene;
                 window.viewport = viewport;
-				console.log(scene, viewport);
+//				console.log(scene, viewport);
 				if(scene.fog) {
 					sceneJson.fog = exporter.parseFogToJson(scene.fog);
                     exported.push(scene.fog);
@@ -256,8 +265,10 @@ define(function (require, exports, module) {
                 exported = _.union(exported, lights);
                 var floor = viewport.get('floor');
                 if(floor) {
-                    var floorJson = this.exportObjectToJson(floor);
-//                    sceneJson.floor = floorJson; // TODO: FIX: BUG, when export meshes with no meshType
+//                    var floorJson = this.exportObjectToJson(floor);
+                    var floorJson = this.exportFloorToJson(floor);
+                    console.log('floorJson:', floorJson);
+                    sceneJson.floor = floorJson; // TODO: FIX: BUG, when export meshes with no meshType
                     exported = _.union(exported, floor);
                 }
                 // items exporter must be the last ones to be exported, because it exports anything not exported before

@@ -30,6 +30,12 @@ define(function (require, exports, module) {
                 if (options['__group__']) {
                     options['__group__'].add(obj);
                 }
+//                if(obj.name === 'floor') {
+//                    var floorboard = this.get('floorboard');
+//                    if(floorboard) {
+//                        floorboard.visible = false;
+//                    }
+//                }
                 this.trigger('meshAdded');
                 return this;
             },
@@ -114,6 +120,7 @@ define(function (require, exports, module) {
                 helper.scaleObject3D(floor, proportion);
                 floor.doubleSided = true;
                 scene.add(floor);
+                floor.visible = false;
                 this.set('floorboard', floor);
                 this.afterAddObject(floor, {
                     name: 'floorboard',
@@ -121,30 +128,56 @@ define(function (require, exports, module) {
                 });
                 return this;
             },
+            removeObject3D: function (obj) {
+                var scene = this.get('scene');
+                scene.remove(obj);
+                var objects = this.get('objects');
+                for (var i = 0; i < objects.length; ++i) {
+                    if (!objects[i] || objects[i] === obj) {
+                        delete objects[i];
+                    }
+                }
+                objects = _.filter(objects, function (o) {
+                    return o !== undefined
+                });
+                this.set('objects', objects);
+                var group = helper.getGroup(obj);
+                if (group) {
+                    group.remove(obj);
+                }
+            },
             loadFloorFromJson: function (json) {
-                var floor, floorboard, geom, material, oldFloor, scene;
                 json = helper.preprocessJsonResource(json, 'floor');
                 if (this.get('floorboard') === void 0) {
                     this.initFloor();
                 }
-                scene = this.get('scene');
-                floorboard = this.get('floorboard');
+                var scene = this.get('scene');
+                var floorboard = this.get('floorboard');
                 floorboard.visible = false;
-                oldFloor = this.get('floor');
+                var oldFloor = this.get('floor');
                 if (oldFloor !== void 0) {
-                    scene.remove(oldFloor);
+                    this.removeObject3D(oldFloor);
                     this.set('floor', void 0);
                 }
-                geom = new THREE.CubeGeometry(json.width, json.height, json.depth, json.widthSegments, json.heightSegments, json.depthSegments);
-                material = helper.loadMaterialFromJson(json.material);
-                floor = new THREE.Mesh(geom, material);
+                var defaultFloorIdentifiy = {
+                    name: 'floor',
+                    meshType: 'plane',
+                    typeName: 'floor',
+                    meshName: 'floor'
+                };
+//                if (json.xtype === 'base') {
+//                    var mesh = this.onAddSimpleGeometry('plane', 'floor', _.extend({}, json, _.clone(defaultFloorIdentifiy)));
+//                    this.set('floor', mesh);
+//                    return this;
+//                }
+                var geom = new THREE.CubeGeometry(json.width, json.height, json.depth, json.widthSegments, json.heightSegments, json.depthSegments);
+                var material = helper.loadMaterialFromJson(json.material);
+                var floor = new THREE.Mesh(geom, material);
                 scene.add(floor);
                 helper.updateMeshFromJson(floor, json);
                 this.set('floor', floor);
-                this.afterAddObject(floor, {
-                    name: 'floor',
-                    meshType: 'floor'
-                });
+                floor.xtype = 'base';
+                this.afterAddObject(floor, _.clone(defaultFloorIdentifiy));
                 return this;
             },
             loadWallFromjson: function (json) {
@@ -267,7 +300,7 @@ define(function (require, exports, module) {
                     default:
                     {
                         if (meshJson.xtype === 'base') {
-                            return this.onAddSimpleGeometry(meshJson.meshType, meshJson.meshName);
+                            return this.onAddSimpleGeometry(meshJson.meshType, meshJson.meshName, meshJson);
                         } else {
                             console.log("unknown meshType: ", meshJson);
                         }
@@ -396,27 +429,33 @@ define(function (require, exports, module) {
                 }
 
             },
-            createSimpleMesh: function (type, meshName) {
+            createSimpleMesh: function (type, meshName, options) {
                 var geom = null;
                 switch (type) {
                     case 'plane':
-                        geom = new THREE.PlaneGeometry(200, 200);
+                        geom = new THREE.PlaneGeometry(options.width || 200, options.height || 200, options.widthSegments || 5, options.heightSegments || 5);
                         break;
                     case 'cube':
-                        geom = new THREE.CubeGeometry(200, 200, 200);
+                        geom = new THREE.CubeGeometry(options.width || 200, options.height || 200, options.depth || 200, options.widthSegments || 5, options.heightSegments || 5, options.depthSegments || 5);
                         break;
                     case 'sphere':
-                        geom = new THREE.SphereGeometry();
+                        geom = new THREE.SphereGeometry(options.radius || 100, options.segmentsWidth || 10, options.segmentsHeight || 10);
                         break;
                     case 'cylinder':
-                        geom = new THREE.CylinderGeometry(50, 50, 200);
+                        geom = new THREE.CylinderGeometry(options.radiusTop || 50, options.radiusBottom || 50, options.height || 200);
                         break;
                     default:
                         throw new Error('Unknown simple geometry type: ' + type);
                 }
-                var material = new THREE.MeshBasicMaterial({
-                    map: THREE.ImageUtils.loadTexture(static_url + 'img/checkerboard.jpg')
-                });
+                var material = null;
+                if (options && options.material) {
+                    material = helper.loadMaterialFromJson(options.material);
+                    console.log(options, material);
+                } else {
+                    material = new THREE.MeshBasicMaterial({
+                        map: THREE.ImageUtils.loadTexture(static_url + 'img/checkerboard.jpg')
+                    });
+                }
                 var mesh = new THREE.Mesh(geom, material);
                 helper.updateMeshFromJson(mesh, {
                     name: meshName,
@@ -450,11 +489,16 @@ define(function (require, exports, module) {
                 });
 
             },
-            onAddSimpleGeometry: function (type, meshName) {
+            onAddSimpleGeometry: function (type, meshName, options) {
+                if (!options) {
+                    options = {};
+                }
                 var scene = this.get('scene');
-                var mesh = this.createSimpleMesh(type, meshName);
+                var mesh = this.createSimpleMesh(type, meshName, options);
+                helper.updateMeshFromJson(mesh, options);
                 scene.add(mesh);
                 this.afterAddObject(mesh);
+                return mesh;
             },
             initEvents: function () {
                 this.on('addMeshByJson', this.onAddMeshByJson, this);

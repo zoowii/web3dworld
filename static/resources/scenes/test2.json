@@ -10,7 +10,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": true,
             "opacity": 1
         },
@@ -42,7 +49,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/zihua/zihua318.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": true,
             "opacity": 1
         },
@@ -50,40 +64,8 @@
         "doubleSided": true,
         "castShadow": true,
         "position": {
-            "x": -700,
-            "y": 400,
-            "z": 0
-        },
-        "rotation": {
-            "x": 1.57,
-            "y": 1.57,
-            "z": 0
-        },
-        "scale": {
-            "x": 2,
-            "y": 2,
-            "z": 2
-        }
-    },
-    {
-        "meshType": "room",
-        "typeName": "房间",
-        "type": "import",
-        "thumbnailUrl": "",
-        "geometry_url": "/static/resources/json/room11.json",
-        "material": {
-            "type": "basic",
-            "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/shicai/shicai005.jpg",
-            "transparent": true,
-            "opacity": 1
-        },
-        "receiveShadow": false,
-        "doubleSided": true,
-        "castShadow": true,
-        "position": {
-            "x": -700,
-            "y": -600,
+            "x": -500,
+            "y": -700,
             "z": 0
         },
         "rotation": {
@@ -92,73 +74,9 @@
             "z": 0
         },
         "scale": {
-            "x": 7,
-            "y": 4,
-            "z": 9
-        }
-    },
-    {
-        "meshType": "room",
-        "typeName": "房间",
-        "type": "import",
-        "thumbnailUrl": "",
-        "geometry_url": "/static/resources/json/room12.json",
-        "material": {
-            "type": "basic",
-            "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/shicai/shicai005.jpg",
-            "transparent": true,
-            "opacity": 1
-        },
-        "receiveShadow": false,
-        "doubleSided": true,
-        "castShadow": true,
-        "position": {
-            "x": 26,
-            "y": -86,
-            "z": 0
-        },
-        "rotation": {
-            "x": 1.57,
-            "y": 0,
-            "z": 0
-        },
-        "scale": {
-            "x": 15,
-            "y": 4,
-            "z": 15
-        }
-    },
-    {
-        "meshType": "room",
-        "typeName": "房间",
-        "type": "import",
-        "thumbnailUrl": "",
-        "geometry_url": "/static/resources/json/room13.json",
-        "material": {
-            "type": "basic",
-            "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/shicai/shicai005.jpg",
-            "transparent": true,
-            "opacity": 1
-        },
-        "receiveShadow": false,
-        "doubleSided": true,
-        "castShadow": true,
-        "position": {
-            "x": 614,
-            "y": -255,
-            "z": 0
-        },
-        "rotation": {
-            "x": 1.57,
-            "y": -1.57,
-            "z": 0
-        },
-        "scale": {
-            "x": 5,
-            "y": 4,
-            "z": 5
+            "x": 2,
+            "y": 2,
+            "z": 2
         }
     },
     {
@@ -170,7 +88,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": false,
             "opacity": 1
         },
@@ -178,19 +103,136 @@
         "doubleSided": true,
         "castShadow": true,
         "position": {
-            "x": 640,
-            "y": 422,
+            "x": -500,
+            "y": -600,
             "z": 0
         },
         "rotation": {
             "x": 1.57,
-            "y": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 3.5,
+            "y": 3,
+            "z": 2.5
+        }
+    },
+    {
+        "meshType": "walls",
+        "typeName": "墙",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/qiangbi3.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
+            "transparent": false,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": -500,
+            "y": 300,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": -1.57,
             "z": 0
         },
         "scale": {
             "x": 3,
-            "y": 4,
-            "z": 2
+            "y": 3,
+            "z": 3
+        }
+    },
+    {
+        "meshType": "walls",
+        "typeName": "墙",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/qiangbi3.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
+            "transparent": false,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": 400,
+            "y": -550,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 2.3,
+            "y": 3,
+            "z": 3
+        }
+    },
+    {
+        "meshType": "walls",
+        "typeName": "墙",
+        "type": "import",
+        "thumbnailUrl": "",
+        "geometry_url": "/static/resources/json/qiangbi3.json",
+        "material": {
+            "type": "basic",
+            "color": "#ffffff",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/shicai/shicai011.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
+            "transparent": false,
+            "opacity": 1
+        },
+        "receiveShadow": false,
+        "doubleSided": true,
+        "castShadow": true,
+        "position": {
+            "x": -250,
+            "y": -150,
+            "z": 0
+        },
+        "rotation": {
+            "x": 1.57,
+            "y": 0,
+            "z": 0
+        },
+        "scale": {
+            "x": 6,
+            "y": 3,
+            "z": 6
         }
     },
     {
@@ -202,7 +244,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/buwen/buwen002.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/buwen/buwen002.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": true,
             "opacity": 1
         },
@@ -210,8 +259,8 @@
         "doubleSided": true,
         "castShadow": true,
         "position": {
-            "x": -1230,
-            "y": -244,
+            "x": -400,
+            "y": 400,
             "z": 0
         },
         "rotation": {
@@ -234,7 +283,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": true,
             "opacity": 1
         },
@@ -242,8 +298,8 @@
         "doubleSided": true,
         "castShadow": true,
         "position": {
-            "x": 500,
-            "y": 360,
+            "x": 300,
+            "y": -700,
             "z": 0
         },
         "rotation": {
@@ -266,7 +322,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/buwen/buwen005.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/buwen/buwen005.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": true,
             "opacity": 1
         },
@@ -274,13 +337,13 @@
         "doubleSided": true,
         "castShadow": true,
         "position": {
-            "x": 672,
-            "y": -245,
+            "x": -300,
+            "y": 300,
             "z": 0
         },
         "rotation": {
             "x": 1.57,
-            "y": -2,
+            "y": 2.71,
             "z": 0
         },
         "scale": {
@@ -298,7 +361,14 @@
         "material": {
             "type": "basic",
             "color": "#ffffff",
-            "map": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+            "map": {
+                "from_type": "url",
+                "url": "http://localhost:5000/static/resources/images/shicai/shicai041.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
             "transparent": true,
             "opacity": 1
         },
@@ -306,8 +376,8 @@
         "doubleSided": true,
         "castShadow": true,
         "position": {
-            "x": 390,
-            "y": 543,
+            "x": 200,
+            "y": -500,
             "z": 0
         },
         "rotation": {
@@ -319,6 +389,40 @@
             "x": 0.22,
             "y": 0.22,
             "z": 0.22
+        }
+    },
+    {
+        "meshType": "cube",
+        "receiveShadow": true,
+        "castShadow": false,
+        "xtype": "base",
+        "material": {
+            "type": "basic",
+            "map": {
+                "from_type": "url",
+                "url": "/static/img/checkerboard.jpg",
+                "repeat": {
+                    "width": 1,
+                    "height": 1
+                }
+            },
+            "transparent": false,
+            "opacity": 1
+        },
+        "position": {
+            "x": 489.6964701658074,
+            "y": -350.64584991504034,
+            "z": 100
+        },
+        "rotation": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+        },
+        "scale": {
+            "x": 2,
+            "y": 1,
+            "z": 2
         }
     }
 ], "fog": {
@@ -349,4 +453,43 @@
         "y": 1,
         "z": 1
     }
-}, "walls": []}
+}, "walls": [], "floor": {
+    "receiveShadow": false,
+    "doubleSided": true,
+    "castShadow": true,
+    "material": {
+        "type": "basic",
+        "map": {
+            "from_type": "url",
+            "url": "http://localhost:5000/static/img/diban1.jpg",
+            "repeat": {
+                "width": 40,
+                "height": 40
+            }
+        },
+        "transparent": false,
+        "opacity": 1
+    },
+    "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+    },
+    "name": "floor",
+    "width": 2000,
+    "height": 2000,
+    "depth": 4,
+    "widthSegments": 10,
+    "heightSegments": 10,
+    "depthSegments": 1
+}}

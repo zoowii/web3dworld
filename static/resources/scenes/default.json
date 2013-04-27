@@ -21,6 +21,8 @@
             }
         },
         "doubleSided": true,
+        "receiveShadow": true,
+        "castShadow": true,
         "position": {
             "x": 0,
             "y": 0,

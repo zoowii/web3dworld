@@ -46,5 +46,6 @@ define(function (require, exports, module) {
         exports.EditorPropertyView = EditorPropertyView;
         exports.editableProperties = ['position', 'scale', 'rotation', 'meshName', 'type', 'meshType', 'typeName', 'title', 'text',
             'visible', 'castShadow', 'receiveShadow', 'opacity', 'translate', 'material', 'geometry'];
+        exports.editableGeometryProperties = ['radius', 'width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments', 'segmentsWidth', 'segmentsHeight', 'radiusTop', 'radiusBottom']; // TODO
     });
 });
