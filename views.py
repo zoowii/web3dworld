@@ -17,7 +17,7 @@ def editor():
 
 @app.route('/play/')
 def default_player():
-    return player('/static/resources/scenes/default.json')
+    return player('/static/resources/scenes/test2.json')
 
 @app.route('/play/path=<path>')
 def player(path):

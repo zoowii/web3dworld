@@ -1,40 +1,5 @@
 {
-    "items": [
-        {
-            "groupName": "jiaju",
-            "version": "0.0.1",
-            "meshName": "importFurniture",
-            "typeName": "沙发",
-            "meshType": "furniture",
-            "thumbnailUrl": "",
-            "type": "import",
-            "geometry_url": "/static/json/safa3.json",
-            "material": {
-                "type": "basic",
-                "map": "/static/resources/images/zihua/zihua318.jpg",
-                "transparent": true,
-                "opacity": 1
-            },
-            "receiveShadow": true,
-            "doubleSided": true,
-            "castShadow": true,
-            "position": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-            },
-            "rotation": {
-                "x": 1.57,
-                "y": 0,
-                "z": 0
-            },
-            "scale": {
-                "x": 4.0,
-                "y": 4.0,
-                "z": 4.0
-            }
-        }
-    ],
+    "items": [],
     "skybox": {
         "width": 10000,
         "height": 10000,
@@ -64,7 +29,7 @@
         "color": "#000000",
         "density": 0.00025
     },
-    "lights":[
+    "lights": [
         {
             "type": "ambient",
             "color": "0xff0000"
