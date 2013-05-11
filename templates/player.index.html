@@ -1,0 +1,18 @@
+{% extends 'layout/website.html' %}
+{% block body %}
+<div class="container">
+<h2>选择要展示的场景</h2>
+<div>
+    <a href="{{ url_for('editor') }}" class="btn btn-primary btn-small">Editor</a>
+    <br>
+    <div style="height: 50px;"></div>
+    <select class='select-scene'></select>
+    <button class="btn btn-primary show-scene-btn">Show</button>
+</div>
+</div>
+    <script type="text/javascript">
+    var static_url = '/static';
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lib/require.js') }}"
+            data-main="{{ url_for('static', filename='js/player.index.js') }}"></script>
+{% endblock %}

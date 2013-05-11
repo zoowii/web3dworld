@@ -563,7 +563,31 @@ define(function (require, exports, module) {
                 $(".exportSceneBtn").click(function () {
                     var viewportProxy = require('editor.app').viewportProxy;
                     var sceneJson = viewportProxy.exportSceneToJson();
-                    showInfo(JSON.stringify(sceneJson), '导出场景');
+                    var name = window.prompt("请输入场景的名字（唯一）:");
+                    var data = {
+                        name: name,
+                        scene: sceneJson
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        dataType: 'json',
+                        url: '/editor/scene/store',
+                        success: function(json) {
+                            if(json.success) {
+                                var html = "导出成功，可以访问:<a href='" + json.data.view_url + "'>" + json.data.view_url + "</a>观看。<br>";
+                                html += "或者直接访问导出的场景文件: <a target='_blank' href='" + json.data.resource_url + "'>" + json.data.resource_url + "</a>";
+                                showInfo(html, '导出场景');
+                            } else {
+                                showInfo("保存失败，可能是名字冲突，请保证场景名称唯一！", '错误信息');
+                            }
+                        }
+                    });
+//                    $.post('/editor/scene/store', data, function(json) {
+//                        console.log(json);
+//                    }, 'json');
+//                    showInfo(JSON.stringify(sceneJson), '导出场景');
                 });
                 $(document).on('click', '.material-texture .select-texture-btn', function () {
                     var importObjHtml = $('#importObjectPanelHtmlTmpl').html();
