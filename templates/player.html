@@ -2,7 +2,7 @@
 {% block body %}
     <script type="text/javascript">
         var static_url = '/static';
-        var resource_list_json_url = '{{ url_for('resource.json_list') }}';
+        var resource_list_json_url = '{{ url_for('resource.json_list_type', type_name='file') }}';
         var play_src = "{{ path }}";
     </script>
     <div id="container_wrapper">

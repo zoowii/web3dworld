@@ -17,7 +17,7 @@ class User(db.Model):
 
 class Resource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True)
+    name = db.Column(db.String(50))
     blob_key = db.Column(db.String(50), nullable=False)
     tags = db.Column(db.String(50), default='')
     type = db.Column(db.String(10))

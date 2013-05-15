@@ -4,3 +4,5 @@
 *.pyc
 development.db
 *.iml
+/upload/*
+

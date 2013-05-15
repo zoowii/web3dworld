@@ -50,5 +50,74 @@ def allowed_file(filename):
 def datetimeformat(value, format='%H:%M / %d-%m-%Y'):
 	return time.strftime(format, time.localtime(value))
 
+
+def random_file_name():
+	import random, hashlib
+
+	r = random.random()
+	m = hashlib.md5()
+	m.update(str(r))
+	return m.hexdigest()
+
+def get_file_content(filepath):
+	file = open(filepath)
+	data = file.read()
+	file.close()
+	return data
+
+def move_file_to_store(data, name, type, tags):
+	from application import db
+	from flask import url_for
+	from docs import Blob
+	from models import Resource
+	blob_key = Blob(data).save()
+	resource = Resource(name=name, type=type, blob_key=blob_key, tags=tags)
+	db.session.add(resource)
+	db.session.commit()
+	return url_for('resource.get_by_name', resource_name=name)
+
+
+def gen_mesh_obj_json(geom_url):
+	result = {}
+	result['version'] = '0.0.1'
+	result['meshName'] = 'mesh_from_obj'
+	result['typeName'] = 'mesh from obj'
+	result['meshType'] = 'mesh_from_obj'
+	result['thumbnailUrl'] = ''
+	result['type'] = 'import'
+	result['geometry_url'] = geom_url
+	result['material'] = {
+	'type': 'basic',
+	'map': {
+	'url': get_default_texture()
+	},
+	'transparent': True,
+	'opacity': 1
+	}
+	result['receiveShadow'] = True
+	result['doubleSided'] = True
+	result['castShadow'] = True
+	result['position'] = {
+	'x': 0,
+	'y': 0,
+	'z': 0
+	}
+	result['rotation'] = {
+	'x': 0,
+	'y': 0,
+	'z': 0
+	}
+	result['scale'] = {
+	'x': 1.0,
+	'y': 1.0,
+	'z': 1.0
+	}
+	return result
+
+
+def get_default_texture():
+	return "/static/resources/images/shicai/shicai005.jpg"
+
+
 env = app.jinja_env
 env.filters['datetimeformat'] = datetimeformat

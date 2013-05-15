@@ -1,6 +1,19 @@
 {% extends 'admin/master.html' %}
 {% block body %}
+    <link rel="stylesheet" href="{{ url_for("static", filename='css/website.css') }}">
     <h3>Resources</h3>
+    <p>
+    <div class="align-center">
+        <a href="{{ url_for('resource.upload') }}">上传资源</a>
+        <span>&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <a href="{{ url_for('resource.convert_obj') }}">格式转换</a>
+    </div>
+    <div class="empty4"></div>
+    <div class="division-line">
+        <p class="division-tip">分割线</p>
+    </div>
+    <div class="empty4"></div>
+    </p>
     <table class="table">
         <thead>
         <tr>
@@ -27,13 +40,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <div class="division-line">
-        <p class="division-tip">分割线</p>
-    </div>
-    <div class="empty4"></div>
-    <div class="align-center">
-        <a href="{{ url_for('resource.upload') }}">上传资源</a>
-    </div>
 
 {% endblock %}
