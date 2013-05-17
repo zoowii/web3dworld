@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         viewport2d.addToProxy(viewportProxy);
         viewport3d.addToProxy(viewportProxy);
         viewportProxy.startListen();
-        var scene_src = static_url + 'resources/scenes/test.json';
+        var scene_src = window.scene_src;
 
         if(window.play_src) { // when it's a player, not editor
             scene_src = window.play_src;
