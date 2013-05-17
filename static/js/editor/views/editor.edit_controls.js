@@ -5,7 +5,7 @@ define(function (require, exports, module) {
 		helper = require('editor.helper');
 	var EditControlModel = Backbone.Model.extend({
 													 initialize: function () {
-														 if (this.get('type') == undefined) {
+														 if (this.get('type') === undefined) {
 															 this.set('type', typeof(this.get('value')));
 														 }
 													 }
@@ -39,11 +39,11 @@ define(function (require, exports, module) {
 													   var meshName = $parent.attr('meshName');
 													   var valueType = $parent.attr('valueType');
 													   newVal = helper.parseValueToType(newVal, valueType);
-													   if (newVal == originVal) {
+													   if (newVal === originVal) {
 														   return;
 													   }
 													   var editor = require('editor.app');
-													   editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal);
+													   editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal, this.model.get('subproperty'));
 													   $from.attr('origin-data', newVal);
 												   }
 											   });
@@ -90,7 +90,7 @@ define(function (require, exports, module) {
 														newVal = (newVal == 'true');
 														var editor = require('editor.app');
 														var meshName = $parent.attr('meshName');
-														editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal);
+														editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal, this.model.get('subproperty'));
 														$parent.attr('origin-data', newVal + '');
 													}
 												});
@@ -112,7 +112,7 @@ define(function (require, exports, module) {
 														var editor = require('editor.app');
 														editor.viewportProxy.dispatchMeshPropertyChangeFunc(meshName, propertyName, function (val) {
 															val[xyzName] = newVal;
-														});
+														}, this.model.get('subproperty'));
 														$from.attr('origin-data', newVal);
 													}
 												});
@@ -136,6 +136,7 @@ define(function (require, exports, module) {
 														 }
 														 var oldVal = $outer.attr('origin-data');
 														 console.log(meshName, propertyName, newVal, materialType, oldVal);
+														 alert("now support yet");
 													 }
 												 });
 	exports.EditControlModel = EditControlModel;

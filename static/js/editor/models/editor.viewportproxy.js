@@ -78,11 +78,19 @@ define(function (require, exports, module) {
                 }
                 return this;
             },
-            dispatchMeshPropertyChange: function (meshName, property, value) {
+            dispatchMeshPropertyChange: function (meshName, property, value, subproperty) {
                 _.each(this.get('viewports'), function (viewport) {
                     var mesh = viewport.getObject(meshName);
                     if (mesh) {
-                        mesh[property] = value;
+						console.log(mesh, property, value)
+						window.mesh = mesh;
+						if(subproperty) {
+							if(mesh[subproperty]) {
+								mesh[subproperty][property] = value;
+							}
+						} else {
+                        	mesh[property] = value;
+						}
                     }
                 });
             },
@@ -97,11 +105,18 @@ define(function (require, exports, module) {
                     }
                 });
             },
-            dispatchMeshPropertyChangeFunc: function (meshName, property, changeFunc) {
+            dispatchMeshPropertyChangeFunc: function (meshName, property, changeFunc, subproperty) {
+				if(subproperty === undefined) {
+					subproperty = false;
+				}
                 _.each(this.get('viewports'), function (viewport) {
                     var mesh = viewport.getObject(meshName);
                     if (mesh && mesh[property]) {
-                        changeFunc(mesh[property]);
+						if(subproperty && mesh[subproperty] && mesh[subproperty][property]) {
+							changeFunc(mesh[subproperty][property]);
+						} else if(!subproperty && mesh[property]) {
+                        	changeFunc(mesh[property]);
+						}
                     }
                 });
             },

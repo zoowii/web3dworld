@@ -545,9 +545,21 @@ define(function (require, exports, module) {
     };
 
     // 给属性面板增加的控件，根据传入的属性名、属性值和类型返回不同类型的控件
-    helper.genControlForProperty = function (mesh, propertyName, propertyValue) {
+    helper.genControlForProperty = function (mesh, propertyName, propertyValue, subproperty) {
         var editableProperties = require('editor.propertyview').editableProperties;
-        if (!helper.inArray(propertyName, editableProperties)) {
+		var canEdit = function(prop, properties) {
+			for(var i=0;i<properties.length;++i) {
+				if(properties[i] === prop) {
+					return prop;
+				}
+				if(_.isArray(properties[i]) && properties[i].length > 1 && properties[i][0] === prop && mesh[prop][properties[i][1]]) {
+					return properties[i];
+				}
+			}
+			return false;
+		};
+		var editable = canEdit(propertyName, editableProperties);
+        if (!editable) {
             return;
         }
         var editControls = require('editor.edit_controls'),
@@ -557,30 +569,38 @@ define(function (require, exports, module) {
             MaterialEditControl = editControls.MaterialEditControl,
             EditControlModel = editControls.EditControlModel;
         var model = new EditControlModel({
-            mesh: mesh,
-            name: propertyName,
-            value: propertyValue
+			mesh: mesh,
+            name: editable,
+            value: propertyValue,
+			subproperty: subproperty
         });
+		var view = null;
+		if(_.isArray(editable)) {
+			var obj = mesh[editable[0]];
+			var pname = editable[1];
+			var pval = obj[pname];
+			return helper.genControlForProperty(mesh, pname, pval, editable[0]);
+		}
         if (_.isString(propertyValue) || _.isNumber(propertyValue)) {
-            var view = new SimpleEditControl({
+            view = new SimpleEditControl({
                 model: model
             });
             return view.render();
         } else if (_.isBoolean(propertyValue)) {
-            var view = new BooleanEditControl({
+            view = new BooleanEditControl({
                 model: model
             });
 
             return view.render();
         } else if (propertyValue instanceof THREE.Vector3) {
             model.set('type', 'vector3');
-            var view = new Vector3EditControl({
+            view = new Vector3EditControl({
                 model: model
             });
             return view.render();
         } else if (propertyValue instanceof THREE.Material) {
             model.set('type', 'material');
-            var view = new MaterialEditControl({
+            view = new MaterialEditControl({
                 model: model
             });
             return view.render();
