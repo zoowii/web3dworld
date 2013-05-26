@@ -43,7 +43,7 @@ define(function (require, exports, module) {
 														   return;
 													   }
 													   var editor = require('editor.app');
-													   editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal, this.model.get('subproperty'));
+													   editor.sceneModelProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal, this.model.get('subproperty'));
 													   $from.attr('origin-data', newVal);
 												   }
 											   });
@@ -90,7 +90,7 @@ define(function (require, exports, module) {
 														newVal = (newVal == 'true');
 														var editor = require('editor.app');
 														var meshName = $parent.attr('meshName');
-														editor.viewportProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal, this.model.get('subproperty'));
+														editor.sceneModelProxy.dispatchMeshPropertyChange(meshName, propertyName, newVal, this.model.get('subproperty'));
 														$parent.attr('origin-data', newVal + '');
 													}
 												});
@@ -110,7 +110,7 @@ define(function (require, exports, module) {
 														}
 														var meshName = $parent.attr('meshName');
 														var editor = require('editor.app');
-														editor.viewportProxy.dispatchMeshPropertyChangeFunc(meshName, propertyName, function (val) {
+														editor.sceneModelProxy.dispatchMeshPropertyChangeFunc(meshName, propertyName, function (val) {
 															val[xyzName] = newVal;
 														}, this.model.get('subproperty'));
 														$from.attr('origin-data', newVal);

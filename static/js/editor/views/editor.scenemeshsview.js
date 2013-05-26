@@ -80,18 +80,18 @@ define(function (require, exports, module) {
                 if (!meshName) {
                     return;
                 }
-                var viewportProxy = require('editor.app').viewportProxy;
+                var sceneModelProxy = require('editor.app').sceneModelProxy;
                 var menu = Ext.create('Ext.menu.Menu', {
                     items: [
                         {
                             text: 'Remove from group',
                             handler: function () {
-                                var viewport0 = viewportProxy.get('viewports')[0];
-                                var mesh = viewport0.getObject(meshName);
+                                var sceneModel0 = sceneModelProxy.get('sceneModels')[0];
+                                var mesh = sceneModel0.getObject(meshName);
                                 if (mesh) {
                                     if (mesh['__group__']) {
                                         if (confirm("Mesh " + meshName + " is in group " + mesh['__group__'].name + " now, sure to remove from the group?")) {
-                                            viewportProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
+                                            sceneModelProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
                                                 if (!mesh) {
                                                     return;
                                                 }
@@ -100,7 +100,7 @@ define(function (require, exports, module) {
                                                     group.remove(mesh);
                                                 }
                                             });
-                                            viewportProxy.trigger('meshChanged');
+                                            sceneModelProxy.trigger('meshChanged');
                                         } else {
                                             return false;
                                         }
@@ -118,8 +118,8 @@ define(function (require, exports, module) {
                         {
                             text: 'Add to group',
                             handler: function () {
-                                var viewport0 = viewportProxy.get('viewports')[0];
-                                var mesh = viewport0.getObject(meshName);
+                                var sceneModel0 = sceneModelProxy.get('sceneModels')[0];
+                                var mesh = sceneModel0.getObject(meshName);
                                 if (mesh) {
                                     if (mesh['__group__']) {
                                         alert("The mesh is now already in a group named " + mesh['__group__'].name + "!");
@@ -132,13 +132,13 @@ define(function (require, exports, module) {
                                         var Object3DGroup = require('editor.extra').Object3DGroup;
                                         var group = Object3DGroup.findByName(groupName);
                                         if (group) {
-                                            viewportProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
+                                            sceneModelProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
                                                 if (!mesh) {
                                                     return;
                                                 }
                                                 group.add(mesh);
                                             });
-                                            viewportProxy.trigger('meshChanged');
+                                            sceneModelProxy.trigger('meshChanged');
                                         } else {
                                             alert("Can't find the group named " + groupName + "!");
                                             return false;

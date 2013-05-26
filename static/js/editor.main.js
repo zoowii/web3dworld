@@ -18,8 +18,8 @@ require.config({
         "editor.viewproxy": 'editor/views/editor.viewproxy',
         "editor.scenemeshsview": 'editor/views/editor.scenemeshsview',
         "editor.propertyview": 'editor/views/editor.propertyview',
-        "editor.viewport": 'editor/models/editor.viewport',
-        "editor.viewportproxy": 'editor/models/editor.viewportproxy',
+        "editor.sceneModel": 'editor/models/editor.sceneModel',
+        "editor.sceneModelProxy": 'editor/models/editor.sceneModelProxy',
         "editor.edit_controls": 'editor/views/editor.edit_controls'
     },
     shim: {

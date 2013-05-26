@@ -44,12 +44,11 @@ define(function (require, exports, module) {
 																		{text: '基本装饰', menu: new Ext.menu.Menu({
 																												   ignoreParentClicks: true,
 																												   items: [
-																													   {text: '地板', handler: onSetFloor},
 																													   {text: '墙', handler: onAddWall},
 																													   {text: '门', handler: onAddDoor},
-																													   {text: '窗', handler: undefinedHandler},
-																													   {text: '阳台', handler: undefinedHandler},
-																													   {text: '屋顶', handler: onAddRoof}
+//																													   {text: '窗', handler: undefinedHandler},
+//																													   {text: '阳台', handler: undefinedHandler},
+//																													   {text: '屋顶', handler: onAddRoof}
 																												   ]
 																											   })},
 																		{
@@ -57,8 +56,8 @@ define(function (require, exports, module) {
 																													  ignoreParentClicks: true,
 																													  items: [
 																														  {text: '房间', handler: onAddRoom},
-																														  {text: '家具', handler: undefinedHandler},
-																														  {text: '装饰物', handler: undefinedHandler}
+//																														  {text: '家具', handler: undefinedHandler},
+//																														  {text: '装饰物', handler: undefinedHandler}
 																													  ]
 																												  })
 																		},
@@ -267,9 +266,9 @@ define(function (require, exports, module) {
 									items: [
 										Ext.create('Ext.panel.Panel', {
 											itemId: 'setHouseLayoutPanel',
-											html: '<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout1.json">layout1</button><br>' +
-												'<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout2.json">layout2</button><br>' +
-												'<button class ="addToScene" data-type="layout" data-url="/static/resources/layouts/layout3.json">layout3</button><br>'
+											html: '<div style="text-align: center;"><div class="empty2"></div><button class ="addToScene btn btn-primary" data-type="layout" data-url="/static/resources/layouts/layout1.json">两室一厅一卫</button><div class="empty2"></div>' +
+												'<button class ="addToScene btn btn-primary" data-type="layout" data-url="/static/resources/layouts/layout2.json">一室两厅一卫</button><div class="empty2"></div>' +
+												'<button class ="addToScene btn btn-primary" data-type="layout" data-url="/static/resources/layouts/layout3.json">大过道布局</button><div class="empty2"></div></div>'
 										})
 									]                  //TODO:  hd
 								}).show().hide();
@@ -459,13 +458,13 @@ define(function (require, exports, module) {
 								}
 
 								function addSimpleGeometry(type) {
-									var viewportProxy = require('editor.app').viewportProxy;
-									viewportProxy.dispathSimpleGeometry(type);
+									var sceneModelProxy = require('editor.app').sceneModelProxy;
+									sceneModelProxy.dispathSimpleGeometry(type);
 								}
 
 								function addLight(type) {
-									var viewportProxy = require('editor.app').viewportProxy;
-									viewportProxy.dispatchLight(type);
+									var sceneModelProxy = require('editor.app').sceneModelProxy;
+									sceneModelProxy.dispatchLight(type);
 								}
 
 								function showPanel(panel) {
@@ -494,10 +493,6 @@ define(function (require, exports, module) {
 
 								function onAddRoof() {
 									addRoofWindow.show();
-								}
-
-								function onSetFloor() {
-									setFloorWindow.show();
 								}
 
 								function onShowOther() {
@@ -568,13 +563,13 @@ define(function (require, exports, module) {
 										}
 									});
 									var editorApp = require('editor.app');
-									var viewportProxy = editorApp.viewportProxy;
-									var json = viewportProxy.exportObjectArrayToJson(objNames);
+									var sceneModelProxy = editorApp.sceneModelProxy;
+									var json = sceneModelProxy.exportObjectArrayToJson(objNames);
 									showInfo(JSON.stringify(json), '导出对象');
 								});
 								$(".exportSceneBtn").click(function () {
-									var viewportProxy = require('editor.app').viewportProxy;
-									var sceneJson = viewportProxy.exportSceneToJson();
+									var sceneModelProxy = require('editor.app').sceneModelProxy;
+									var sceneJson = sceneModelProxy.exportSceneToJson();
 									var name = window.prompt("请输入场景的名字（唯一）:");
 									var data = {
 										name: name,
@@ -630,13 +625,13 @@ define(function (require, exports, module) {
 										return;
 									}
 									var json = JSON.parse(str);
-									var viewportProxy = require('editor.app').viewportProxy;
+									var sceneModelProxy = require('editor.app').sceneModelProxy;
 									if (json.geometry_url) {
-										viewportProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
+										sceneModelProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
 									} else if (_.isArray(json)) {
-										viewportProxy.dispatchMeshArrayJson(json.items, 'tempArray');
+										sceneModelProxy.dispatchMeshArrayJson(json.items, 'tempArray');
 									} else {
-										viewportProxy.dispatchMeshJson(helper.preprocessJsonResource(json, 'temp'));
+										sceneModelProxy.dispatchMeshJson(helper.preprocessJsonResource(json, 'temp'));
 									}
 								});
 								exports.propertyPanel = propertyPanel;

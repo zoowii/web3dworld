@@ -5,7 +5,7 @@ define(function (require, exports, module) {
     var helper = require('editor.helper');
     var Backbone = require('backbone');
     $(function () {
-        var EditorViewport = Backbone.Model.extend({
+        var EditorSceneModel = Backbone.Model.extend({
             afterDeleteObject: function (obj) {
                 var objects = this.get('objects');
                 objects = _.without(objects, obj);
@@ -75,7 +75,7 @@ define(function (require, exports, module) {
             },
             addToProxy: function (proxy) {
                 this.proxy = proxy;
-                proxy.addViewport(this);
+                proxy.addSceneModel(this);
                 return this;
             },
 // loadSceneFromJson: (json) ->
@@ -520,7 +520,7 @@ define(function (require, exports, module) {
                 }
             }
         });
-        exports.EditorViewport = EditorViewport;
+        exports.EditorSceneModel = EditorSceneModel;
     });
 
 });

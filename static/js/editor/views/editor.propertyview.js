@@ -24,7 +24,7 @@ define(function (require, exports, module) {
                     var selected = this.model.selected;
                     if (selected.name && selected.name != '') {
                         var editor = require('editor.app');
-                        editor.viewportProxy.dispatchDeleteMesh(selected.name);
+                        editor.sceneModelProxy.dispatchDeleteMesh(selected.name);
                     }
                 }
             },

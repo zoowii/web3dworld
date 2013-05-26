@@ -5,14 +5,14 @@ define(function (require, exports, module) {
     var _ = require('underscore');
     var helper = require('editor.helper');
     var Backbone = require('backbone');
-    var EditorViewport = require('editor.viewport').EditorViewport;
-    var EditorViewportProxy = require('editor.viewportproxy').EditorViewportProxy;
+    var EditorSceneModel = require('editor.sceneModel').EditorSceneModel;
+    var EditorSceneModelProxy = require('editor.sceneModelProxy').EditorSceneModelProxy;
     var Editor2DView = require('editor.2dview').Editor2DView;
     var Editor3DView = require('editor.3dview').Editor3DView;
     var SceneMeshsView = require('editor.scenemeshsview').SceneMeshsView;
     var EditorPropertyView = require('editor.propertyview').EditorPropertyView;
     $(function () {
-        var editor, editor2dview, editor3dview, height, viewport2d, viewport3d, viewportProxy, width;
+        var editor, editor2dview, editor3dview, height, sceneModel2d, sceneModel3d, sceneModelProxy, width;
         var static_url = '/static/';
         window.scenes = [];
         window.floors = [];
@@ -21,16 +21,16 @@ define(function (require, exports, module) {
             window.editor = {};
         }
         editor = window.editor;
-        window.viewport2d = viewport2d = new EditorViewport({
-            name: 'viewport2d'
+        window.sceneModel2d = sceneModel2d = new EditorSceneModel({
+            name: 'sceneModel2d'
         });
-        window.viewport3d = viewport3d = new EditorViewport({
-            name: 'viewport3d'
+        window.sceneModel3d = sceneModel3d = new EditorSceneModel({
+            name: 'sceneModel3d'
         });
-        viewportProxy = new EditorViewportProxy;
-        viewport2d.addToProxy(viewportProxy);
-        viewport3d.addToProxy(viewportProxy);
-        viewportProxy.startListen();
+        sceneModelProxy = new EditorSceneModelProxy;
+        sceneModel2d.addToProxy(sceneModelProxy);
+        sceneModel3d.addToProxy(sceneModelProxy);
+        sceneModelProxy.startListen();
         var scene_src = window.scene_src;
 
         if(window.play_src) { // when it's a player, not editor
@@ -38,18 +38,18 @@ define(function (require, exports, module) {
             require('player');
         }
 
-        viewportProxy.loadScene(scene_src);
+        sceneModelProxy.loadScene(scene_src);
         width = $(".editor_panel").width();
         height = $(".editor_panel").height();
         editor2dview = new Editor2DView({
             el: $(".edit_area"),
-            model: viewport2d,
+            model: sceneModel2d,
             width: width,
             height: height
         });
         editor3dview = new Editor3DView({
             el: $(".view_area"),
-            model: viewport3d,
+            model: sceneModel3d,
             width: width,
             height: height
         });
@@ -61,12 +61,12 @@ define(function (require, exports, module) {
         editor['view3d'] = editor3dview;
         var sceneMeshsView = new SceneMeshsView({
             el: $(".scene.panel .scene-panel"),
-            model: viewportProxy
+            model: sceneModelProxy
         });
         var extapp = require('editor.extapp');
         var meshPropertyView = new EditorPropertyView({
             el: $(".property.panel .property-panel"),
-            model: viewportProxy,
+            model: sceneModelProxy,
             panel: extapp.propertyPanel
         });
         // init dom events
@@ -79,35 +79,35 @@ define(function (require, exports, module) {
                 case 'wall':
                 {
                     helper.getJSON(url, function (json) {
-                        return viewportProxy.dispatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
+                        return sceneModelProxy.dispatchMeshJson(helper.preprocessJsonResource(json, 'wall'));
                     });
                 }
                     break;
                 case 'walls':
                 {
                     helper.getJSON(url, function (json) {
-                        return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
+                        return sceneModelProxy.dispatchMeshArrayJson(json.items, 'wall');
                     });
                 }
                     break;
                 case 'room':
                 {
                     helper.getJSON(url, function (json) {
-                        return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
+                        return sceneModelProxy.dispatchMeshArrayJson(json.items, 'wall');
                     });
                 }
                     break ;
                 case 'import':
                 {
                     helper.getJSON(url, function (json) {
-                        viewportProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
+                        sceneModelProxy.dispatchGeometryOriginJsonFromUrl(json.geometry_url, json);
                     });
                 }
                     break;
                 case 'layout':
                 {
                     helper.getJSON(url, function(json){
-                         viewportProxy.dispatchLayoutArrayJson(json.items);
+                         sceneModelProxy.dispatchLayoutArrayJson(json.items);
                     });
                 }                                       //TODO:hd
             }
@@ -116,21 +116,21 @@ define(function (require, exports, module) {
             var name = $(this).parents('tr').find('.resource-name').html();
             var resource_url = helper.getUrlForResource(name);
             helper.uncacheGetJSON(resource_url, function (json) {
-                viewportProxy.dispatchGeometryOriginJson(json);
+                sceneModelProxy.dispatchGeometryOriginJson(json);
             });
         });
         $(document).on('click', '.addDoor', function () {
             var url = '/static/resources/doors/door1.json';
             helper.getJSON(url, function (json) {
-                return viewportProxy.dispatchMeshArrayJson(json.items, 'wall');
+                return sceneModelProxy.dispatchMeshArrayJson(json.items, 'wall');
             });
         });//TODO:hd
         $(document).on('click', '.import-image-btn', function () {
             var name = $(this).parents('tr').find('.resource-name').html();
             var resource_url = helper.getUrlForResource(name);
             var meshName = meshPropertyView.$(".mesh-name-display").html();
-            viewportProxy.dispatchMeshTextureChangeFunc(meshName, resource_url);
-//			viewportProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
+            sceneModelProxy.dispatchMeshTextureChangeFunc(meshName, resource_url);
+//			sceneModelProxy.dispatchMeshChangeFunc(meshName, function (mesh) {
 //				window.mesh = mesh;
 //				var material = mesh.material;
 //				if (!material) {
@@ -144,8 +144,8 @@ define(function (require, exports, module) {
 //				material.needsUpdate = true;
 //			});
         });
-        window.proxy = viewportProxy;
-//		window.scene = window.proxy.get('viewports')[1].get('scene');
+        window.proxy = sceneModelProxy;
+//		window.scene = window.proxy.get('sceneModels')[1].get('scene');
 //		window.cube = new THREE.CubeGeometry(200, 200, 200);
 //		window.texture = THREE.ImageUtils.loadTexture('/admin/resource/get_by_name/images.buwen.buwen004.jpg');
 //		window.material = new THREE.MeshBasicMaterial;
@@ -153,7 +153,7 @@ define(function (require, exports, module) {
 //		scene.add(mesh1);
 //		mesh1.material.map = texture;
 //		mesh1.material.needsUpdate = true;
-        exports.viewportProxy = viewportProxy;
+        exports.sceneModelProxy = sceneModelProxy;
         exports.viewProxy = viewProxy;
         exports.editor = editor;
     });

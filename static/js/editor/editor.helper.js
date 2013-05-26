@@ -514,11 +514,11 @@ define(function (require, exports, module) {
     };
 
     // meshType can be 'wall', or [ 'light', 'wall' ]
-    helper.filterMeshTypeFromViewport = function (viewport, meshType) {
+    helper.filterMeshTypeFromSceneModel = function (sceneModel, meshType) {
         if (!_.isArray(meshType)) {
             meshType = [meshType];
         }
-        var objects = viewport.get('objects');
+        var objects = sceneModel.get('objects');
         var result = [];
         for (var i = 0; i < objects.length; ++i) {
             var object = objects[i];
@@ -528,12 +528,12 @@ define(function (require, exports, module) {
         }
         return result;
     };
-    // nagative of helper.filterMeshTypeFromViewport
-    helper.filterNotMeshTypeFromViewport = function (viewport, meshType) {
+    // nagative of helper.filterMeshTypeFromSceneModel
+    helper.filterNotMeshTypeFromSceneModel = function (sceneModel, meshType) {
         if (!_.isArray(meshType)) {
             meshType = [meshType];
         }
-        var objects = viewport.get('objects');
+        var objects = sceneModel.get('objects');
         var result = [];
         for (var i = 0; i < objects.length; ++i) {
             var object = objects[i];
