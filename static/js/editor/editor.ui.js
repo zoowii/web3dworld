@@ -13,7 +13,7 @@ define(function (require, exports, module) {
         panel_height = window.innerHeight - menuBar.height() - 1;
         canvas_height = panel_height - 80;
         $editViewArea = $(".edit-view-area");
-        $(".edit_area").hide();
+//        $(".edit_area").hide();
         $(".view_area").show();
         $(".show_2d_btn").click(function () {
             $(".view_area").hide();

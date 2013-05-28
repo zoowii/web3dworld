@@ -12,7 +12,7 @@ define(function (require, exports, module) {
     var SceneMeshsView = require('editor.scenemeshsview').SceneMeshsView;
     var EditorPropertyView = require('editor.propertyview').EditorPropertyView;
     $(function () {
-        var editor, editor2dview, editor3dview, height, sceneModel2d, sceneModel3d, sceneModelProxy, width;
+        var editor, editor2dview, editor3dview, sceneModel2d, sceneModel3d, sceneModelProxy;
         var static_url = '/static/';
         window.scenes = [];
         window.floors = [];
@@ -39,19 +39,18 @@ define(function (require, exports, module) {
         }
 
         sceneModelProxy.loadScene(scene_src);
-        width = $(".editor_panel").width();
-        height = $(".editor_panel").height();
+		var width2d = $(".edit_area").width(), height2d = $(".edit_area").height(), width3d = $(".view_area").width(), height3d = $(".view_area").height();;
         editor2dview = new Editor2DView({
             el: $(".edit_area"),
             model: sceneModel2d,
-            width: width,
-            height: height
+            width: width2d,
+            height: height2d
         });
         editor3dview = new Editor3DView({
             el: $(".view_area"),
             model: sceneModel3d,
-            width: width,
-            height: height
+            width: width3d,
+            height: height3d
         });
         var ViewProxy = require('editor.viewproxy').ViewProxy;
         var viewProxy = new ViewProxy();

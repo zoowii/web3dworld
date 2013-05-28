@@ -70,5 +70,3 @@ def player(path):
 @app.route('/test')
 def test():
 	return base64.encodestring("/static/resources/scenes/test2.json")
-
-
