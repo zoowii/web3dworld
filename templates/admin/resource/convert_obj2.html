@@ -1,0 +1,10 @@
+{% extends 'layout/website.html' %}
+{% block body %}
+    <h2>Upload OBJ file and convert it to system's mesh's obj file</h2>
+    <form action="" method="POST" enctype="multipart/form-data">
+    <p>
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </p>
+    </form>
+{% endblock %}

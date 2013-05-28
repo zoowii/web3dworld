@@ -1,5 +1,3 @@
-from application import app
-from flask import render_template
 import time
 
 
@@ -44,7 +42,8 @@ def parse_options_header(header):
 
 
 def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+	from web.app import application
+	return '.' in filename and filename.rsplit('.', 1)[1] in application.get_config('ALLOWED_EXTENSIONS')
 
 
 def datetimeformat(value, format='%H:%M / %d-%m-%Y'):
@@ -68,7 +67,9 @@ def get_file_content(filepath):
 
 
 def move_file_to_store(data, name, type, tags):
-	from application import db
+	from web.app import application
+
+	db = application.services['db']
 	from flask import url_for
 	from docs import Blob
 	from models import Resource
@@ -120,7 +121,3 @@ def gen_mesh_obj_json(geom_url):
 
 def get_default_texture():
 	return "/static/resources/images/shicai/shicai005.jpg"
-
-
-env = app.jinja_env
-env.filters['datetimeformat'] = datetimeformat

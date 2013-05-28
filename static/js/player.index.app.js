@@ -9,7 +9,7 @@ define(function (require, exports, module) {
 			});
 			var $sceneSelect = $(".select-scene");
 			_.each(scene_names, function (scene_name) {
-				var scene_src = btoa("/admin/resource/get_by_name/" + scene_name)
+				var scene_src = btoa("/admin/resource/get_by_name/" + scene_name);
 				var scene_url = "/play/path=" + scene_src;
 				$sceneSelect.append($("<option scene-url='" + scene_src + "' value='" + btoa(scene_url) + "'>" + scene_name + "</option>"));
 			});
@@ -21,9 +21,15 @@ define(function (require, exports, module) {
 		$(".edit-scene-btn").click(function () {
 			var $select = $(".select-scene");
 			var val = $select.val();
-			var $option = $select.find("option[value=" + val + "]");
-			var scene_src = $option.attr('scene-url');
-			window.location.href = '/editor/' + scene_src;
+			var $options = $select.find('option');
+			$options.each(function (k) {
+				var option = $options[k];
+				var $option = $(option);
+				if ($option.val() == val) {
+					var scene_src = $option.attr('scene-url');
+					window.location.href = '/editor/' + scene_src;
+				}
+			});
 		});
 	});
 });
