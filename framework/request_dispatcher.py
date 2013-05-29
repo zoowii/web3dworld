@@ -20,7 +20,6 @@ class RequestDispatcher:
 
 			self.app.app.add_url_rule(url, route.get('name', 'not_set_endpoint'), on_request, methods=route['methods'])
 
-
 	def dispatch(self, url, params):
 		handler_cls = self.routes[url]['handler']
 		handler = handler_cls(self.app)

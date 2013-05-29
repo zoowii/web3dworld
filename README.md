@@ -37,4 +37,4 @@ mongod --dbpath=E:/data --rest -auth
 即可启动mongod了
 ```
 
-* 开发环境中，以上配置好后，运行python application.py即可运行了
+* 开发环境中，以上配置好后，运行python web/start.py或gunicorn -w 4 web.app.application.app即可运行了。
