@@ -371,7 +371,7 @@ define(function (require, exports, module) {
                         light.properties.helper = lightGizmo;
                         light.properties.pickingProxy = lightGizmo.lightSphere;
 
-                        this.afterAddObject(lightGizmo.lightSphere);
+//                        this.afterAddObject(lightGizmo.lightSphere);
                         scene.add(light);
 
                         this.updateMaterials(scene);
