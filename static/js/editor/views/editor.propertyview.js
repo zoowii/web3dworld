@@ -34,7 +34,11 @@ define(function (require, exports, module) {
                     var data = {mesh: selected};
                     this.$el.html(this.template(data));
                     for (var property in selected) {
-                        var view = helper.genControlForProperty(selected, property, selected[property], false);
+						var recur = true;
+						if(property === 'material') {
+							recur = false;
+						}
+                        var view = helper.genControlForProperty(selected, property, selected[property], false, recur);
                         if (view) {
                             this.$(".property-list").append(view.el);
                         }
@@ -45,7 +49,7 @@ define(function (require, exports, module) {
         });
         exports.EditorPropertyView = EditorPropertyView;
         exports.editableProperties = ['position', 'scale', 'rotation', 'meshName', 'type', 'meshType', 'typeName', 'title', 'text',
-            'visible', 'castShadow', 'receiveShadow', ['material', 'opacity'], 'opacity', 'translate', 'material', 'geometry'];
+            'visible', 'castShadow', 'receiveShadow', ['material', 'opacity'], ['material', 'texture'], 'opacity', 'translate', 'material', 'geometry'];
         exports.editableGeometryProperties = ['radius', 'width', 'height', 'depth', 'widthSegments', 'heightSegments', 'depthSegments', 'segmentsWidth', 'segmentsHeight', 'radiusTop', 'radiusBottom']; // TODO
     });
 });

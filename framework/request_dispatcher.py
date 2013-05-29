@@ -23,6 +23,6 @@ class RequestDispatcher:
 
 	def dispatch(self, url, params):
 		handler_cls = self.routes[url]['handler']
-		handler = handler_cls()
+		handler = handler_cls(self.app)
 		method = getattr(handler, request.method)
 		return apply(method, [], params)

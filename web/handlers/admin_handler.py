@@ -50,7 +50,6 @@ class ResourceUploadHandler(RequestHandler):
 		return render_template('admin/resource/upload2.html')
 
 	def POST(self):
-		from web.models import Resource
 		from web.helpers import *
 
 		if request.method == 'POST':
@@ -86,19 +85,19 @@ class ConverterHandler(RequestHandler):
 		return render_template('admin/resource/convert_obj2.html', title=u'格式转化')
 
 	def POST(self):
-		file = request.files['file']
-		from web.app import application
 		from web.helpers import *
 
-		infilename = os.path.join(application.get_config('UPLOAD_FOLDER'), random_file_name()) + '.obj'
-		outfilename = os.path.join(application.get_config('UPLOAD_FOLDER'), random_file_name()) + '.json'
+		file = request.files['file']
+
+		infilename = os.path.join(self.app.get_config('UPLOAD_FOLDER'), random_file_name()) + '.obj'
+		outfilename = os.path.join(self.app.get_config('UPLOAD_FOLDER'), random_file_name()) + '.json'
 		if file:
 			file.save(infilename)
-			import extras.convert_obj_three as convert_obj_three
+			obj_three_converter = self.app.services['obj_three_converter']
 			import json
 
 			try:
-				convert_obj_three.convert_ascii(infilename, '', '', outfilename)
+				obj_three_converter.convert_ascii(infilename, '', '', outfilename)
 				os.remove(infilename)
 				url = move_file_to_store(get_file_content(outfilename), os.path.basename(outfilename), 'file',
 				                         'file resource my-3d-format')
@@ -123,10 +122,9 @@ class StoreSceneHandler(RequestHandler):
 	def POST(self):
 		from web.models import Resource
 		from web.docs import Blob
-		from web.app import application
 		import base64
 
-		db = application.services['db']
+		db = self.app.services['db']
 		json_data = json.loads(request.data)
 		data = json_data['scene']
 		name = json_data['name']

@@ -1,6 +1,6 @@
 class RequestHandler:
-	def __init__(self):
-		pass
+	def __init__(self, app):
+		self.app = app
 
 	def GET(self, *args, **kwargs):
 		return "404"

@@ -23,12 +23,12 @@ class Application:
 	def add_router(self, router):
 		self.routers.add(router)
 
-	def install_plugin(self, plugin):
-		self.plugins.add(plugin)
+	def install_plugin(self, plugin_cls):
+		self.plugins.add(plugin_cls())
 
-	def install_plugins(self, plugins):
-		for plugin in plugins:
-			self.install_plugin(plugin)
+	def install_plugins(self, plugin_cls):
+		for plugin_cls in plugin_cls:
+			self.install_plugin(plugin_cls)
 
 	def initialize(self):
 		if self.initialized:

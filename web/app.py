@@ -1,9 +1,9 @@
 # coding: UTF-8
 import os, sys
 from framework import Application, RequestHandler, Router
-from plugins import DbPlugin, MongoPlugin, TemplatePlugin
+from plugins import DbPlugin, MongoPlugin, TemplatePlugin, FileStoragePlugin, ObjThreeConverterPlugin
 from urls import AppRouter
-from tasks import AdminViewTask, LoadTask
+from tasks import LoadTask
 
 application = Application()
 if os.getenv('VCAP_SERVICES'):
@@ -11,7 +11,7 @@ if os.getenv('VCAP_SERVICES'):
 else:
 	application.set_config('../config/development.py')
 
-application.install_plugins([DbPlugin(), MongoPlugin(), TemplatePlugin()])
+application.install_plugins([DbPlugin, MongoPlugin, TemplatePlugin, FileStoragePlugin, ObjThreeConverterPlugin])
 
 
 application.add_router(AppRouter())

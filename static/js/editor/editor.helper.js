@@ -545,7 +545,10 @@ define(function (require, exports, module) {
     };
 
     // 给属性面板增加的控件，根据传入的属性名、属性值和类型返回不同类型的控件
-    helper.genControlForProperty = function (mesh, propertyName, propertyValue, subproperty) {
+    helper.genControlForProperty = function (mesh, propertyName, propertyValue, subproperty, recur) {
+		if(recur === undefined) {
+			recur = true
+		}
         var editableProperties = require('editor.propertyview').editableProperties;
 		var canEdit = function(prop, properties) {
 			for(var i=0;i<properties.length;++i) {
@@ -576,10 +579,12 @@ define(function (require, exports, module) {
         });
 		var view = null;
 		if(_.isArray(editable)) {
-			var obj = mesh[editable[0]];
-			var pname = editable[1];
-			var pval = obj[pname];
-			return helper.genControlForProperty(mesh, pname, pval, editable[0]);
+			if(recur) {
+				var obj = mesh[editable[0]];
+				var pname = editable[1];
+				var pval = obj[pname];
+				return helper.genControlForProperty(mesh, pname, pval, editable[0]);
+			}
 		}
         if (_.isString(propertyValue) || _.isNumber(propertyValue)) {
             view = new SimpleEditControl({

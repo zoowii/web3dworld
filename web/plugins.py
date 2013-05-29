@@ -38,6 +38,18 @@ class TemplatePlugin(Plugin):
 		env = self.app.app.jinja_env
 		env.filters['datetimeformat'] = datetimeformat
 
+
 class FileStoragePlugin(Plugin):
 	def process(self):
-		pass
+		from web.extras.file_storage import FileStorage, MongoStorageStrategy
+
+		filestorage = FileStorage(self.app)
+		filestorage.set_strategy(MongoStorageStrategy)
+		self.services['filestorage'] = filestorage
+
+
+class ObjThreeConverterPlugin(Plugin):
+	def process(self):
+		import web.extras.convert_obj_three as convert_obj_three
+
+		self.services['obj_three_converter'] = convert_obj_three
