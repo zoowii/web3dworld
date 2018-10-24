@@ -4,7 +4,7 @@
 # 基于WebGL的景观房屋等3D场景的编辑与展示
 ---
 ### Author
-* 周维([zoowii](https://github.com/zoowii))
+* [zoowii](https://github.com/zoowii)
 * 黄栋
 
 ### 指导老师
